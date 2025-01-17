@@ -1,5 +1,5 @@
 ---
-Title: Demo Blog Post (by Group "Super NLP")
+Title: Demo Blog Post (by Group "Fintech Disruption")
 Date: 2025-01-17 01:12
 Category: Reflective Report
 Tags: Group Fintech Disruption
