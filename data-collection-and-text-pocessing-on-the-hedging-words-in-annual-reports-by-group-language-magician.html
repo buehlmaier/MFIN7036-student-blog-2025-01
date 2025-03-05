@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group Language Magician, Reflective Report, " />
+
+<meta property="og:title" content="Data Collection and Text Pocessing on the hedging words in Annual Reports (by Group &#34;Language Magician&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-and-text-pocessing-on-the-hedging-words-in-annual-reports-by-group-language-magician.html" />
+<meta property="og:description" content="By Group &#34;Language Magician&#34; 1. Abstract Our project aims to study the relationship between the companies&#39;stock return and the hedging words frequencies as the textual precision information in their annual reports. Thus, this blog introduces our explorations on the NLP processing methods and improvements we made to derive the hedging …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-02-23T20:12:00+08:00" />
+<meta name="twitter:title" content="Data Collection and Text Pocessing on the hedging words in Annual Reports (by Group &#34;Language Magician&#34;) ">
+<meta name="twitter:description" content="By Group &#34;Language Magician&#34; 1. Abstract Our project aims to study the relationship between the companies&#39;stock return and the hedging words frequencies as the textual precision information in their annual reports. Thus, this blog introduces our explorations on the NLP processing methods and improvements we made to derive the hedging …">
+
+        <title>Data Collection and Text Pocessing on the hedging words in Annual Reports (by Group &#34;Language Magician&#34;)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-and-text-pocessing-on-the-hedging-words-in-annual-reports-by-group-language-magician.html">
+                Data Collection and Text Pocessing on the hedging words in Annual Reports (by Group "Language Magician")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "Language Magician"</p>
+<h2>1. Abstract</h2>
+<p>Our project aims to study the relationship between the companies'stock return and the hedging words frequencies as the textual precision information in their annual reports. Thus, this blog introduces our explorations on the NLP processing methods and improvements we made to derive the hedging words frequencies, from data collection to text processing.</p>
+<p>Considering the practicability, our text research focuses on the <strong>"Business"</strong>, <strong>"Risk Factors"</strong>, and <strong>Management's Discussion and Analysis of Financial Condition and Results of Operations"</strong> sections of the annual reports of Dow Jones components from 2020 to 2022. The data source is the 10-K filings on the <a href="https://www.sec.gov/">SEC website</a>. </p>
+<h2>2. Text Data Collection</h2>
+<h3>2.1 Basic Method</h3>
+<p>Initially, we adopted the approach of requesting text data from the SEC website and processing it using regular expressions. The steps are as follows:</p>
+<h4>Step1: Identifying target companies and obtaining CIK identifiers</h4>
+<p>We obtained the CIKs of the DOW30 from a specific file to lay the foundation for subsequent operations.</p>
+<div class="highlight"><pre><span></span><code><span class="n">DJIA_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MMM&quot;</span><span class="p">,</span> <span class="s2">&quot;AXP&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;WMT&quot;</span><span class="p">]</span>
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s2">&quot;example@example.com&quot;</span><span class="p">}</span>
+<span class="k">def</span> <span class="nf">get_cik_mapping</span><span class="p">():</span>
+    <span class="n">cik_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SEC_JSON_URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;cik_str&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cik_data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">DJIA_TICKERS</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<h4>Step 2: Annual report data screening</h4>
+<p>Based on the CIKs, we accessed the submissions interface of the SEC website to obtain the company's filing data and filtered out the 10-K annual reports from 2020 to 2022.</p>
+<div class="highlight"><pre><span></span><code><span class="n">filings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">submissions</span><span class="p">[</span><span class="s1">&#39;filings&#39;</span><span class="p">][</span><span class="s1">&#39;recent&#39;</span><span class="p">])</span>
+<span class="n">filings</span> <span class="o">=</span> <span class="n">filings</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">filings</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;10-K&#39;</span><span class="p">)</span> <span class="o">&amp;</span> 
+    <span class="p">(</span><span class="n">filings</span><span class="p">[</span><span class="s1">&#39;reportDate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2022</span><span class="p">))</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4>Step3:  Extracting the three sections "Business", "Risk Factors", and "Management’s Discussion” from the annual reports</h4>
+<p>We defined a text cleaning function to remove HTML tags, merge white spaces, and clean special characters. We used carefully written regular expressions to precisely extract the corresponding section content according to the Item numbers.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">extract_section</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">item_pattern</span><span class="p">):</span>
+    <span class="n">start_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="sa">rf</span><span class="s1">&#39;Item\s*</span><span class="si">{</span><span class="n">item_pattern</span><span class="si">}</span><span class="s1">.*?(?=\n)&#39;</span><span class="p">,</span> 
+        <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span>
+    <span class="p">)</span>
+    <span class="n">end_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s1">&#39;(Item\s*\d+|PART\s*[IVX]+)&#39;</span><span class="p">,</span> 
+        <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span>
+    <span class="p">)</span>
+    <span class="c1"># After matching the start position, intercept until the next Item or PART</span>
+</code></pre></div>
+
+<h4>Step 4: Data saving</h4>
+<p>Then, we saved the extracted content of Item 1, 1A, and 7 as text files for subsequent analysis. The code for this part is relatively simple and is omitted here.</p>
+<h3>2.2 A Technical Problem and Improvements</h3>
+<p>Although the above method has a simple logic, it leads to a technical problem that the CIK identifiers cannot recognize all annual reports. This is likely due to issues such as data acquisition being affected by network problems, anti - crawling mechanisms, and the regular expressions being prone to matching failures due to changes in title formats or the presence of special characters. 
+Meanwhile, we tried another method to introduce multi - threading to improve the download efficiency and using BeautifulSoup to parse HTML, but there were still problems with text parsing.</p>
+<p>Finally, after the explorations, we moved to applying the <a href="https://github.com/dgunning/edgartools">Edgartools library</a>. Edgartools can identify these titles and numbers in the report, extract the corresponding content, and store it in the attributes of Python objects. Thus, we can directly access the content of these sections through the attribute names and collect the required sections in the annual reports. </p>
+<p>The revised steps are as follows:</p>
+<h4>Step 1: Configuration and data acquisition:</h4>
+<p>We set the access information, which can identify these titles and numbers in the report, defined the company list and year range, and used the Company class and an asynchronous function to obtain the 10-K annual reports of companies and extract the content of Item 1, 1A, and 7.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_identity</span><span class="p">(</span><span class="s1">&#39;example@example.com&#39;</span><span class="p">)</span>
+<span class="n">COMPANY_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MMM&quot;</span><span class="p">,</span> <span class="s2">&quot;AXP&quot;</span><span class="p">,</span> <span class="s2">&quot;AMGN&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;WMT&quot;</span><span class="p">]</span>
+<span class="n">YEAR_START</span> <span class="o">=</span> <span class="mi">2020</span>
+<span class="n">YEAR_END</span> <span class="o">=</span> <span class="mi">2023</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_company_data</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">com</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">com_file</span> <span class="o">=</span> <span class="n">com</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">com_2</span> <span class="o">=</span> <span class="n">com_file</span><span class="p">[</span><span class="mi">2024</span> <span class="o">-</span> <span class="n">year</span><span class="p">]</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+    <span class="n">item1</span> <span class="o">=</span> <span class="n">com_2</span><span class="p">[</span><span class="s1">&#39;Item 1&#39;</span><span class="p">]</span>
+    <span class="n">item1a</span> <span class="o">=</span> <span class="n">com_2</span><span class="p">[</span><span class="s1">&#39;Item 1A&#39;</span><span class="p">]</span>
+    <span class="n">item7</span> <span class="o">=</span> <span class="n">com_2</span><span class="p">[</span><span class="s1">&#39;Item 7&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">item1a</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">item7</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h4>Step 2: Data integration and saving</h4>
+<p>In the main function, we created a task list and used asyncio.gather to execute tasks concurrently. Then we organized the results into a DataFrame and saved it as an Excel file.</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">COMPANY_LIST</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">YEAR_START</span><span class="p">,</span> <span class="n">YEAR_END</span><span class="p">):</span>
+            <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fetch_company_data</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
+
+    <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">COMPANY_LIST</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="p">(</span><span class="n">YEAR_END</span> <span class="o">-</span> <span class="n">YEAR_START</span><span class="p">)],</span> 
+            <span class="n">YEAR_START</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">YEAR_END</span> <span class="o">-</span> <span class="n">YEAR_START</span><span class="p">)),</span> 
+            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+    <span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Company&#39;</span><span class="p">,</span> <span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Annual_Report(Item1_1A_7)&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s1">&#39;output2.xlsx&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+
+<p>The revised method significantly improved the recognition rate of the target paragraphs. However, there is one flaw. During the processing, we found that the annual reports of three companies (such as HON) do not follow the regular structure, resulting in the inability to effectively recognize the "Business", "Risk Factors", and "Management’s Discussion and Analysis of Financial Condition and Results of Operations" sections of 3 companies. Next, we will further optimize the keyword recognition method. Given that the number of companies that cannot be effectively recognized is small, if we still cannot fully recognize them, we will manually extract the corresponding content from the annual reports of these companies. </p>
+<h2>3. Text Processing</h2>
+<p>This section aims to verify the feasibility of the following text processing techniques. We first use a testing sample containing the 2022 annual reports of six companies, and the analysis on three-year 30-companies will be launched later.</p>
+<h4>Step1. Removed punctuation, stop words, and converted all words to lowercase.</h4>
+<p>After extracting the text, we need to preprocess the text to for further analysis. 
+First, we removed punctuation, stop words, and converted all words to lowercase. </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">preprocess_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))</span>
+    <span class="n">filtered_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filtered_words</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>Step2. Lemmatization and Uncertainty Word Analysis</h4>
+<p>Then, we apply lemmatization, reducing words to their base forms using the spaCy library. The following code snippet performs lemmatization:</p>
+<div class="highlight"><pre><span></span><code><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;en_core_web_sm&quot;</span><span class="p">)</span>
+<span class="n">lemmatized_text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>This code loads the English model from spaCy and lemmatizes the text. The token.lemma_ attribute returns the base form of each word, which helps us match words more accurately in subsequent analysis.</p>
+<h4>Step3. Calculate the frequency of uncertaity words.</h4>
+<p>Next, we calculate the frequency of uncertainty-related words using a predefined dictionary. </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">uncertainty_score</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">uncertain_word_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">uncertain_dictionary</span><span class="p">:</span>
+            <span class="n">uncertain_word_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">uncertain_word_count</span>
+</code></pre></div>
+
+<h4>Step4. Data Visualization</h4>
+<p>Finally, we use matplotlib and seaborn to visualize the analysis results to intuitively display the uncertaity score and frequency of uncertainty words in different company reports.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Frequency plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> 
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Uncertainty_Frequency_Percentage&#39;</span><span class="p">,</span> 
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Uncertainty Word Frequency in Each Report&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Company&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Uncertainty Frequency Percentage&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Uncertainty Frequency" src="./images/group_LanguageMagician_01_image-UncertaintyFrequency.png"></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Uncertainty score calculation</span>
+<span class="n">company_uncertainty_scores</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;company&#39;</span><span class="p">)[</span><span class="s1">&#39;uncertainty_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Plot the uncertainty score for each company</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">company_uncertainty_scores</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> 
+    <span class="n">y</span><span class="o">=</span><span class="n">company_uncertainty_scores</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Uncertainty Score by Company&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Company&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Uncertainty Score&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Uncertainty Score" src="./images/group-LanguageMagician_02_image-UncertaintyScore.png"></p>
+<h2>4. The Phased Objectives</h2>
+<p>Through the above explorations on data processing, we choose a way to crawl the specific paragraphs in the multi-year annual reports. Then, we exact the hedging word frequency and visualize the hedging information with a testing sample. 
+Later, our project will further complete the full sample text processing and obtain the stock return after 30, 90, and 252 days after the respective report releasing date, and then launch the correlation analysis. </p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-02-23T20:12:00+08:00">Sun 23 February 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-language-magician-ref">Group Language Magician
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

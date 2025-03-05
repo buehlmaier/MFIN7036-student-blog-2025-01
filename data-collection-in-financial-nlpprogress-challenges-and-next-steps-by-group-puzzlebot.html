@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group 5 - PuzzleBOT, Reflective Report, " />
+
+<meta property="og:title" content="Data Collection in Financial NLP：Progress, Challenges, and Next Steps (By Group PuzzleBOT) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-in-financial-nlpprogress-challenges-and-next-steps-by-group-puzzlebot.html" />
+<meta property="og:description" content="Abstract This blog post presents our progress in data collection for our project, which investigates the feasibility of using NLP to extract sentiment-related words from conference calls and analyze their impact on stock returns. In order to fulfill the research objectives, at this stage we have completed a literature review …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-02-23T23:59:00+08:00" />
+<meta name="twitter:title" content="Data Collection in Financial NLP：Progress, Challenges, and Next Steps (By Group PuzzleBOT) ">
+<meta name="twitter:description" content="Abstract This blog post presents our progress in data collection for our project, which investigates the feasibility of using NLP to extract sentiment-related words from conference calls and analyze their impact on stock returns. In order to fulfill the research objectives, at this stage we have completed a literature review …">
+
+        <title>Data Collection in Financial NLP：Progress, Challenges, and Next Steps (By Group PuzzleBOT)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-in-financial-nlpprogress-challenges-and-next-steps-by-group-puzzlebot.html">
+                Data Collection in Financial NLP：Progress, Challenges, and Next Steps (By Group PuzzleBOT)
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <h2><strong>Abstract</strong></h2>
+<p>This blog post presents our progress in data collection for our project, which investigates the feasibility of using NLP to extract sentiment-related words from conference calls and analyze their impact on stock returns. In order to fulfill the research objectives, at this stage we have completed a literature review and identified relevant methods and variables from previous studies. Based on these findings, we obtained data from WRDS database and stored them as CSV file pattern for further analysis. However, the data collection process posed several challenges, including database selection adjustments, data inconsistencies, and time alignment issues. We discussed these obstacles and resolved some of them. Upon completion of data preprocessing, we anticipate additional challenges in data cleaning and sentiment extraction, which will be addressed in the next phase of the study.</p>
+<p><img alt="cover" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_01_cover.png" style="width: 100%; height: auto;"></p>
+<h2><strong>Data Collection</strong></h2>
+<p>Capital IQ provides professional conference calls &amp; earnings call transcription services, outputting well-structured, high-quality transcripts text data, and WRDS collects these transcripts in batches. As such, we gather data from WRDS.</p>
+<p>WRDS provides a database access API, and we downloaded some sample data based on our needs.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">wrds</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">wrds</span><span class="o">.</span><span class="n">Connection</span><span class="p">()</span>
+
+<span class="n">query1</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM ciq_common.wrds_ticker LIMIT 5&quot;</span>
+<span class="n">wrds_ticker</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">raw_sql</span><span class="p">(</span><span class="n">query1</span><span class="p">)</span>
+
+<span class="n">query2</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM ciq_transcripts.wrds_transcript_detail LIMIT 5&quot;</span>
+<span class="n">wrds_transcript_detail</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">raw_sql</span><span class="p">(</span><span class="n">query2</span><span class="p">)</span>
+
+<span class="n">query3</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM ciq_transcripts.ciqtranscriptcomponent LIMIT 5&quot;</span>
+<span class="n">ciqtranscriptcomponent</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">raw_sql</span><span class="p">(</span><span class="n">query3</span><span class="p">)</span>
+
+<span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Table wrds_ticker is used to merge Capital IQ's internal companyid and stock ticker. Table wrds_transcript_detail contains the basic information of each transcript, including companyid, release time, meeting type and corresponding transcriptid. Table ciqtranscriptcomponent stores the text content information of transcripts.</p>
+<p>We need to download three tables and merge them according to the relationship. The data dictionaries and data samples of the three tables are as follows:</p>
+<h3>1. wrds_ticker</h3>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Length</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>companyid</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Company ID</td>
+</tr>
+<tr>
+<td>companyname</td>
+<td>Char</td>
+<td>400</td>
+<td>Company Name</td>
+</tr>
+<tr>
+<td>enddate</td>
+<td>Date</td>
+<td></td>
+<td>End Date</td>
+</tr>
+<tr>
+<td>startdate</td>
+<td>Date</td>
+<td></td>
+<td>Start Date</td>
+</tr>
+<tr>
+<td>ticker</td>
+<td>Char</td>
+<td>15</td>
+<td>Ticker Symbol</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="wrds_ticker" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_01_wrds_ticker.png"></p>
+<h3>2. wrds_transcript_detail</h3>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Length</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>audiolengthsec</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Audio Length in Seconds</td>
+</tr>
+<tr>
+<td>companyid</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Company ID</td>
+</tr>
+<tr>
+<td>companyname</td>
+<td>Char</td>
+<td>400</td>
+<td>Company Name</td>
+</tr>
+<tr>
+<td>headline</td>
+<td>Char</td>
+<td>381</td>
+<td>Event Headline</td>
+</tr>
+<tr>
+<td>keydeveventtypeid</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Key Development/Event Type ID</td>
+</tr>
+<tr>
+<td>keydeveventtypename</td>
+<td>Char</td>
+<td>400</td>
+<td>Key Development/Event Type Name</td>
+</tr>
+<tr>
+<td>keydevid</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Key Dev ID</td>
+</tr>
+<tr>
+<td>mostimportantdateut</td>
+<td>Date</td>
+<td></td>
+<td>Most Important Date UTC</td>
+</tr>
+<tr>
+<td>mostimportanttimeutc</td>
+<td>Time</td>
+<td>53</td>
+<td>Most Important Time UTC</td>
+</tr>
+<tr>
+<td>transcriptcollectiontypeid</td>
+<td>Int</td>
+<td>32</td>
+<td>Transcript Collection Type ID</td>
+</tr>
+<tr>
+<td>transcriptcollectiontype-name</td>
+<td>Char</td>
+<td>200</td>
+<td>Transcript Collection Type Name</td>
+</tr>
+<tr>
+<td>transcriptcreationdate_utc</td>
+<td>Date</td>
+<td></td>
+<td>Transcript Creation Date UTC</td>
+</tr>
+<tr>
+<td>transcriptcreationtime_utc</td>
+<td>Time</td>
+<td>53</td>
+<td>Transcript Creation Time UTC</td>
+</tr>
+<tr>
+<td>transcriptid</td>
+<td>Decimal</td>
+<td>11</td>
+<td>Transcript ID</td>
+</tr>
+<tr>
+<td>transcriptpresentation-typeid</td>
+<td>Int</td>
+<td>32</td>
+<td>Transcript Presentation Type ID</td>
+</tr>
+<tr>
+<td>transcriptpresentation-typename</td>
+<td>Char</td>
+<td>200</td>
+<td>Transcript Presentation Type Name</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="wrds_transcript_detail" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_01_wrds_transcript_detail.png"></p>
+<h3>3. ciqtranscriptcomponent</h3>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Length</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>componentorder</td>
+<td>Int</td>
+<td>16</td>
+<td>None</td>
+</tr>
+<tr>
+<td>componenttext</td>
+<td>Char</td>
+<td></td>
+<td>None</td>
+</tr>
+<tr>
+<td>transcriptcomponentid</td>
+<td>Int</td>
+<td>32</td>
+<td>None</td>
+</tr>
+<tr>
+<td>transcriptcomponenttype-id</td>
+<td>Int</td>
+<td>16</td>
+<td>None</td>
+</tr>
+<tr>
+<td>transcriptid</td>
+<td>Int</td>
+<td>32</td>
+<td>None</td>
+</tr>
+<tr>
+<td>transcriptpersonid</td>
+<td>Int</td>
+<td>32</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="ciqtranscriptcomponent" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_01_ciqtranscriptcomponent.png"></p>
+<p>We query a transcript text sample and found that the text data is well-structured.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">ciqtranscriptcomponent</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;componenttext&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<p><img alt="text_data_template" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_01_text_data_template.png"></p>
+<h2><strong>Problems solved</strong></h2>
+<h3>1. Massive Workload when Downloading Transpricts from Capital IQ</h3>
+<p>Capital IQ provides professional conference calls &amp; earnings call transcription services, outputting well-structured, high-quality transcripts text data. However, we can only download a single quarter's transcript for a single company at a time.</p>
+<p>We looked at GitHub, Hugging Face, Kaggle and other third-party datasets, but these were not used in the end because there were worries about the data quality and how difficult it would be to process the data later. In the end, we found that there are those transcripts inside Capital IQ collected and organised on WRDS.</p>
+<h3>2. Slow Data Downloads and Inefficient Calls</h3>
+<p>When working with large datasets in WRDS, retrieving all data at once can be inefficient and memory-intensive. A better approach is to fetch data in chunks using SQL’s <code>LIMIT</code> and <code>OFFSET</code>. This ensures efficient processing and avoids overloading memory.</p>
+<p><strong>How It Works</strong></p>
+<ol>
+<li>Use a Loop:</li>
+<li>Fetch data in chunks with <code>LIMIT</code>.</li>
+<li>Increment <code>OFFSET</code> to avoid duplicates.</li>
+<li>Stop when no more data is returned.</li>
+<li>Combine All Chunks into a single DataFrame for analysis.</li>
+</ol>
+<p><strong>Python Implementation</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">wrds</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">wrds</span><span class="o">.</span><span class="n">Connection</span><span class="p">()</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM ciq_transcripts.ciqtranscriptcomponent LIMIT </span><span class="si">{</span><span class="n">chunk_size</span><span class="si">}</span><span class="s2"> OFFSET </span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">raw_sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">offset</span> <span class="o">+=</span> <span class="n">chunk_size</span>
+
+<span class="n">final_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<h2><strong>Key Points to Note</strong></h2>
+<h3>1. Noise Issues in Data Cleaning and Preprocessing</h3>
+<p>When working with WRDS transcript data, it is important to recognize potential noise that could impact research accuracy. Although WRDS transcript data is of high quality, it includes transcripts from global markets, with North American companies accounting for only 55%. Additionally, the dataset is not limited to earnings calls and conference calls but also includes other types of events, such as M&amp;A calls, which may introduce unintended noise. Moreover, each transcript contains multiple edited versions, which could lead to inconsistencies if not properly handled during preprocessing.</p>
+<p>To ensure data reliability, it is necessary to clearly define the research sample in advance, repeatedly verify the meanings of variables, and design logical filtering criteria to exclude irrelevant data. Additionally, care should be taken to avoid look-ahead bias to maintain the validity of the analysis.</p>
+<h3>2. Time Matching Issues Between Earnings Calls and Financial Market Data</h3>
+<p>The second challenge we face when analyzing both earnings call data and financial market data is aligning the two across different companies. Sometimes, earnings calls are released after the end of a fiscal quarter or even in a different fiscal year, which leads to timing mismatches. This inconsistency makes it difficult to match earnings call data with financial market data, affecting the accuracy of our analysis. Ensuring precise timing between the two datasets is essential for obtaining reliable results.</p>
+<p>To address this, we plan to establish a time window—typically a few days before and after the earnings call release. By focusing on stock price fluctuations within this window, we can reduce the biases introduced by timing mismatches. This approach should help better align market reactions with the content of the earnings calls.</p>
+<h2><strong>Next Steps</strong></h2>
+<ul>
+<li>
+<p>First, we will clean the dataset by handling missing values, removing inconsistencies, and ensuring proper formatting. </p>
+</li>
+<li>
+<p>Next, we will extract sentiment-related words from the conference call transcripts using NLP techniques. </p>
+</li>
+<li>
+<p>After extraction, we will classify sentiment words into categories such as positive, negative, or neutral, potentially leveraging existing sentiment dictionaries or machine learning models. </p>
+</li>
+<li>
+<p>Finally, we will conduct regression analysis to examine the relationship between extracted sentiment and stock returns.</p>
+</li>
+</ul>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-02-23T23:59:00+08:00">Sun 23 February 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-5-puzzlebot-ref">Group 5 - PuzzleBOT
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group GenZ AI, Progress Report, " />
+
+<meta property="og:title" content="Scraping Up-to-Date Earnings Call Transcripts (by Group &#34;GenZ AI&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/scraping-up-to-date-earnings-call-transcripts-by-group-genz-ai.html" />
+<meta property="og:description" content="By Group &#34;GenZ AI&#34; For our recent endeavor focused on earnings call text analysis, the process of data acquisition was a rollercoaster ride filled with challenges and triumphs. Let me take you through our experience. Option1: The Drawback of Existing Datasets When launching our NLP project, we first explored existing …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-02-23T09:00:00+08:00" />
+<meta name="twitter:title" content="Scraping Up-to-Date Earnings Call Transcripts (by Group &#34;GenZ AI&#34;) ">
+<meta name="twitter:description" content="By Group &#34;GenZ AI&#34; For our recent endeavor focused on earnings call text analysis, the process of data acquisition was a rollercoaster ride filled with challenges and triumphs. Let me take you through our experience. Option1: The Drawback of Existing Datasets When launching our NLP project, we first explored existing …">
+
+        <title>Scraping Up-to-Date Earnings Call Transcripts (by Group &#34;GenZ AI&#34;)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/scraping-up-to-date-earnings-call-transcripts-by-group-genz-ai.html">
+                Scraping Up-to-Date Earnings Call Transcripts (by Group "GenZ AI")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "GenZ AI"</p>
+<p>For our recent endeavor focused on earnings call text analysis, the process of data acquisition was a rollercoaster ride filled with challenges and triumphs. Let me take you through our experience.</p>
+<h2>Option1: The Drawback of Existing Datasets</h2>
+<p>When launching our NLP project, we first explored existing datasets to accelerate development. Public resources like Huggingface's <a href="https://huggingface.co/datasets/lamini/earnings-calls-qa">lamini/earnings-calls-qa</a> and <a href="https://huggingface.co/datasets/jlh-ibm/earnings_call">jlh-ibm/earnings_call</a> provided valuable labeled examples.</p>
+<p>However, a critical gap emerged: the most recent data only covered Q3 2023. Given financial markets' volatility, stale data risks generating outdated insights. This limitation forced us to build our own web scraper for <strong>real-time</strong> earnings call transcripts.</p>
+<h2>Option2: The Roadblock at Seeking Alpha</h2>
+<p>We explored open-source projects and identified <a href="https://seekingalpha.com/"><strong>Seeking Alpha</strong></a> as a popular source for earnings call data. Its key advantage: structured access to transcripts via stock tickers (e.g., AAPL). Here's our streamlined approach:</p>
+<h3>Step 1: Fetch S&amp;P 100 Tickers</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get S&amp;P 100 tickers</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://en.wikipedia.org/wiki/S%26P_100&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># Target table position</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">table</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<h3>Step 2: Initial Scraping Attempt</h3>
+<p>We then tried scraping transcripts using Selenium:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Basic scraping attempt (ultimately failed)</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+
+<span class="n">browser</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">()</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://seekingalpha.com/symbol/AAPL/transcripts&quot;</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># Wait for page load</span>
+
+<span class="c1"># Interactive CAPTCHA triggered here</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">page_source</span>  
+<span class="c1"># Subsequent parsing became impossible...</span>
+</code></pre></div>
+
+<p><strong>Key Obstacle</strong>: The Interactive CAPTCHA system blocked automated access. Even with proxy rotation, request throttling, and header spoofing, we couldn't bypass detection consistently, forcing us to abandon this approach.</p>
+<p><img alt="Picture showing the interactive CAPTCHA" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-GenZ-AI_01_image-CAPTCHA.jpeg">
+<img alt="Picture showing the interactive CAPTCHA" src="/images/group-GenZ-AI_01_image-CAPTCHA.jpeg">
+<img alt="Picture showing Powell" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Fintech-Disruption_Powell.jpeg"></p>
+<h2>Option 3: Structured Success at The Motley Fool</h2>
+<p>We discovered <a href="https://www.fool.com/earnings-call-transcripts/"><strong>The Motley Fool</strong></a>'s Earnings Call Transcripts offered a goldmine of well-structured data. Its paginated design (page=1 to page=500) enabled systematic scraping of ~10,000 transcripts. </p>
+<p><strong>Key Features</strong></p>
+<ul>
+<li>
+<p><strong>Predictable URL patterns</strong>: https://www.fool.com/earnings-call-transcripts/?page=x</p>
+</li>
+<li>
+<p><strong>Consistent CSS classes for data extraction</strong></p>
+</li>
+<li>
+<p><strong>Minimal anti-scraping mechanisms</strong></p>
+</li>
+</ul>
+<h3>Step 1: Paginated URL Collection</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c1"># Generate all page URLs</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.fool.com/earnings-call-transcripts/?page=&#39;</span>
+<span class="n">page_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)]</span>
+</code></pre></div>
+
+<h3>Step 2: Transcript Link Extraction</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Extract individual transcript URLs</span>
+<span class="n">transcript_urls</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">page_urls</span><span class="p">:</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;.flex.py-12px.text-gray-1100 a[href]&quot;</span><span class="p">)</span>
+    <span class="n">transcript_urls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://www.fool.com</span><span class="si">{</span><span class="n">link</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">)</span>
+
+<span class="c1"># Deduplicate and filter (every 3rd link is valid)</span>
+<span class="n">clean_urls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">transcript_urls</span><span class="p">[::</span><span class="mi">3</span><span class="p">]))</span>
+</code></pre></div>
+
+<h3>Step 3: Data Extraction Workflow</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initialize storage</span>
+<span class="n">transcripts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">clean_urls</span><span class="p">:</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s2">&quot;article-body&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract structured elements</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">ticker</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="c1"># Store results</span>
+    <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;company&quot;</span><span class="p">:</span> <span class="n">company</span><span class="p">,</span> <span class="s2">&quot;ticker&quot;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">})</span>
+    <span class="n">transcripts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">body</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]))</span>
+</code></pre></div>
+
+<p>This approach demonstrates how structural analysis of target websites can overcome scraping limitations encountered elsewhere. The Motley Fool's consistent formatting made it ideal for large-scale NLP data collection, ultimately providing <strong>9,981</strong> clean transcripts for our analysis.</p>
+<h2>Option 4: Augmenting Fresh Data with Historical Records</h2>
+<p>Our web scraping efforts on The Motley Fool successfully captured nearly <strong>10,000 up-to-date earnings call transcripts</strong>, but this dataset skewed heavily toward post-2020 content. To enable longitudinal analysis of corporate communications, we needed historical context beyond this recent window.</p>
+<p>We identified a complementary Kaggle dataset <a href="https://www.kaggle.com/datasets/tpotterer/motley-fool-scraped-earnings-call-transcripts/data"><strong>Scraped Motley Fool Earnings Call Transcripts</strong></a> containing 18,755 transcripts from 2017 Q3 to 2023 Q3. By merging these two sources and deduplicating entries using company tickers and call dates, we can created a unified corpus spanning six continuous years (2017-2023). This combined dataset preserves the latest market insights from our scraping work while incorporating critical pre-pandemic and early-pandemic era discussions, ultimately providing a robust foundation for NLP analysis of corporate narratives.</p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-02-23T09:00:00+08:00">Sun 23 February 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#progress-report-ref">Progress Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-genz-ai-ref">Group GenZ AI
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

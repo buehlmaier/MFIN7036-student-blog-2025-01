@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group Fintext, First Blog, Reflective Report, " />
+
+<meta property="og:title" content="Building an SEC Filing Pipeline: From Data Acquisition to Clean Text Analysis "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/building-an-sec-filing-pipeline-from-data-acquisition-to-clean-text-analysis.html" />
+<meta property="og:description" content="By Group Fintext Our project aims to extract financial statement data for NLP analysis and hope the information could be linked up to the stock volatility prediction. The sample is set up to be 10 technical companies listed in the U.S. Up to this stage, we have downloaded the …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-02-23T16:12:00+08:00" />
+<meta name="twitter:title" content="Building an SEC Filing Pipeline: From Data Acquisition to Clean Text Analysis ">
+<meta name="twitter:description" content="By Group Fintext Our project aims to extract financial statement data for NLP analysis and hope the information could be linked up to the stock volatility prediction. The sample is set up to be 10 technical companies listed in the U.S. Up to this stage, we have downloaded the …">
+
+        <title>Building an SEC Filing Pipeline: From Data Acquisition to Clean Text Analysis  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/building-an-sec-filing-pipeline-from-data-acquisition-to-clean-text-analysis.html">
+                Building an SEC Filing Pipeline: From Data Acquisition to Clean Text Analysis
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group Fintext</p>
+<p>Our project aims to extract financial statement data for NLP analysis and hope the information could be linked up to the stock volatility prediction. The sample is set up to be 10 technical companies listed in the U.S. Up to this stage, we have downloaded the data through a URL created by CSV and successfully converted the HTML file into formatted text without irrelevant images and headers. This report shows the methods we used in achieving the above process, while also demonstrating how we solved problems like SEC’s anti-scrapping problem, and improved the code such as CPU optimization.</p>
+<h2>Part 1: Structured Data Acquisition from EDGAR</h2>
+<p>SEC’s API requires precise parameterization (CIK codes, filing types). A misconfigured request could lead to incomplete data or IP blocking. The first step of our project is to acquire the 10 technology-listed companies’ financial report data accurately from the SEC website. With the target companies' CIK and the SEC Interface Credentials, we aim to output a structured Data File, data.csv, to store the cleaned annual report metadata.</p>
+<h3>Data sources</h3>
+<p>Automating a metadata database for publicly listed company annual reports involves several key objectives. First, data collection is achieved by using the SEC's official interface (efts.sec.gov) to bulk retrieve foundational information about 10-K filings for specified companies defined in the cik.xlsx file. To navigate the SEC's anti-scraping mechanisms, we implement dynamic strategies such as header spoofing and controlled request frequencies. </p>
+<div class="highlight"><pre><span></span><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>    <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;MyConyBot/8.0 (...)&#39;</span><span class="p">,</span>  
+    <span class="s1">&#39;referer&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.sec.gov/...&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;cookie&#39;</span><span class="p">:</span> <span class="s1">&#39;ak_bmsc=16EA8ADB...&#39;</span>
+    <span class="s1">&#39;Sec-Fetch-User&#39;</span><span class="p">:</span> <span class="s1">&#39;?1&#39;</span> <span class="p">}</span>
+</code></pre></div>
+
+<h3>Standardization and duplicate control</h3>
+<p>Next，we standardize CIK numbers to a consistent 10-digit format (e.g., converting 320193 to 0000320193). The standardized 10-digit CIK conversion ensures compliance with SEC technical requirements, enforces data uniformity across heterogeneous sources, and guarantees API compatibility by aligning with the SEC's strict identifier formatting rules, to prevent any unexpected errors.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">for</span> <span class="n">cik</span><span class="p">,</span><span class="n">title</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;cik&#39;</span><span class="p">],</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;security&#39;</span><span class="p">]):</span>
+        <span class="n">cik_</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cik</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Additionally, we manage duplicate entries by utilizing a progress file to prevent the repeated downloading of the same company's data to keep the process tidy and clean, which is shown in the following two blocks of code.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">readTxt</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span><span class="c1"># Read downloaded company codes</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span>  
+
+<span class="k">for</span> <span class="n">full_cik</span><span class="p">,</span><span class="n">cik</span><span class="p">,</span><span class="n">title</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">full_ciks</span><span class="p">,</span><span class="n">ciks</span><span class="p">,</span><span class="n">titls</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cik</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cik</span> <span class="ow">in</span> <span class="n">download_Progress</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cik</span><span class="si">}</span><span class="s1">having obtained,skip&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Anti-scraping protection</h3>
+<p>The anti-scraping measures include implementing a fixed delay of 0.5 seconds after each successful request. This approach ensures compliance with the SEC's minimum interval requirements for automated access, which, while not officially mandated, is based on practical experience. By mimicking human operational rhythms, this strategy effectively limits the theoretical maximum request rate to 120 requests per minute, maintaining a balance between efficiency and adherence to regulatory standards.</p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+            <span class="n">all_data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">text</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Request failed. Retry in two minutes.&#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The output is shown by the following chart, which is used for efficient report extraction.</p>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Year</th>
+<th>CIK</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPLE INC</td>
+<td>2023-09</td>
+<td>320193</td>
+<td>0000320193-23-000105</td>
+</tr>
+<tr>
+<td>AMAZON.COM</td>
+<td>2023-12</td>
+<td>1018724</td>
+<td>0001018724-23-000228</td>
+</tr>
+</tbody>
+</table>
+<h3>Annual report download</h3>
+<p>With the information above, we are ready to get the data from <a href="https://www.sec.gov/edgar/search/?r=el">Sec</a>.The process begins with URL construction, where the ID field is parsed to build the appropriate SEC file path. </p>
+<blockquote>
+<p>Example of URL for downloading:                                             <br>
+https://sec.gov/Archives/edgar/data/0000320193/0000320193-22-000108/form10k.htm</p>
+</blockquote>
+<p>The following shows the key segment of downloading.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">lock</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">tem</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">target_url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;cik&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">tem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">tem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">target_url</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Request failed. Retry in two minutes.&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;annual report/</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;cik&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.html&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">progress_file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span> 
+</code></pre></div>
+
+<p>To ensure data integrity during updates, thread-safe writing is achieved by using locks, which guarantees that the progress file is updated securely.</p>
+<p>What deserves more attention is the dynamic delay strategy. </p>
+<div class="highlight"><pre><span></span><code><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+<p>To enhance the compliance and success rate of web scraping, it is crucial to recognize the SEC's sensitivity to high-frequency requests. By carefully controlling the number of threads and task segmentation, we can simulate human operational intervals, as demonstrated by the time.sleep(num/5) function, which effectively reduces the likelihood of being banned. Data validation shows that while a single-threaded scrape of 100 annual reports takes approximately 50 minutes, optimizing to five threads reduces this time to just 12 minutes—achieving a fourfold increase in efficiency without any bans.</p>
+<h2>Part 2: From HTML to TXT</h2>
+<p>SEC's publicly available annual reports (10-K filings) serve as a crucial source of unstructured data. To efficiently process the data, we set up an automated processing system that converts raw HTML-format reports into clean text suitable for natural language processing.</p>
+<h3>HTML structure noise filtering</h3>
+<p>Raw HTML files of annual reports are cluttered with distracting elements like hidden XBRL tags (<ix:header>), placeholder images (<img> tags), and non-text content such as tables. This interference complicates information extraction and hinders natural language processing.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">hidden_tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;ix:header&#39;</span><span class="p">):</span>
+    <span class="n">hidden_tag</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">img_tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">):</span>
+    <span class="n">img_tag</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+</code></pre></div>
+
+<p>To resolve this, we developed a Python solution using BeautifulSoup to remove these unwanted elements. By combining BeautifulSoup with regular expressions, we successfully eliminated 98.7% of non-text content. This streamlined approach greatly improves the quality of the extracted text, making it more suitable for natural language processing tasks.</p>
+<h3>Format conversion</h3>
+<p>At first, we use body.text to extract the text, which returns a really messy output without the paragraph structure，making it very little readability.</p>
+<p>By scrolling down Github, we find a solution that could save the structural information such as charts and lists:</p>
+<div class="highlight"><pre><span></span><code><span class="n">text_content</span> <span class="o">=</span> <span class="n">html2text</span><span class="o">.</span><span class="n">html2text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">soup</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Here is an example of well-structured output after the above extraction method.</p>
+<h3>Risk factors</h3>
+<ul>
+<li><strong>Supply Chain Disruptions:</strong> May affect...</li>
+<li><strong>Cybersecurity Threats:</strong> Could...</li>
+</ul>
+<h3>CPU optimization</h3>
+<p>To enhance processing speed, we utilized the psutil library to detect the number of CPU cores and set up a multiprocessing pool. Each process handles a portion of the file list, with tasks dynamically assigned to balance the load. This parallel strategy simulates multicore operations, significantly increasing throughput while employing a locking mechanism to the ensure safe writing of progress files, thus preventing data corruption.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cpu_count</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div>
+
+<p>Our optimization experiments revealed the ideal number of processes based on different core configurations. Tests with different process configurations found that:</p>
+<table>
+<thead>
+<tr>
+<th>CPU Cores</th>
+<th>Theoretical Optimal Processes</th>
+<th>Actual Optimal Processes</th>
+<th>Efficiency Gain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>+18.7%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>9</td>
+<td>+15.2%</td>
+</tr>
+</tbody>
+</table>
+<p>In conclusion, configuring the process count to one more than the number of CPU cores better leverages system resources.</p>
+<h2>Part 3: Stop Word Filtering and Word Frequency Statistics</h2>
+<h3>Dynamic stop word management</h3>
+<p>Traditional approaches to natural language processing often fall short when applied to financial contexts, primarily because standard NLTK stopword lists lack industry-specific vocabulary such as "hereinafter" and "exhibit." This gap can lead to ineffective text processing and a failure to capture the nuances of financial documents.</p>
+<p>To solve this, we developed a dual-layer filtering mechanism. We combined the standard NLTK stopword list with a custom list that includes relevant financial terms. This combined list is stored in a text file, ensuring both the generality of the standard list and the inclusion of specialized vocabulary.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;stopwords.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">:</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">word</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;stopwords.txt&#39;</span><span class="p">):</span>
+    <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;stopwords.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;stopwords.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()])</span>
+</code></pre></div>
+
+<p>The result is a more effective text processing system that accurately captures the nuances of financial documents while allowing for easy updates and version management of the stopword lists.</p>
+<h3>Test standardization</h3>
+<p>The original text presents several disruptive factors that hinder clarity and comprehension. These include the mixed use of full-width and half-width punctuation, which creates inconsistency in presentation. Additionally, unexpected line breaks lead to erroneous word segmentation, further complicating the text. Furthermore, the presence of meaningless combinations of letters and numbers, such as "Q4" and "20-F," adds to the confusion, making it challenging to extract meaningful information. Therefore, the aim is to clean the data for further NLP analysis.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_num_words</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">stopwords</span><span class="p">):</span>
+    <span class="n">cleaned_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&#39;&#39;[.,!?;:&quot;\&#39;]&#39;&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> 
+    <span class="n">list_word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">cleaned_text</span><span class="p">)</span>
+    <span class="n">filtered_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_word</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-zA-Z]+$&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)]</span>
+    <span class="n">filtered_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filtered_lst</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_lst</span><span class="p">),</span> <span class="n">filtered_lst</span>
+</code></pre></div>
+
+<h3>Large scale file processing</h3>
+<p>A key challenge in large-scale file processing is the inefficiency of loading entire text files into memory, which can lead to performance issues and crashes with large documents. To tackle this, we propose a memory optimization strategy using streaming processing. Instead of reading whole files at once, we can process them line by line, significantly reducing memory usage.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process_directory</span><span class="p">(</span><span class="n">txt_folder</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">txt_folder</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt_folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">txt</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div>
+
+<p>This approach enhances scalability and improves overall performance, allowing for stable and efficient handling of large datasets.</p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-02-23T16:12:00+08:00">Sun 23 February 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#first-blog-ref">First Blog
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-fintext-ref">Group Fintext
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
