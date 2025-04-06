@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" media="screen">
 
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -18,7 +18,7 @@
 <meta name="keywords" content="Group LingoBingo, Progress Report, " />
 
 <meta property="og:title" content="Fed Watching: Web Scraping and Data Preprocessing (by Group &#34;LingoBingo&#34;) "/>
-<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/fed-watching-web-scraping-and-data-preprocessing-by-group-lingobingo.html" />
+<meta property="og:url" content="/fed-watching-web-scraping-and-data-preprocessing-by-group-lingobingo.html" />
 <meta property="og:description" content="Introduction The Fed Funds Rate is a benchmark interest rate that influences monetary policy, economic management, financial markets, asset prices, and has a global impact. Its importance is therefore evident, making the study of factors related to the Fed Funds Rate highly meaningful. Our project aims to analyze Federal textual …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
 <meta property="og:article:author" content="MFIN7036 Students 2025" />
@@ -28,7 +28,6 @@
 
         <title>Fed Watching: Web Scraping and Data Preprocessing (by Group &#34;LingoBingo&#34;)  · MFIN7036 Student Blog 2025
 </title>
-        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
 
 
 
@@ -43,18 +42,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <a class="brand" href="/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                       "/"
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
-                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
-                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="/categories.html">Categories</a></li>
+                                <li ><a href="/tags.html">Tags</a></li>
+                                <li ><a href="/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +67,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/fed-watching-web-scraping-and-data-preprocessing-by-group-lingobingo.html">
+            <a href="/fed-watching-web-scraping-and-data-preprocessing-by-group-lingobingo.html">
                 Fed Watching: Web Scraping and Data Preprocessing (by Group "LingoBingo")
             </a>
         </h1>
@@ -89,7 +88,7 @@
 <h3>Text Data</h3>
 <p>We obtain text data from FOMC statements, minutes, SEP reports, and public speeches by officials through <a href="https://www.federalreserve.gov">the official website of the Federal Reserve</a>.</p>
 <p>The following table summarizes the basic information for the various documents that we analyze.</p>
-<p><img alt="Table: Text Data Info" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_Text-Data_image-description.png"></p>
+<p><img alt="Table: Text Data Info" src="/images/LingoBingo_Text-Data_image-description.png"></p>
 <p>We collect text data through web crawling using Python. The specific process is as follows:</p>
 <ul>
 <li>Import libraries</li>
@@ -151,7 +150,7 @@ In these functions, we first make a GET request to the incoming URL to retrieve 
 </code></pre></div>
 
 <p>Finally, we structure the data by organizing each text source into a table, which includes the time and the corresponding text. Then, we export the data to Excel. A sample output is shown below:</p>
-<p><img alt="Picture: Sample Output" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_Sample-Output_image-description.png"></p>
+<p><img alt="Picture: Sample Output" src="/images/LingoBingo_Sample-Output_image-description.png"></p>
 <h2>Data Preprocessing</h2>
 <p>To maintain the integrity of data, we preprocess statements, minutes, seps and transcripts separately.</p>
 <p>Tokenization, stemming, and lemmatization help extract key emotional vocabulary and enhance the model's ability to understand policy texts, thereby improving the accuracy of sentiment classification. These are important steps in the preprocessing phase. We use the NLTK package to perform these tasks.</p>
@@ -298,8 +297,8 @@ In these functions, we first make a GET request to the incoming URL to retrieve 
 </code></pre></div>
 
 <p>We generate two word clouds as follows, highlighting key metrics that the FOMC pays significant attention to, such as monetary policy and the labor market.</p>
-<p><img alt="Picture: Word Could_Stem" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_Word-Cloud-Stem_image-description.png">             </p>
-<p><img alt="Picture: Word Could_Lemmas" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_Word-Cloud-Lemmas_image-description.png"></p>
+<p><img alt="Picture: Word Could_Stem" src="/images/LingoBingo_Word-Cloud-Stem_image-description.png">             </p>
+<p><img alt="Picture: Word Could_Lemmas" src="/images/LingoBingo_Word-Cloud-Lemmas_image-description.png"></p>
 <h2>Future Directions</h2>
 <ul>
 <li>
@@ -333,10 +332,10 @@ In these functions, we first make a GET request to the incoming URL to retrieve 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2025-02-23T15:00:00+08:00">Sun 23 February 2025</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#progress-report-ref">Progress Report</a>
+            <a class="category-link" href="/categories.html#progress-report-ref">Progress Report</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-lingobingo-ref">Group LingoBingo
+                <li><a href="/tags.html#group-lingobingo-ref">Group LingoBingo
                     <span class="superscript">1</span>
 </a></li>
             </ul>
@@ -442,7 +441,7 @@ In these functions, we first make a GET request to the incoming URL to retrieve 
     </div>
 </footer>            <script src="//code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script src="/theme/js/elegant.prod.9e9d5ce754.js"></script>
         <script>
             function validateForm(query)
             {
