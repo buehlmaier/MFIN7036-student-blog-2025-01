@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group 5 - PuzzleBOT, Reflective Report, " />
+
+<meta property="og:title" content="Sentiment Analysis and Regression with Excess Returns (By Group PuzzleBOT) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-and-regression-with-excess-returns-by-group-puzzlebot.html" />
+<meta property="og:description" content="Abstract This blog employs NLP techniques to empirically examine the impact of sentiment factors derived from corporate earnings call transcripts on stock returns. Following preliminary data collection, we selected transcripts from 10 publicly listed companies spanning four consecutive years as the research sample. Text preprocessing was conducted to eliminate non-standard …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-03-10T23:59:00+08:00" />
+<meta name="twitter:title" content="Sentiment Analysis and Regression with Excess Returns (By Group PuzzleBOT) ">
+<meta name="twitter:description" content="Abstract This blog employs NLP techniques to empirically examine the impact of sentiment factors derived from corporate earnings call transcripts on stock returns. Following preliminary data collection, we selected transcripts from 10 publicly listed companies spanning four consecutive years as the research sample. Text preprocessing was conducted to eliminate non-standard …">
+
+        <title>Sentiment Analysis and Regression with Excess Returns (By Group PuzzleBOT)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-and-regression-with-excess-returns-by-group-puzzlebot.html">
+                Sentiment Analysis and Regression with Excess Returns (By Group PuzzleBOT)
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <h2><strong>Abstract</strong></h2>
+<p>This blog employs NLP techniques to empirically examine the impact of sentiment factors derived from corporate earnings call transcripts on stock returns. Following preliminary data collection, we selected transcripts from 10 publicly listed companies spanning four consecutive years as the research sample. Text preprocessing was conducted to eliminate non-standard special symbols, establishing a foundation for subsequent semantic analysis. During the modeling phase, BERT was systematically identified as the core analytical model through comparing against four baseline models. To address overfitting issues between training and validation errors, parameter optimization was implemented, yielding an economically interpretable sentiment score metric.</p>
+<p>To evaluate the predictive capacity of sentiment factors in capital markets, we constructed a multivariate regression model incorporating control variables such as firm age, return on equity (ROE), and leverage ratio. Data spanning over 4,000 observations were sourced from Capital IQ and Wind Financial Database for econometric analysis. Empirical results demonstrate a statistically significant positive association (p&lt;0.05) between the extracted sentiment factor and stock returns after rigorous variable controls. This finding provides novel empirical evidence for the textual information pricing theory in behavioral finance, highlighting the materiality of linguistic sentiment signals in financial decision-making.</p>
+<h2><strong>1. Data Processing</strong></h2>
+<p>The goal of the data preprocessing work is to merge the three tables downloaded from WRDS through business keys to obtain the standardized data that we will ultimately use for model prediction and subsequent processing.</p>
+<p>Firstly, we downloaded the tickers of the constituent stocks of the S&amp;P 500 index from Capital IQ, as well as their company IDs within Capital IQ. Then we filtered out the transcripts IDs corresponding to these stocks.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df_ticker</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/Users/xingyu/Dropbox/ciq_transcripts/wrds_ticker.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">df_stkcd_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_stkcd_list</span><span class="p">,</span> <span class="n">df_ticker</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Exchange:Ticker&#39;</span><span class="p">,</span> <span class="s1">&#39;Excel Company ID&#39;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">,</span> <span class="s1">&#39;companyid&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">df_stkcd_list</span> <span class="o">=</span> <span class="n">df_stkcd_list</span><span class="p">[[</span><span class="s1">&#39;companyname&#39;</span><span class="p">,</span> <span class="s1">&#39;ticker&#39;</span><span class="p">,</span> <span class="s1">&#39;Industry Classifications&#39;</span><span class="p">,</span> <span class="s1">&#39;Excel Company ID&#39;</span><span class="p">,</span> <span class="s1">&#39;startdate&#39;</span><span class="p">,</span> <span class="s1">&#39;enddate&#39;</span><span class="p">]]</span>
+<span class="n">df_stkcd_list</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Industry Classifications&#39;</span><span class="p">:</span><span class="s1">&#39;industry&#39;</span><span class="p">,</span> <span class="s1">&#39;Excel Company ID&#39;</span><span class="p">:</span><span class="s1">&#39;companyid&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">df_stkcd_list</span> <span class="o">=</span> <span class="n">df_stkcd_list</span><span class="p">[</span><span class="n">df_stkcd_list</span><span class="p">[</span><span class="s1">&#39;enddate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>
+<span class="n">df_stkcd_list</span> <span class="o">=</span> <span class="n">df_stkcd_list</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;companyname&#39;</span><span class="p">,</span> <span class="s1">&#39;startdate&#39;</span><span class="p">])</span>
+<span class="n">df_stkcd_list</span> <span class="o">=</span> <span class="n">df_stkcd_list</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;companyname&#39;</span><span class="p">,</span> <span class="s1">&#39;ticker&#39;</span><span class="p">,</span> <span class="s1">&#39;companyid&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Next, we set a series of filters, including stock ticker, transcript type, transcript version, and event date, to filter out the transcript IDs that were precisely suited to our research task.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df_detail</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/Users/xingyu/Dropbox/ciq_transcripts/wrds_transcript_detail.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">companyid_lst</span> <span class="o">=</span> <span class="n">df_stkcd_list</span><span class="p">[</span><span class="s1">&#39;companyid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">condition1</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="s1">&#39;companyid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">companyid_lst</span><span class="p">)</span>
+<span class="n">condition2</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="s1">&#39;keydeveventtypename&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Earnings Calls&#39;</span>
+<span class="n">condition3</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="s1">&#39;transcriptpresentationtypename&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Final&#39;</span>
+<span class="n">condition4</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="s1">&#39;mostimportantdateutc&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2021-01-01&#39;</span>
+<span class="n">df_detail</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="n">condition1</span> <span class="o">&amp;</span> <span class="n">condition2</span> <span class="o">&amp;</span> <span class="n">condition3</span> <span class="o">&amp;</span> <span class="n">condition4</span><span class="p">]</span>
+
+<span class="n">df_detail</span> <span class="o">=</span> <span class="n">df_detail</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;companyid&#39;</span><span class="p">,</span> <span class="s1">&#39;mostimportantdateutc&#39;</span><span class="p">,</span> <span class="s1">&#39;mostimportanttimeutc&#39;</span><span class="p">,</span> <span class="s1">&#39;transcriptcreationdate_utc&#39;</span><span class="p">,</span> <span class="s1">&#39;transcriptcreationtime_utc&#39;</span><span class="p">])</span>
+<span class="n">df_detail</span> <span class="o">=</span> <span class="n">df_detail</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;companyid&#39;</span><span class="p">,</span> <span class="s1">&#39;mostimportantdateutc&#39;</span><span class="p">,</span> <span class="s1">&#39;mostimportanttimeutc&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;last&#39;</span><span class="p">)</span>
+<span class="n">df_detail</span> <span class="o">=</span> <span class="n">df_detail</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;last&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Finally, we filtered out the texts corresponding to these transcripts from the ciqtranscriptcomponent table. Due to the length limit of the WRDS database, these texts were segmented at the transcript level. Since many pre-trained models have length input limits, this is also in line with our ultimate goal. In addition, we use a chunk-reading strategy to circumvent the out-of-memory limitation.</p>
+<div class="highlight"><pre><span></span><code><span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/xingyu/Dropbox/ciq_transcripts/ciqtranscriptcomponent.csv&#39;</span>
+
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="n">transcriptid</span> <span class="o">=</span> <span class="n">df_detail</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">chunksize</span> <span class="o">=</span> <span class="mi">100000</span>
+
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">):</span>
+    <span class="n">filtered_chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">chunk</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">transcriptid</span><span class="p">)]</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">result_df</span><span class="p">,</span> <span class="n">filtered_chunk</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">,</span> <span class="s1">&#39;componentorder&#39;</span><span class="p">])</span>
+<span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Transcripts" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_Transcripts.png"></p>
+<p>In addition, we also merged the transcripts based on the componentorder key at the transcriptid level to obtain the complete text, and selected one of them to export for cross-checking, which verified that our processing flow was correct and the data quality was high.</p>
+<div class="highlight"><pre><span></span><code><span class="n">merged_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;componentorder&#39;</span><span class="p">)[</span><span class="s1">&#39;componenttext&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">merged_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;transcriptid&#39;</span><span class="p">,</span> <span class="s1">&#39;componenttext&#39;</span><span class="p">]</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1018</span><span class="p">,</span> <span class="s1">&#39;componenttext&#39;</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/Users/xingyu/Downloads/Apple Inc., Q1 2025 Earnings Call, Jan 30, 2025.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="TextSample" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_TextSample.png"></p>
+<h2><strong>2. Model Test</strong></h2>
+<p>We performed multiple model tests before confirming which model to use for scoring sentiment word classification.</p>
+<h3>2.1 TabularisAI Machine Model Learning</h3>
+<p>In one of them, we have loaded TabularisAI multilingual sentiment analysis model by using Hugging Face's Transformers library. The model is based on a Transformer architecture, pre-trained on vast multilingual text corpora (e.g., books, websites, social media). This phase enables it to learn universal language representations, capturing syntactic and semantic patterns across languages. At the same time, we apply a small sample of a separately organized dataset to test it.</p>
+<h4>2.1.1  Data Preprocessing and Input Handling</h4>
+<p>We used the code to clean input data by removing rows with missing componenttext.
+Texts are tokenized using the model's tokenizer, which splits text into subwords, adds padding/truncation to ensure uniform input length (max_length=512), and converts tokens to tensors. This step aligns raw text with the model's expected input format.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Read the CSV file and make sure the &#39;componenttext&#39; column is present</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_file_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="c1"># Check if the &#39;componenttext&#39; column exists</span>
+<span class="k">if</span> <span class="s1">&#39;componenttext&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The &#39;componenttext&#39; column is not found in the CSV file, please check the data format!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load the Transformer Language Model</span>
+<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;tabularisai/multilingual-sentiment-analysis&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>2.1.2  Inference and Post-processing</h4>
+<p>The model processes tokenized inputs to generate logits, which are converted into probabilities via softmax.
+The final sentiment label is assigned by mapping the highest probability class (e.g., index 4 -&gt; "Very Positive") using a predefined sentiment_map.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define the sentiment classification function</span>
+<span class="k">def</span> <span class="nf">predict_sentiment</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Sentiment analysis of texts &quot;&quot;&quot;</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">probabilities</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Setting Emotion Category Mapping</span>
+    <span class="n">sentiment_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Very Negative&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Negative&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Neutral&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Positive&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Very Positive&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">sentiment_map</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+
+<span class="c1"># Handling of missing values (if there is empty text)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;componenttext&#39;</span><span class="p">])</span>
+
+<span class="c1"># Sentiment classification results</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predict_sentiment</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;componenttext&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<h4>2.1.3 Results and Limitations</h4>
+<p>The model provides categorical labels (e.g., "Very Positive", "Positive", "Neutral", etc.), which lack fine-grained sentiment scores that are useful in financial analysis, and thus does not fit our needs. In quantitative finance, analysts often require sentiment scores on a continuous scale (e.g., -1 to +1) instead of broad categories.</p>
+<p><img alt="ResultsM1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_ResultsM1.png"></p>
+<h3>2.2 Distilbert-Base-Multilingual-Cased-Sentiments-Model</h3>
+<p>This model is distilled from the zero-shot classification pipeline on the Multilingual Sentiment dataset. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="c1"># Initialize the sentiment analysis pipeline</span>
+<span class="n">distilled_student_sentiment_classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;lxyuan/distilbert-base-multilingual-cased-sentiments-student&quot;</span><span class="p">,</span>
+    <span class="n">return_all_scores</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Get the tokenizer</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">distilled_student_sentiment_classifier</span><span class="o">.</span><span class="n">tokenizer</span>
+
+<span class="c1"># Reading the sample(.CSV) file</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;temp_data.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create new columns to store results</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;positive_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;neutral_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;negative_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;relative_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Define the maximum sequence length</span>
+<span class="n">MAX_SEQ_LENGTH</span> <span class="o">=</span> <span class="mi">512</span>
+
+<span class="c1"># Perform sentiment analysis on each row of data in the componenttext column in the sample file</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;componenttext&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Tokenization and truncation</span>
+    <span class="n">encoded_input</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span>
+        <span class="n">text</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="n">MAX_SEQ_LENGTH</span><span class="p">,</span>
+        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Get truncated text from encoded_input</span>
+    <span class="n">truncated_text</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded_input</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Pass truncated text into pipeline for sentiment analysis</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">distilled_student_sentiment_classifier</span><span class="p">(</span><span class="n">truncated_text</span><span class="p">)</span>
+
+    <span class="c1"># Withdrawal Score</span>
+    <span class="n">positive_score</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+    <span class="n">neutral_score</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+    <span class="n">negative_score</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+    <span class="n">relative_score</span> <span class="o">=</span> <span class="n">positive_score</span> <span class="o">-</span> <span class="n">negative_score</span>
+
+    <span class="c1"># Write to new column</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;positive_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">positive_score</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;neutral_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">neutral_score</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;negative_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">negative_score</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;relative_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">relative_score</span>
+
+<span class="c1"># Save the results to a new CSV file</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;output.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p>With the model, we can get the probability of Positive, Neutral, and Negative respectively. And by a simple weighting of the three, the relative_score is obtained.</p>
+<p><img alt="ResultsM3" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_ResultsM3.png"></p>
+<p>However, the model has a token limit (typically 512 tokens), meaning long earnings call transcripts get truncated, leading to loss of important contextual information. However, Earnings calls often contain detailed discussions, Q&amp;A sessions, and forward-looking statements, which require full context to assess sentiment accurately. This limitation reduces the model's ability to capture sentiment trends across the entire conversation.</p>
+<h2><strong>3. Model Training</strong></h2>
+<p>Since the number of output layers of the pre-trained models related to sentiment analysis on Hugging Face is 3, and the open source dataset only has 2 labels, positive and negative, we cannot manually label them due to time and cost constraints. Therefore, we finally chose to fine-tune based on the BERT model.</p>
+<p><img alt="EarningsCall" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_EarningsCall.png"></p>
+<p>First, we loaded the data from the dataset and tokenized and preprocessed it to convert it into a format suitable for the torch framework.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;jlh-ibm/earnings_call&#39;</span><span class="p">,</span> <span class="s1">&#39;transcript-sentiment&#39;</span><span class="p">)</span>
+
+<span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;negative&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;positive&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">convert_labels</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+    <span class="n">example</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_map</span><span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">example</span>
+
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">convert_labels</span><span class="p">)</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">convert_labels</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tokenize_function</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+<span class="n">tokenized_train_dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tokenize_function</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokenized_val_dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tokenize_function</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">tokenized_train_dataset</span><span class="o">.</span><span class="n">set_format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;torch&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;attention_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">])</span>
+<span class="n">tokenized_val_dataset</span><span class="o">.</span><span class="n">set_format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;torch&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;attention_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<p><img alt="Tokenized" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_Tokenized.png"></p>
+<p>Next, we fine-tuned Bert on the earnings call dataset and found that around the second epoch, the model started to show a sign of over-fitting. Training loss goes down while validation loss goes up.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">f1_score</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">label_ids</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">acc</span><span class="p">,</span> <span class="s1">&#39;f1&#39;</span><span class="p">:</span> <span class="n">f1</span><span class="p">}</span>
+
+<span class="n">bert_model</span> <span class="o">=</span> <span class="s1">&#39;distilbert-base-uncased&#39;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">bert_model</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;/Users/xingyu/Downloads/temp/results&#39;</span><span class="p">,</span>
+    <span class="n">eval_strategy</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">,</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_train_dataset</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_val_dataset</span><span class="p">,</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="FineTuning" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_FineTuning.png"></p>
+<p>Therefore, we adopted the principle of selecting the model with the smallest validation loss.  We evaluated the saved models sequentially using test samples.</p>
+<div class="highlight"><pre><span></span><code><span class="n">best_checkpoint</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">best_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">best_f1</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">best_val_loss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+
+<span class="n">checkpoint_dirs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-500&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-1000&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-1500&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-2000&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-2500&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-3000&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-3500&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-4000&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-4500&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">checkpoint_dir</span> <span class="ow">in</span> <span class="n">checkpoint_dirs</span><span class="p">:</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">)</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+        <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_val_dataset</span><span class="p">,</span>
+        <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span>
+    <span class="p">)</span>
+
+    <span class="n">eval_results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">eval_results</span><span class="p">[</span><span class="s1">&#39;eval_loss&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">best_val_loss</span><span class="p">:</span>
+        <span class="n">best_val_loss</span> <span class="o">=</span> <span class="n">eval_results</span><span class="p">[</span><span class="s1">&#39;eval_loss&#39;</span><span class="p">]</span>
+        <span class="n">best_checkpoint</span> <span class="o">=</span> <span class="n">checkpoint_dir</span>
+        <span class="n">best_accuracy</span> <span class="o">=</span> <span class="n">eval_results</span><span class="p">[</span><span class="s1">&#39;eval_accuracy&#39;</span><span class="p">]</span>
+        <span class="n">best_f1</span> <span class="o">=</span> <span class="n">eval_results</span><span class="p">[</span><span class="s1">&#39;eval_f1&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Checkpoint: </span><span class="si">{</span><span class="n">best_checkpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Validation Loss: </span><span class="si">{</span><span class="n">best_val_loss</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Accuracy: </span><span class="si">{</span><span class="n">best_accuracy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best F1 Score: </span><span class="si">{</span><span class="n">best_f1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="TestResults" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_TestResults.png"></p>
+<p>And we selected the optimal one for the prediction of S&amp;P 500 index component stocks from 2021 to 2024 based on WRDS high quality text.</p>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;/Users/xingyu/Downloads/temp/results/checkpoint-500&quot;</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_val_dataset</span>
+<span class="p">)</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tokenized_predict_dataset</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Once we had our predictions, we used the softmax function to turn the raw logits into probabilities. Then, we mapped the probability of the positive class to a range between minus one and one, which gave us a sentiment score for each sentence. Finally, these scores were equally weighted and summed at the transcript level to derive the overall sentiment score.</p>
+<p><img alt="SentimentScore" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_SentimentScore.png"></p>
+<h2><strong>4. Regression</strong></h2>
+<h3>4.1 Sample Selection and Data Processing</h3>
+<p>We selected S&amp;P 500 constituent stocks as our sample, taking excess returns of the S&amp;P 500 as the dependent variable. The sentiment factor constructed from earnings call transcripts serves as the independent variable. We also included company age, ROE, leverage ratio, asset turnover, institutional ownership, employee size, and revenue growth rate as control variables. The analysis spans the period from 2021 to 2023. Company age and revenue growth rate data are sourced from Wind, while all other data are obtained from Compustat and Capital IQ within the CRSP database. After removing all missing values, a total of 4,970 observations were obtained.</p>
+<p><img alt="SampleData" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_SampleData.png"></p>
+<h3>4.2 Variable Processing</h3>
+<h4>4.2.1 Dependent Variable (CAR) Processing</h4>
+<p>We computed the cumulative abnormal returns (CAR) for three days before and after the earnings call to assess the short-term effect of sentiment expressed during earnings calls on stock returns.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="k">def</span> <span class="nf">process_earnings_calls</span><span class="p">(</span><span class="n">earnings_file</span><span class="p">,</span> <span class="n">returns_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+    <span class="n">earnings_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">earnings_file</span><span class="p">)</span>
+    <span class="n">returns_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">returns_file</span><span class="p">)</span>
+
+    <span class="c1"># Ensure that dates are formatted correctly</span>
+    <span class="n">earnings_df</span><span class="p">[</span><span class="s2">&quot;mostimportantdateutc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">earnings_df</span><span class="p">[</span><span class="s2">&quot;mostimportantdateutc&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">returns_df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">returns_df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Grouping data by company code</span>
+    <span class="n">returns_df</span> <span class="o">=</span> <span class="n">returns_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ticker Symbol&quot;</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">grouped_returns</span> <span class="o">=</span> <span class="n">returns_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Ticker Symbol&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Results</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">earnings_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">ticker</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ticker&quot;</span><span class="p">]</span>
+        <span class="n">event_date</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;mostimportantdateutc&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ticker</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grouped_returns</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># If the company is not in the daily excess returns, skip it.</span>
+
+        <span class="c1"># Access to the company&#39;s data</span>
+        <span class="n">company_data</span> <span class="o">=</span> <span class="n">grouped_returns</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="n">company_data</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Find the closest trading day index</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">event_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dates</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">!=</span> <span class="n">event_date</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># If event_date is not a trading day, take the index before the most recent trading day.</span>
+
+        <span class="c1"># Make sure the index is valid</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># If the index is not legal, skip</span>
+
+        <span class="c1"># Calculate the sum of the excess returns of the first 3 days + the current day + the next 3 days</span>
+        <span class="n">start_idx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">end_idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">excess_return_sum</span> <span class="o">=</span> <span class="n">company_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span><span class="n">end_idx</span><span class="p">,</span> <span class="s2">&quot;daily excess return&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># Record results</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ticker</span><span class="p">,</span> <span class="n">event_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">excess_return_sum</span><span class="p">])</span>
+
+    <span class="c1"># Save results</span>
+    <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ticker&quot;</span><span class="p">,</span> <span class="s2">&quot;mostimportantdateutc&quot;</span><span class="p">,</span> <span class="s2">&quot;7_day_excess_return_sum&quot;</span><span class="p">])</span>
+    <span class="n">result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; The results have been saved to </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Call function</span>
+<span class="n">process_earnings_calls</span><span class="p">(</span><span class="s2">&quot;earnings_calls_date.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;daily excess returns.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;processed_results.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>4.2.2 Independent Variable (Sent) Processing</h4>
+<p>Since our constructed sentiment factors are predominantly positive, we standardized sentiment scores at the company level to measure the relative changes in sentiment during earnings calls and their impact on stock prices.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Sentiment standardization by company</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Sentiment_Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;TickerSymbol&#39;</span><span class="p">)[</span><span class="s1">&#39;Sentiment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</code></pre></div>
+
+<h3>4.3 Empirical Analysis</h3>
+<p>In this part, We did some necessary analyses prior to the regression, including correlation test and multicollinearity analysis. And the results of baseline regression illustrate a significantly positive relationship between stock excess returns and earnings call sentiment. </p>
+<h4>4.3.1 Correlation Test</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Correlation test</span>
+<span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;CAR&#39;</span><span class="p">,</span> <span class="s1">&#39;Sentiment_Z2&#39;</span><span class="p">,</span> <span class="s1">&#39;age1&#39;</span><span class="p">,</span> <span class="s1">&#39;ROE&#39;</span><span class="p">,</span> <span class="s1">&#39;SalesGrowthRate&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;employernumber&#39;</span><span class="p">,</span> <span class="s1">&#39;TotalInstOwnershipPercento&#39;</span><span class="p">,</span> <span class="s1">&#39;AssetTurnover&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Correlation:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>4.3.2 Multicollinearity Analysis</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test for multicollinearity (VIF)</span>
+<span class="k">def</span> <span class="nf">calculate_vif</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+    <span class="k">return</span> <span class="n">vif_data</span>
+
+<span class="c1"># Extraction of independent variables</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Sentiment_Z2&#39;</span><span class="p">,</span> <span class="s1">&#39;age1&#39;</span><span class="p">,</span> <span class="s1">&#39;ROE&#39;</span><span class="p">,</span> <span class="s1">&#39;SalesGrowthRate&#39;</span><span class="p">,</span> <span class="s1">&#39;employernumber&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;TotalInstOwnershipPercento&#39;</span><span class="p">,</span> <span class="s1">&#39;AssetTurnover&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
+
+<span class="c1"># Calculate VIF</span>
+<span class="n">vif_results</span> <span class="o">=</span> <span class="n">calculate_vif</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Multicollinearity()VIF):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_results</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>4.3.3 Baseline Regression</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Regression 1: Simple regression</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;CAR ~ Sentiment_Z2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression1:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model1</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Regression 2: Fixed effects regression (absorption of SIC and C)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;SIC&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>  <span class="c1"># Setting the panel data index</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;CAR ~ Sentiment_Z2 + EntityEffects + TimeEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">results2</span> <span class="o">=</span> <span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression2:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results2</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+
+<span class="c1"># Regression 3: Multiple regression</span>
+<span class="n">model3</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;CAR ~ Sentiment_Z2 + age1 + ROE + SalesGrowthRate + employernumber + TotalInstOwnershipPercento + AssetTurnover + Q&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression3:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model3</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Regression 4: Fixed-effects multiple regression (absorbing SIC and C)</span>
+<span class="n">model4</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;CAR ~ Sentiment_Z2 + age1 + ROE + SalesGrowthRate + employernumber + TotalInstOwnershipPercento + AssetTurnover + Q + EntityEffects + TimeEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">results4</span> <span class="o">=</span> <span class="n">model4</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression4:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results4</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>4.3.4 Extensive Analysis</h4>
+<p>During the final class presentation, Professor Buehlmaier suggested performing a robustness check by using the abnormal returns on the day of the earnings call as the dependent variable. We incorporated this suggestion and conducted the analysis accordingly.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Regression analysis - Robustness Test with abnormal daily excess returns</span>
+<span class="c1"># Regression 5: Simple regression</span>
+<span class="n">model5</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;AR ~ Sentiment_Z2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression5:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model5</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Regression 6: Fixed effects regression (absorption of SIC and C)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;SIC&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>  <span class="c1"># Setting the panel data index</span>
+<span class="n">model6</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;AR ~ Sentiment_Z2 + EntityEffects + TimeEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">results6</span> <span class="o">=</span> <span class="n">model6</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression6:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results6</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+
+<span class="c1"># Regression 7: Multiple regression</span>
+<span class="n">model7</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;AR ~ Sentiment_Z2 + age1 + ROE + SalesGrowthRate + employernumber + TotalInstOwnershipPercento + AssetTurnover + Q&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression7:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model7</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+<span class="c1"># Regression 8: Fixed-effects multiple regression (absorbing SIC and C)</span>
+<span class="n">model8</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;AR ~ Sentiment_Z2 + age1 + ROE + SalesGrowthRate + employernumber + TotalInstOwnershipPercento + AssetTurnover + Q + EntityEffects + TimeEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">results8</span> <span class="o">=</span> <span class="n">model8</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression8:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results8</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The extensive analysis results remain significant, providing further support for our initial hypothesis.</p>
+<p><img alt="ExtensiveAnalysis" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/PuzzleBOT_02_ExtensiveAnalysis.png"></p>
+<h3>4.4 Why Python and Stata Regression Results May Differ</h3>
+<p>We have found some differences in the regression results output with Stata and Python for the same dataset. Therefore, consider the following possible reasons:</p>
+<ol>
+<li>
+<p>Data Handling Differences</p>
+<ul>
+<li>Missing Values: Stata automatically excludes missing values in regression, while Python requires explicit handling (e.g., dropna()).</li>
+<li>Data Types: Stata may automatically recognize categorical variables, whereas Python requires explicit conversion (e.g., astype('category')).</li>
+<li>Standardization: Differences in standardization formulas (e.g., sample standard deviation in Stata vs. population standard deviation in Python).</li>
+</ul>
+</li>
+<li>
+<p>Algorithmic Differences</p>
+<ul>
+<li>Optimization Methods: Stata and Python may use different optimization algorithms or convergence criteria for estimating regression models.</li>
+<li>Numerical Precision: Differences in numerical precision or rounding errors can lead to small discrepancies in results.</li>
+</ul>
+</li>
+<li>
+<p>Statistical analysis Differences</p>
+<ul>
+<li>Stata professional statistical accuracy: built-in extremely rich and mature statistical analysis program package, in economics, sociology and other fields use Stata.</li>
+<li>Python statistical expertise is slightly weaker: the statistical module output is not as fine as Stata, and traditional statistical analysis is less convenient, but more versatile when dealing with large amounts of data, cross-domain projects, and customized algorithms.</li>
+</ul>
+</li>
+</ol>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-03-10T23:59:00+08:00">Mon 10 March 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-5-puzzlebot-ref">Group 5 - PuzzleBOT
+                    <span class="superscript">2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
