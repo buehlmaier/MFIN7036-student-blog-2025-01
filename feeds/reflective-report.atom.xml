@@ -1449,7 +1449,275 @@ The final sentiment label is assigned by mapping the highest probability class (
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Model Differences&lt;/strong&gt;: FinBERT and RoBERTa produced slightly different sentiment distributions, likely due to their training data and tokenization approaches. Reconciling these differences for a unified analysis remains a work in progress.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content><category term="Reflective Report"></category><category term="Group Non Jane Street"></category></entry><entry><title>Financial Disclosure Sentiment and Equity Performance Correlation</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html" rel="alternate"></link><published>2025-03-09T13:00:00+08:00</published><updated>2025-03-09T13:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-09:/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html</id><summary type="html">&lt;p&gt;By Group "Fintext"&lt;/p&gt;
+&lt;/ul&gt;</content><category term="Reflective Report"></category><category term="Group Non Jane Street"></category></entry><entry><title>DOGECOIN Price Correlation And Trading Alert System Based On GPT Sentiment Scores Of REDDIT (by Group "Function Words")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/dogecoin-price-correlation-and-trading-alert-system-based-on-gpt-sentiment-scores-of-reddit-by-group-function-words.html" rel="alternate"></link><published>2025-03-09T17:33:00+08:00</published><updated>2025-03-09T17:33:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-09:/MFIN7036-student-blog-2025-01/dogecoin-price-correlation-and-trading-alert-system-based-on-gpt-sentiment-scores-of-reddit-by-group-function-words.html</id><summary type="html">&lt;p&gt;By Group &lt;em&gt;"Function Words"&lt;/em&gt;&lt;/p&gt;
+&lt;p style="font-size: 14px;"&gt;
+  Codes and Blogs By
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Liu Qing Yuan&lt;/span&gt;, 
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Wang Shu Yu&lt;/span&gt;, 
+  &lt;a href="https://www.linkedin.com/in/zhenzhe-xiong-453929216/" style="font-weight: bold; font-style: italic; text-decoration: none; color: black;"&gt;Xiong Zhen Zhe&lt;/a&gt;, 
+  and
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Zhou Zi Qi&lt;/span&gt;.
+  This is a &lt;span style="font-weight: bold; font-style: italic;"&gt;Second Blog &lt;/span&gt; post. If you are looking for our previous post, please move to  &lt;a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html" style="font-weight: bold; font-style: italic; text-decoration: none; color: Red;"&gt; Sentiment Analysis of Dogecoin Based on Reddit&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;h2&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;In our ongoing project …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By Group &lt;em&gt;"Function Words"&lt;/em&gt;&lt;/p&gt;
+&lt;p style="font-size: 14px;"&gt;
+  Codes and Blogs By
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Liu Qing Yuan&lt;/span&gt;, 
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Wang Shu Yu&lt;/span&gt;, 
+  &lt;a href="https://www.linkedin.com/in/zhenzhe-xiong-453929216/" style="font-weight: bold; font-style: italic; text-decoration: none; color: black;"&gt;Xiong Zhen Zhe&lt;/a&gt;, 
+  and
+  &lt;span style="font-weight: bold; font-style: italic;"&gt;Zhou Zi Qi&lt;/span&gt;.
+  This is a &lt;span style="font-weight: bold; font-style: italic;"&gt;Second Blog &lt;/span&gt; post. If you are looking for our previous post, please move to  &lt;a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html" style="font-weight: bold; font-style: italic; text-decoration: none; color: Red;"&gt; Sentiment Analysis of Dogecoin Based on Reddit&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;h2&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;In our ongoing project, we aim to explore the relationship between social media sentiment and the price movements of Dogecoin, a popular meme cryptocurrency. Our initial focus was on Twitter, but due to the high costs associated with Twitter's API, we pivoted to Reddit, which offers a free API and a wealth of discussion data. This report outlines our progress, methodologies, and findings so far.&lt;/p&gt;
+&lt;p&gt;Below is a Sequence Diagram of our program.&lt;/p&gt;
+&lt;div style="text-align: center;"&gt;
+    &lt;img src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Function-Words_02_mermaid1.png" alt="mermaid1" &gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;1. Data Collection from Reddit&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objective&lt;/strong&gt;:&lt;br&gt;
+To gather a substantial amount of user-generated content related to Dogecoin for sentiment analysis.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Methodology&lt;/strong&gt;:&lt;br&gt;
+We utilized the Reddit API to scrape posts and comments from subreddits like "CryptoCurrency" that discuss Dogecoin. Here's a breakdown of our approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;API Configuration&lt;/strong&gt;: We set up Reddit API credentials (&lt;code&gt;client_id&lt;/code&gt;, &lt;code&gt;client_secret&lt;/code&gt;, &lt;code&gt;user_agent&lt;/code&gt;) to legally access and scrape data.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Keyword Search&lt;/strong&gt;: We searched for posts containing the keyword "dogecoin" and limited the number of posts to avoid overwhelming our system.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Comment Extraction&lt;/strong&gt;: For each post, we extracted up to 300 comments, ensuring we captured the most active discussions. We handled "MoreComments" structures to avoid redundant data.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Storage&lt;/strong&gt;: We stored the post titles, comments, and creation dates in a structured format, which we later exported as a CSV file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Code Example&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;praw&lt;/span&gt;
+
+&lt;span class="n"&gt;reddit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;praw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Reddit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;client_id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;YOUR_CLIENT_ID&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;client_secret&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;YOUR_CLIENT_SECRET&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;user_agent&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;YOUR_USER_AGENT&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;subreddit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reddit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subreddit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;CryptoCurrency&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;posts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subreddit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;dogecoin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;posts&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Title: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Comments: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;comments&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;2. Preliminary Text Visualization: Word Cloud&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objective&lt;/strong&gt;:&lt;br&gt;
+To quickly visualize the most frequently mentioned words in the comments, providing a global overview of the community's focus.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Methodology&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Preparation&lt;/strong&gt;: We concatenated all comments into a single large text.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Word Cloud Generation&lt;/strong&gt;: Using a word cloud tool, we filtered out common English stopwords (e.g., "the", "and", "of") and visualized the remaining words based on their frequency.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Visualization&lt;/strong&gt;:  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;wordcloud&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WordCloud&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Load the uploaded CSV file&lt;/span&gt;
+&lt;span class="n"&gt;file_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;dogecoin_reddit_data.csv&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Combine all comments into a single text string&lt;/span&gt;
+&lt;span class="n"&gt;text_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;comment&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Generate word cloud using built-in stopwords from the wordcloud package&lt;/span&gt;
+&lt;span class="n"&gt;wordcloud&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WordCloud&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stopwords&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;WordCloud&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stopwords&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;background_color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;white&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;800&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;generate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text_data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Display the word cloud&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wordcloud&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;interpolation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bilinear&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;off&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style="text-align: center;"&gt;
+    &lt;img src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Function-Words_02_wordcloud.png" alt="wordcloud" &gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Insight&lt;/strong&gt;:&lt;br&gt;
+The word cloud revealed that terms like "dogecoin", "buy", "elon", "moon", and "hold" were predominant, indicating the community's focus on investment strategies and market optimism.&lt;/p&gt;
+&lt;h2&gt;3. Sentiment Analysis Using Large Language Models&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objective&lt;/strong&gt;:&lt;br&gt;
+To go beyond simple keyword analysis and employ large language models (LLMs) like GPT to provide nuanced sentiment scores for the comments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Methodology&lt;/strong&gt;:&lt;br&gt;
+- &lt;strong&gt;Daily Aggregation&lt;/strong&gt;: We grouped comments by their posting date.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Text Chunking&lt;/strong&gt;: For days with a high volume of comments, we split the text into manageable chunks to fit within the LLM's processing limits.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Prompt Design&lt;/strong&gt;: We crafted detailed prompts instructing the LLM to score the text on metrics like Buy Score, Bullish Score, Hype Score, and to provide a sentiment word (e.g., "bullish", "fearful").&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Model Interaction&lt;/strong&gt;: We submitted the text chunks to the LLM, which returned JSON objects containing the scores and sentiment words.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Aggregation&lt;/strong&gt;: We averaged the scores for each day to create a daily sentiment index.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Code Example&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;openai&lt;/span&gt;
+
+&lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;openai&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Completion&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text-davinci-003&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Analyze the sentiment of the following text and provide a Buy Score, Bullish Score, Hype Score, and a sentiment word:&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;Dogecoin to the moon! Buy now before it&amp;#39;s too late.&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="n"&gt;max_tokens&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;4. Integration with Dogecoin Price Data&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objective&lt;/strong&gt;:&lt;br&gt;
+To align sentiment data with Dogecoin's historical price data for correlation analysis.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Methodology&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Price Data Collection&lt;/strong&gt;: We obtained a CSV file containing daily Dogecoin prices, including open, high, low, close, and volume.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Merging&lt;/strong&gt;: We merged the sentiment scores with the price data based on the date.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Processing&lt;/strong&gt;: We calculated daily price changes and handled any missing data points.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Code Example&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Load sentiment data&lt;/span&gt;
+&lt;span class="n"&gt;sentiment_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sentiment_scores.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Load price data&lt;/span&gt;
+&lt;span class="n"&gt;price_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;dogecoin_prices.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Merge data on the &amp;#39;date&amp;#39; column&lt;/span&gt;
+&lt;span class="n"&gt;merged_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;price_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;how&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;inner&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Calculate daily price changes&lt;/span&gt;
+&lt;span class="n"&gt;merged_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;price_change&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;merged_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;close&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pct_change&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Handle missing data (if any)&lt;/span&gt;
+&lt;span class="n"&gt;merged_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Save the merged dataset&lt;/span&gt;
+&lt;span class="n"&gt;merged_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;merged_sentiment_price_data.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;5. Correlation and Extreme Case Analysis&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Objective&lt;/strong&gt;:&lt;br&gt;
+To investigate whether there is a significant correlation between Reddit sentiment and Dogecoin price movements.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Methodology&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Correlation Analysis&lt;/strong&gt;: We calculated Pearson correlation coefficients between sentiment scores (e.g., Buy Score) and price changes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Lag Analysis&lt;/strong&gt;: We examined whether sentiment scores from one day could predict price changes on the following day.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Extreme Case Analysis&lt;/strong&gt;: We identified days with the largest price increases and decreases and analyzed the corresponding sentiment scores.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Visualization&lt;/strong&gt;:  &lt;/p&gt;
+&lt;div style="text-align: center;"&gt;
+    &lt;img src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Function-Words_02_scatterplot.png" alt="scatterplot" &gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Insight&lt;/strong&gt;:&lt;br&gt;
+Initial findings suggest a weak correlation between sentiment scores and price changes. However, in extreme cases, such as days with significant price spikes or drops, the sentiment scores showed more pronounced patterns.&lt;/p&gt;
+&lt;h2&gt;6. Challenges and Possible Improvement&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Challenges&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;API Limitations&lt;/strong&gt;: Reddit's API restricts the number of requests, slowing down data collection.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Influential Comments&lt;/strong&gt;: Many comments come from casual users, which may not significantly impact market movements.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Model Limitations&lt;/strong&gt;: The current sentiment analysis model may be too simplistic to capture the full spectrum of emotions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Possible Improvement&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Advanced Sentiment Analysis&lt;/strong&gt;: We can use to explore more sophisticated tools like DeepSeek, which offers richer emotional analysis.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Expanded Data Sources&lt;/strong&gt;: We can incorporate data from other social media platforms to gain a more comprehensive view of market sentiment.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Machine Learning Models&lt;/strong&gt;: We can explore the use of machine learning models to better predict price movements based on sentiment data.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;The Big Picture of Our Workflow&lt;/h2&gt;
+&lt;p&gt;The overarching process of our project can be summarized as follows:  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Scrape Reddit Data&lt;/strong&gt;: Collect social media sentiment data from Reddit related to Dogecoin.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Clean and Organize Data&lt;/strong&gt;: Preprocess the raw data to ensure it is ready for analysis.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Score Sentiment Using Large Language Models&lt;/strong&gt;: Use advanced language models (e.g., GPT) to assign sentiment scores to the collected comments.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Merge with Dogecoin Price Data&lt;/strong&gt;: Combine the sentiment scores with historical Dogecoin price data.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Perform Time-Series Analysis&lt;/strong&gt;: Analyze the data over time to identify trends and patterns.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Visualize and Gain Insights&lt;/strong&gt;: Create visualizations to uncover the relationship between sentiment and price movements.  &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Through this method, we aim to provide a data-driven answer to questions like:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Does Dogecoin's price rise because of increased discussion, or do people discuss it more after the price rises?  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Can we detect early signals of price movements from Reddit discussions?  &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This approach allows us to explore whether social media sentiment can serve as a leading indicator for cryptocurrency price changes, offering valuable insights for both researchers and investors.&lt;/p&gt;
+&lt;div style="text-align: center;"&gt;
+    &lt;img src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Function-Words_02_mermaid2.png" alt="mermaid2" width="600"&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Our project has made significant strides in understanding the relationship between Reddit sentiment and Dogecoin price movements. While initial results show a weak correlation, we believe that with more advanced tools and expanded data sources, we can uncover deeper insights. This research not only contributes to the academic understanding of cryptocurrency markets but also has practical implications for investors and traders.&lt;/p&gt;
+&lt;h2&gt;Visual Summary&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Word Cloud&lt;/strong&gt;: Highlights the most frequently discussed terms in Dogecoin-related Reddit comments.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Correlation Scatter Plot&lt;/strong&gt;: Illustrates the relationship between sentiment scores and price changes.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Price and Sentiment Over Time&lt;/strong&gt;: A time series plot showing how sentiment scores and Dogecoin prices evolve together.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Team Function Words&lt;/strong&gt;&lt;br&gt;
+&lt;em&gt;&lt;span style="color: #FF5733; font-family: 'Courier New', monospace;"&gt;Passionate about cryptocurrency and data analysis.&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><category term="Reflective Report"></category><category term="Group Function Words"></category></entry><entry><title>Financial Disclosure Sentiment and Equity Performance Correlation</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html" rel="alternate"></link><published>2025-03-09T13:00:00+08:00</published><updated>2025-03-09T13:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-09:/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html</id><summary type="html">&lt;p&gt;By Group "Fintext"&lt;/p&gt;
 &lt;p&gt;Understanding the relationship between textual signals in corporate disclosures and market behavior represents a critical area of financial NLP research. This study proposes a systematic methodology to extract and quantify sentiment signals from 10-K filings using FinBERT, evaluating their potential associations with long-term equity performance through multi-year …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By Group "Fintext"&lt;/p&gt;
 &lt;p&gt;Understanding the relationship between textual signals in corporate disclosures and market behavior represents a critical area of financial NLP research. This study proposes a systematic methodology to extract and quantify sentiment signals from 10-K filings using FinBERT, evaluating their potential associations with long-term equity performance through multi-year buy-and-hold return analysis. Our framework combines advanced NLP techniques with financial econometrics to investigate whether document-level sentiment patterns in mandatory disclosures exhibit measurable correlations with subsequent stock returns. This exploratory approach contributes to financial informatics literature by demonstrating a replicable pipeline for analyzing corporate communication effects while providing practical insights into text-based market signal extraction.&lt;/p&gt;
 &lt;h2&gt;Part 4: Sentiment Analysis with FinBERT&lt;/h2&gt;
@@ -1581,7 +1849,62 @@ The final sentiment label is assigned by mapping the highest probability class (
 &lt;li&gt;
 &lt;p&gt;Integration with Other Data Sources: Combining sentiment scores with other financial metrics—such as stock price movements, trading volumes, and market trends—can provide a more comprehensive analysis. This integration will enable us to better understand the relationship between sentiment and market behavior, offering deeper insights for investors and stakeholders.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Reflective Report"></category><category term="Group Fintext"></category><category term="Second Blog"></category></entry><entry><title>Data Scrapy Process (by “Group 9”)</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-scrapy-process-by-group-9.html" rel="alternate"></link><published>2025-03-08T10:00:00+08:00</published><updated>2025-03-08T10:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-08:/MFIN7036-student-blog-2025-01/data-scrapy-process-by-group-9.html</id><summary type="html">&lt;h1&gt;Web Scraping BitcoinTalk Forum: A Developer's Journey&lt;/h1&gt;
+&lt;/ol&gt;</content><category term="Reflective Report"></category><category term="Group Fintext"></category><category term="Second Blog"></category></entry><entry><title>Sentiment Analysis on 10K Summary</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-on-10k-summary.html" rel="alternate"></link><published>2025-03-09T12:00:00+08:00</published><updated>2025-03-09T12:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-09:/MFIN7036-student-blog-2025-01/sentiment-analysis-on-10k-summary.html</id><summary type="html">&lt;p&gt;By Group "G14"&lt;/p&gt;
+&lt;h1&gt;Decoding Financial Sentiment: A Deep Dive into 10-K Filings and Stock Performance&lt;/h1&gt;
+&lt;p&gt;"In the world of business, the people who are most fearful of the future are always those who are facing the future with the most inadequate tools." - Warren Buffett&lt;/p&gt;
+&lt;p&gt;Can the sentiment hidden within a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By Group "G14"&lt;/p&gt;
+&lt;h1&gt;Decoding Financial Sentiment: A Deep Dive into 10-K Filings and Stock Performance&lt;/h1&gt;
+&lt;p&gt;"In the world of business, the people who are most fearful of the future are always those who are facing the future with the most inadequate tools." - Warren Buffett&lt;/p&gt;
+&lt;p&gt;Can the sentiment hidden within a company's annual reports unlock the secrets to its future stock performance? This question drove us to explore the intersection of Natural Language Processing (NLP) and financial analysis, using 10-K filings as our canvas. In this blog post, we detail our journey—from data collection to sentiment analysis and regression modeling—and share the unexpected lessons we uncovered along the way.&lt;/p&gt;
+&lt;h2&gt;The Data Hunt&lt;/h2&gt;
+&lt;p&gt;Our exploration began with a treasure trove of corporate filings stored in McDonald's Dropbox. Our target: 10-K filings, the annual reports that offer a detailed snapshot of a company's financial health. To identify these files, we turned to Python's &lt;code&gt;re&lt;/code&gt; library, filtering filenames that contained "10-K".&lt;/p&gt;
+&lt;p&gt;The next step was to extract the Central Index Key (CIK), a unique identifier assigned by the SEC, from each filename. We designed a regular expression—&lt;code&gt;r'edgar_data_(\d+)_'&lt;/code&gt;—to pinpoint the CIK within filenames like "edgar_data_789019_10-K_2022.pdf", yielding "789019".&lt;/p&gt;
+&lt;p&gt;Here's how we did it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;edgar_data_789019_10-K_2022.pdf&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;edgar_data_(\d+)_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;cik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# Output: 789019&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With a list of unique CIKs, we accessed the WRDS (Wharton Research Data Services) database to match them with PERMNOs (Permanent Identifiers). These PERMNOs allowed us to retrieve historical stock price data from the CRSP database, setting the stage for our performance analysis.&lt;/p&gt;
+&lt;h2&gt;Sentiment Engineering&lt;/h2&gt;
+&lt;p&gt;To gauge the tone of the 10-K filings, we employed FinBERT, an NLP model tailored for financial text. FinBERT analyzed the documents and produced sentiment scores—positive, negative, and neutral—quantifying the emotional undercurrents in management's narratives. This process transformed dense financial prose into a set of numerical insights we could work with.&lt;/p&gt;
+&lt;h2&gt;The Performance Puzzle&lt;/h2&gt;
+&lt;p&gt;For each company and filing year, we calculated two performance metrics:
+- &lt;strong&gt;Stock Returns&lt;/strong&gt;: The percentage change in stock price over the year.
+- &lt;strong&gt;Sharpe Ratios&lt;/strong&gt;: A risk-adjusted measure of return, calculated as the excess return over the risk-free rate divided by the standard deviation of returns.&lt;/p&gt;
+&lt;p&gt;These metrics were aligned with the corresponding 10-K filing years, ensuring our analysis stayed temporally consistent.&lt;/p&gt;
+&lt;h2&gt;Regression Reality&lt;/h2&gt;
+&lt;p&gt;We then performed linear regression to test whether sentiment scores could predict stock returns and Sharpe ratios. The setup was simple: sentiment scores as the independent variable, and performance metrics as the dependent variables. Here's a conceptual snippet of how we might implement this in Python:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;LinearRegression&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Example data (replace with actual sentiment scores and returns)&lt;/span&gt;
+&lt;span class="n"&gt;sentiment_scores&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Positive sentiment probabilities&lt;/span&gt;
+&lt;span class="n"&gt;stock_returns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.05&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.02&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.08&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Annual returns&lt;/span&gt;
+
+&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stock_returns&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LinearRegression&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;r_squared&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;R² for stock returns: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;r_squared&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The results were revealing:
+- &lt;strong&gt;Stock Returns&lt;/strong&gt;: R² = -0.0064
+- &lt;strong&gt;Sharpe Ratios&lt;/strong&gt;: R² = -0.0130&lt;/p&gt;
+&lt;p&gt;A negative R² means our model performed worse than a baseline that simply predicts the average of the dependent variable. In plain terms, sentiment scores failed to explain the variability in stock performance and even led to poorer predictions.&lt;/p&gt;
+&lt;h2&gt;Lessons from the Ledger&lt;/h2&gt;
+&lt;p&gt;These findings highlight a critical truth: sentiment scores from 10-K filings alone are not a reliable crystal ball for stock performance. Several factors might explain this:
+- &lt;strong&gt;Market Efficiency&lt;/strong&gt;: Stock prices reflect a broad array of information—earnings, news, economic conditions—beyond what’s captured in annual filings.
+- &lt;strong&gt;Retrospective Focus&lt;/strong&gt;: 10-Ks look backward, while stock prices look forward, creating a temporal mismatch.
+- &lt;strong&gt;NLP Limitations&lt;/strong&gt;: Even advanced models like FinBERT may struggle to fully decode the nuanced, context-heavy language of financial reports.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Our experiment underscores the limits of relying solely on sentiment analysis for financial forecasting. While the idea of mining 10-K filings for predictive signals is enticing, our negative R² values suggest that sentiment is just one piece of a much larger puzzle. Future efforts could enhance this approach by blending sentiment with financial metrics, market data, or more sophisticated NLP techniques. For now, we’re reminded that in the complex world of finance, no single tool holds all the answers—but each step forward sharpens our understanding.&lt;/p&gt;</content><category term="Reflective Report"></category><category term="Group G14"></category></entry><entry><title>Data Scrapy Process (by “Group 9”)</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-scrapy-process-by-group-9.html" rel="alternate"></link><published>2025-03-08T10:00:00+08:00</published><updated>2025-03-08T10:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-08:/MFIN7036-student-blog-2025-01/data-scrapy-process-by-group-9.html</id><summary type="html">&lt;h1&gt;Web Scraping BitcoinTalk Forum: A Developer's Journey&lt;/h1&gt;
 &lt;p&gt;&lt;em&gt;How I Built a Scalable Scraper to Archive 104,000+ Forum Replies&lt;/em&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;The Mission&lt;/h2&gt;
