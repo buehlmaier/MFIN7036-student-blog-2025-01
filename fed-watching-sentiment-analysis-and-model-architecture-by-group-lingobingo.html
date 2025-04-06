@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group LingoBingo, Progress Report, " />
+
+<meta property="og:title" content="Fed Watching: Sentiment Analysis and Model Architecture (by Group &#34;LingoBingo&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/fed-watching-sentiment-analysis-and-model-architecture-by-group-lingobingo.html" />
+<meta property="og:description" content="Introduction In our first blog, we detailed the processes of data collection, preprocessing, and the generation of word clouds to present our progressive results. We obtained the federal funds rate data from the Federal Reserve Bank of St. Louis website and sourced text data from FOMC statements, minutes, SEP reports …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-03-10T15:00:00+08:00" />
+<meta name="twitter:title" content="Fed Watching: Sentiment Analysis and Model Architecture (by Group &#34;LingoBingo&#34;) ">
+<meta name="twitter:description" content="Introduction In our first blog, we detailed the processes of data collection, preprocessing, and the generation of word clouds to present our progressive results. We obtained the federal funds rate data from the Federal Reserve Bank of St. Louis website and sourced text data from FOMC statements, minutes, SEP reports …">
+
+        <title>Fed Watching: Sentiment Analysis and Model Architecture (by Group &#34;LingoBingo&#34;)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/fed-watching-sentiment-analysis-and-model-architecture-by-group-lingobingo.html">
+                Fed Watching: Sentiment Analysis and Model Architecture (by Group "LingoBingo")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <h2>Introduction</h2>
+<p>In <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/fed-watching-web-scraping-and-data-preprocessing-by-group-lingobingo.html">our first blog</a>, we detailed the processes of data collection, preprocessing, and the generation of word clouds to present our progressive results. We obtained the federal funds rate data from <a href="https://fred.stlouisfed.org/">the Federal Reserve Bank of St. Louis website</a> and sourced text data from FOMC statements, minutes, SEP reports, and public speeches by officials via <a href="https://www.federalreserve.gov">the official website of the Federal Reserve</a>. Our preprocessing steps included tokenization, conversion to lowercase, removal of punctuation and stop words, as well as stemming and lemmatization. Following these steps, we established two SQLite databases for further analysis.</p>
+<p>Over time, we have employed machine learning to train a model to predict the target federal funds rate using FOMC texts. This blog will focus on the two frameworks we used to train the model and the validation of their accuracy. </p>
+<h2>Framework 1: FinBERT + LSTM Neural Network</h2>
+<h3>Sentiment Analysis: FinBERT</h3>
+<p>After reviewing relevant literature, we decided to utilize the FinBERT model for sentiment analysis. FinBERT is a BERT model specifically optimized for financial domain texts, offering high accuracy and practicality. </p>
+<p>To start, we defined a class named <code>FinBertSentimentAnalyzer</code>. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FinBertSentimentAnalyzer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;ProsusAI/finbert&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;ProsusAI/finbert&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
+            <span class="s2">&quot;text-classification&quot;</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">tokenizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_seq_length</span> <span class="o">=</span> <span class="mi">512</span> 
+</code></pre></div>
+
+<p>Viewing that FinBERT has an inherent constraint of limiting input text length to 512 tokens due to its BERT architecture, we designed a <code>chunk_text</code> function to handle longer texts. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_chunk_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;split long text into segments suitable for model processing&quot;&quot;&quot;</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># intelligent chunking based on words and punctuation</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_chunk</span> <span class="o">+</span> <span class="p">[</span><span class="n">word</span><span class="p">]))</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_seq_length</span><span class="p">:</span>
+            <span class="n">current_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_chunk</span><span class="p">))</span>
+            <span class="n">current_chunk</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">current_chunk</span><span class="p">:</span>
+        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_chunk</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">chunks</span>
+</code></pre></div>
+
+<p>Most importantly, we wrote code to perform sentiment analysis on the input text and return a composite score. First, we split the input text into multiple chunks that were suitable for processing by the model. If no chunks were generated, we returned 0.0, indicating a neutral sentiment. Next, we iterated through each chunk and used a pre-trained sentiment analysis classifier to analyze it. The analysis results included a sentiment label and its corresponding score. Based on the sentiment label, we converted the score into numerical values: positive sentiment scores were positive, negative sentiment scores were negative, and neutral sentiment scores were 0. If we encountered an error while processing a chunk, we logged the error and set the score to 0. Finally, we calculated the weighted average of all the scores and returned the overall sentiment score. If there were no scores, we returned 0.0. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">analyze_sentiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform sentiment analysis and return a composite score.&quot;&quot;&quot;</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chunk_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chunks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># Return neutral for empty text</span>
+
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">chunk</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Convert labels to numerical values: positive=1, negative=-1, neutral=0</span>
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span><span class="p">:</span>
+                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;negative&#39;</span><span class="p">:</span>
+                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing chunk: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the final score as a weighted average</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">scores</span> <span class="k">else</span> <span class="mf">0.0</span>
+</code></pre></div>
+
+<p>To our surprise, when we applied the model to our processed data in the first blog, the results were predominantly neutral, with most values clustering around zero. After conducting further research, we discovered that FinBERT has its own tokenization process, and using unprocessed text yielded more varied results. Consequently, we refined our data preprocessing approach by only removing special characters and redundant spaces, while also addressing common formatting issues. When we applied the model to the newly processed data, the scores varied more widely and appeared more normal.</p>
+<h3>Model: LSTM Neural Network</h3>
+<h4>Data Preparation</h4>
+<p>Above all, we needed to perform additional data processing to obtain a one-to-one feature matrix and target variable.</p>
+<p>To clarify, we selected the Upper Limit of the Target Fed Funds Rate every seven weeks as our target variable, since the Target Fed Funds Rate was typically published every seven weeks, and we used the Sentiment Analysis Scores from FinBERT to create the feature matrix.</p>
+<p>For the feature matrix, we aligned the sentiment scores with the corresponding Fed Funds Rate dates, as shown in the following picture. In this representation, X denotes a list of sentiment scores, while Y represents the Fed Funds Rate.
+<img alt="Picture: Sketch Map" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-Sketch_Map.png"></p>
+<p>After the above alignment, the result is shown in the following picture.
+<img alt="Picture: Alignment Result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-Alignment_Result.jpg"></p>
+<p>Next, we padded the shorter lists in the DataFrame with zeros to match the maximum length. Then, we converted these padded lists into a numpy array for model input. Since zeros indicated neutrality, we believed this approach was acceptable. Finally, we obtained the feature matrix. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Convert the sentiment_scores column to a numerical matrix</span>
+<span class="n">max_length</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;sentiment_scores&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># Find the length of the longest list</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;sentiment_scores&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>  <span class="c1"># Pad with 0s</span>
+</code></pre></div>
+
+<p>For the target variable, we classified Fed Funds Rate changes into three categories: Increase, Decrease, or No Change. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">selected_rates</span><span class="p">)</span> 
+<span class="n">y_diff</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>  <span class="c1"># Difference and remove the first NaN value</span>
+<span class="n">y_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y_diff</span><span class="p">)</span>  <span class="c1"># 1: positive, -1: negative, 0: zero</span>
+<span class="c1"># Convert classification labels to one-hot encoding</span>
+<span class="n">y_labels</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">y_labels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># Map -1, 0, 1 to 0, 1, 2</span>
+</code></pre></div>
+
+<h4>Model Architecture</h4>
+<p>Our model was based on an LSTM neural network. We chose LSTM because our data exhibited temporal dependencies, and LSTM could capture both short-term and long-term trends.</p>
+<p>The neural network structure was as follows: The input layer took the feature matrix, followed by two LSTM layers with dropout and L2 regularization to prevent overfitting. Then, the dense layer used ReLU for non-linearity to enable the model to learn more complex patterns. Finally, the output layer used a softmax activation function to convert the raw outputs into probabilities for each of the three categories.</p>
+<p>To ensure the robustness of our model, we employed 5-fold cross-validation. K-Fold Cross-Validation provides a robust evaluation of the model by reducing the risk of overfitting to a specific train-test split. It also utilizes the data efficiently, as every data point is used for both training and validation.</p>
+<p>After running the cross-validation, we calculated the average accuracy and F1-score across all folds. These metrics gave us a reliable measure of the model's performance.</p>
+<p>The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Data standardization</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># Standardize the entire dataset</span>
+
+<span class="c1"># Reshape data to fit LSTM input (samples, timesteps, features)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Add a feature dimension</span>
+
+<span class="c1"># Define K-Fold Cross-Validation</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># 5-fold cross-validation</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Store evaluation results for each fold</span>
+<span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">f1_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># K-Fold Cross-Validation</span>
+<span class="k">for</span> <span class="n">fold</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_labels</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fold </span><span class="si">{</span><span class="n">fold</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Split into training and validation sets</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>
+    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">y_labels</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_labels</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>
+
+    <span class="c1"># Build LSTM model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)))</span>  <span class="c1"># First LSTM layer</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>  <span class="c1"># Prevent overfitting</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)))</span>  <span class="c1"># Second LSTM layer</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>  <span class="c1"># Prevent overfitting</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)))</span>  <span class="c1"># Fully connected layer</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>  <span class="c1"># Output layer (3 classes, using softmax activation)</span>
+
+    <span class="c1"># Compile the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Train the model</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="c1"># Reduce the number of epochs due to slow LSTM training</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">),</span>  <span class="c1"># Use validation set</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Evaluate the model</span>
+    <span class="n">val_loss</span><span class="p">,</span> <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation Loss: </span><span class="si">{</span><span class="n">val_loss</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation Accuracy: </span><span class="si">{</span><span class="n">val_accuracy</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Predict</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Convert one-hot encoding to class labels</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Convert one-hot encoding to class labels</span>
+
+    <span class="c1"># Calculate F1-score</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;weighted&#39;</span><span class="p">)</span>  <span class="c1"># Use weighted average F1-score</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation F1-score: </span><span class="si">{</span><span class="n">f1</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Save results for each fold</span>
+    <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_accuracy</span><span class="p">)</span>
+    <span class="n">f1_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+
+<span class="c1"># Print average results of K-Fold Cross-Validation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">K-Fold Cross-Validation Results:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average Validation Accuracy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">accuracies</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average Validation F1-score: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f1_scores</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The results of the cross-validation, shown in the following picture, indicated an average accuracy of around 79% and an F1-score of approximately 70%. This suggested that our model performs fairly well, balancing precision and recall across the different classes.
+<img alt="Picture: Cross-Validation Result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-CrossValidation_Result.jpg"></p>
+<h2>Framework 2: SVM/FCNN</h2>
+<p>Since the average accuracy and F1-score are not high enough, this may be due to several factors. The language style and terminology used in FOMC documents might not fully align with FinBERT's training data. Additionally, FOMC documents often contain a large amount of neutral or ambiguous statements, which FinBERT might find difficult to interpret accurately. Furthermore, despite being based on the Transformer model, FinBERT may overlook the global context when processing long texts, resulting in less comprehensive sentiment analysis. Therefore, we decided to try another framework to redesign the model architecture.</p>
+<h3>Text Further Preprocessing</h3>
+<p>To further clean our text data, we used the <code>Counter</code> class to count word frequencies and set a threshold to eliminate less common terms. We filtered out "white noise" and applied part-of-speech tagging to gain insights into word usage. Named entity recognition helped us identify key entities, while n-grams captured common word pairings. These steps streamlined our data. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># count frequency</span>
+<span class="n">word_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">no_stops</span><span class="p">)</span>   
+<span class="c1"># set the threshold, word with a  frequency &lt; threshold wil be removed</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="c1"># remove less frequent words </span>
+<span class="n">filtered_no_stops</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">no_stops</span> <span class="k">if</span> <span class="n">word_freq</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span>
+
+<span class="c1">#remove white noise</span>
+<span class="n">filtered_no_stops</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">filtered_no_stops</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">white_noise</span><span class="p">]</span>
+
+<span class="c1"># Tagging</span>
+<span class="n">pos_tags</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">no_stops</span><span class="p">)</span>  
+
+<span class="c1"># Parsing</span>
+<span class="n">named_entities</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">chunk</span><span class="o">.</span><span class="n">ne_chunk</span><span class="p">(</span><span class="n">pos_tags</span><span class="p">)</span>  
+
+<span class="c1"># N-grams </span>
+<span class="n">ngs_stems</span> <span class="o">=</span> <span class="n">ngrams</span><span class="p">(</span><span class="n">stems</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ngs_lemmas</span> <span class="o">=</span> <span class="n">ngrams</span><span class="p">(</span><span class="n">lemmas</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Considering the existing code has already taken a long time to run (over twenty minutes), we decided to simplify and improve it. Firstly, we streamlined the text-cleaning function by removing the complex mapping table, making the character replacement process more straightforward. Secondly, the logic for data processing has also been optimized by introducing the process_text and process_documents functions, which encapsulate repetitive tasks and reduce redundancy. Furthermore, database operations have been refined by using helper functions like create_db_connection and insert_data, which simplified the connection and data insertion processes. As a result, the reprocessed code offers a clearer structure, making it easier to maintain and extend. Part of the modified code is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">new_list</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+        <span class="n">words</span><span class="p">,</span> <span class="n">stems</span><span class="p">,</span> <span class="n">lemmas</span> <span class="o">=</span> <span class="n">process_text</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">doc</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">doc</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;original&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+            <span class="s1">&#39;tokenized&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">,</span>
+            <span class="s1">&#39;stems&#39;</span><span class="p">:</span> <span class="n">stems</span><span class="p">,</span>
+            <span class="s1">&#39;lemmas&#39;</span><span class="p">:</span> <span class="n">lemmas</span>
+        <span class="p">})</span>
+</code></pre></div>
+
+<h3>Model: SVM</h3>
+<p>To utilize the original data, which has undergone extensive preprocessing, we turned to Support Vector Machine (SVM), a supervised learning model known for its effectiveness in classification tasks. SVM works by finding the optimal hyperplane that separates different classes in the feature space, making it particularly powerful for high-dimensional data.</p>
+<p>We read all the text data and classified the federal rate data into different groups based on their values. Then, we employed the TF-IDF method to extract features from the text data. Subsequently, we split the dataset into training and testing sets, maintaining an 80% to 20% ratio.</p>
+<p>During the model training process, we built the SVM model using the Scikit-learn library, selecting a simple linear kernel function. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create and Train Support Vector Machine Classification Model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>  <span class="c1"># Use linear kernel</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Make Predictions</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the Model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reports:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The results were excellent! For the target federal fund rate, when we limited the interval to 0.5%, the F1 score soared to 0.81. By relaxing the constraint to a 1% interval, the F1 score jumped to an impressive 0.89, as shown in the following picture. Meanwhile, for the effective federal fund rate, limiting the interval to 0.5% yielded an F1 score of 0.51, which increased to 0.62 when the constraint was relaxed to a 1% interval.
+<img alt="Picture: SVM Best Result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-SVM_Best_Result.jpg"></p>
+<p>After careful considerations, we assume the reasons behind are that the target rate is directly influenced by the Federal Reserve's FOMC meetings, making it easier for the model to capture trends. In contrast, the effective federal fund rate (EFFR) is affected by various factors, including market liquidity and other macroeconomic variables, making it more difficult for the model to predict.</p>
+<p>Additionally, we explored 5-fold cross-validation to further verify our model. Our evaluations revealed an average validation accuracy of 0.81 and an average validation F1-score of 0.80, both of which surpass the results achieved by the previous LSTM model.</p>
+<h3>Model: FCNN</h3>
+<p>However, recognizing the limitations of the simple linear kernel in our SVM model, we decided to enhance our approach by implementing a Fully Connected Neural Network (FCNN), which offers strong capabilities for nonlinear modeling. </p>
+<p>We constructed a multilayer perceptron using Keras, employing the ReLU activation function for the hidden layers and the Softmax activation function for the output layer. The model was compiled with the Adam optimizer and categorical cross-entropy as the loss function. During the training process, we set the batch size to 32 and trained for 10 epochs. The code we use is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create the Neural Network Model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],)))</span>  <span class="c1"># Input layer</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>  <span class="c1"># Hidden layer</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>  <span class="c1"># Output layer with 13 classes</span>
+
+<span class="c1"># Compile the Model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+<span class="c1"># Train the Model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_cat</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The results were remarkable: the F1 score for the 0.5% interval improved to 0.92, while for the 1% interval, it reached an impressive 0.97, as shown in the picture. 
+<img alt="Picture: FCNN Best Result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-FCNN_Best_Result.jpg"></p>
+<p>In terms of 5-fold cross-validation, the average validation accuracy and F1-score of 95%, as shown in the following picture, were the highest among all models. This demonstrates the strongest predictive capability our team has achieved through our research.
+<img alt="Picture: FCNN 5-Fold Result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/LingoBingo_02_image-FCNN_5Fold_Result.jpg"></p>
+<h2>Conclusion</h2>
+<p>Our project explored two frameworks for predicting the federal funds rate using FOMC texts: the FinBERT + LSTM Neural Network and the SVM/FCNN approaches. The FinBERT + LSTM model achieved moderate accuracy (79%) and an F1-score (70%), but its performance may have been limited by the predominantly neutral sentiment scores generated by FinBERT and the complexity of FOMC language. In contrast, the SVM and FCNN models demonstrated superior performance, with the FCNN model achieving the highest average validation accuracy (95%) and F1-score (95%) for predicting the target federal funds rate.</p>
+<p>In summary, we successfully accomplished our goals: analyzing Federal textual information to predict future rates using text analysis and NLP. We have trained an effective model that achieved an average validation accuracy of 95% and an F1-score of 95% for predicting the target federal funds rate using FOMC texts.</p>
+<p>Thank you for reading our blog!</p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-03-10T15:00:00+08:00">Mon 10 March 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#progress-report-ref">Progress Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-lingobingo-ref">Group LingoBingo
+                    <span class="superscript">2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
