@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group Fintext, Second Blog, Reflective Report, " />
+
+<meta property="og:title" content="Financial Disclosure Sentiment and Equity Performance Correlation "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html" />
+<meta property="og:description" content="By Group &#34;Fintext&#34; Understanding the relationship between textual signals in corporate disclosures and market behavior represents a critical area of financial NLP research. This study proposes a systematic methodology to extract and quantify sentiment signals from 10-K filings using FinBERT, evaluating their potential associations with long-term equity performance through multi-year …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-03-09T13:00:00+08:00" />
+<meta name="twitter:title" content="Financial Disclosure Sentiment and Equity Performance Correlation ">
+<meta name="twitter:description" content="By Group &#34;Fintext&#34; Understanding the relationship between textual signals in corporate disclosures and market behavior represents a critical area of financial NLP research. This study proposes a systematic methodology to extract and quantify sentiment signals from 10-K filings using FinBERT, evaluating their potential associations with long-term equity performance through multi-year …">
+
+        <title>Financial Disclosure Sentiment and Equity Performance Correlation  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-disclosure-sentiment-and-equity-performance-correlation.html">
+                Financial Disclosure Sentiment and Equity Performance Correlation
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "Fintext"</p>
+<p>Understanding the relationship between textual signals in corporate disclosures and market behavior represents a critical area of financial NLP research. This study proposes a systematic methodology to extract and quantify sentiment signals from 10-K filings using FinBERT, evaluating their potential associations with long-term equity performance through multi-year buy-and-hold return analysis. Our framework combines advanced NLP techniques with financial econometrics to investigate whether document-level sentiment patterns in mandatory disclosures exhibit measurable correlations with subsequent stock returns. This exploratory approach contributes to financial informatics literature by demonstrating a replicable pipeline for analyzing corporate communication effects while providing practical insights into text-based market signal extraction.</p>
+<h2>Part 4: Sentiment Analysis with FinBERT</h2>
+<p>In this step, we will analyze the sentiment of the extracted text from the 10-K reports using the FinBERT model, specifically designed for financial data. This process involves several key tasks, from loading the text files to processing the sentiment scores and saving the results in a structured format.</p>
+<h3>Loading and Processing the Repodrts</h3>
+<p>We begin by loading the necessary libraries and the FinBERT model. The model will enable us to classify the sentiment of the text into positive, negative, and neutral categories.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForSequenceClassification</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="c1"># Load FinBERT</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;yiyanghkust/finbert-tone&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;yiyanghkust/finbert-tone&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Reading and Splitting Text</h3>
+<p>Next, we define functions to read the text files and split the text into manageable chunks. This is essential because FinBERT has a maximum input size, and we want to ensure that we do not exceed this limit.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_text</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">split_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">chunk_size</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">)]</span>
+</code></pre></div>
+
+<h3>Sentiment Analysis</h3>
+<p>Sentiment Analysis</p>
+<p>The core of our analysis lies in the analyze_sentiment function. For each chunk of text, we use FinBERT to predict the sentiment scores, which are then aggregated to compute the total positive, negative, and neutral scores.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">analyze_sentiment</span><span class="p">(</span><span class="n">text_chunks</span><span class="p">):</span>
+    <span class="n">total_positive</span><span class="p">,</span> <span class="n">total_negative</span><span class="p">,</span> <span class="n">total_neutral</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">text_chunks</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Softmax to get probabilities</span>
+
+        <span class="n">total_negative</span> <span class="o">+=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">total_neutral</span> <span class="o">+=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">total_positive</span> <span class="o">+=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">total_positive</span><span class="p">,</span> <span class="n">total_negative</span><span class="p">,</span> <span class="n">total_neutral</span>
+</code></pre></div>
+
+<h3>Conclusion</h3>
+<p>This step successfully leverages the FinBERT model to analyze the sentiment of 10-K reports, providing valuable insights into the overall sentiment conveyed in corporate communications. By extracting sentiment scores and ratios, we set the stage for further analysis, allowing us to track sentiment trends over time and correlate them with financial performance.</p>
+<h2>Part 5: Comparing Sentiment Scores Over the Years</h2>
+<p>In this section, we will evaluate the relationship between sentiment changes and stock performance by defining a function to calculate buy-and-hold returns and then validating our findings through analysis.</p>
+<h3>Defining the Buy-and-Hold Return Function</h3>
+<p>First, we define a function to calculate the buy-and-hold return for a given stock over a specified holding period. This function ensures that the start and end dates are valid trading days.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">calculate_returns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stock_ticker</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2019-01-01&#39;</span><span class="p">,</span> <span class="n">hold_period_days</span><span class="o">=</span><span class="mi">2192</span><span class="p">):</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">hold_period_days</span><span class="p">)</span>
+
+    <span class="c1"># Ensure the DataFrame index is a DatetimeIndex</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="c1"># Adjust start_date to the next available trading day if necessary</span>
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">start_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">+=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Adjust end_date to the next available trading day if necessary</span>
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">end_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">end_date</span> <span class="o">+=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Get the prices for the adjusted dates</span>
+    <span class="n">start_price</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">stock_ticker</span><span class="p">]</span>
+    <span class="n">end_price</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">end_date</span><span class="p">,</span> <span class="n">stock_ticker</span><span class="p">]</span>
+
+    <span class="c1"># Calculate buy-and-hold return</span>
+    <span class="n">buy_hold_return</span> <span class="o">=</span> <span class="p">((</span><span class="n">end_price</span> <span class="o">/</span> <span class="n">start_price</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">buy_hold_return</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Round to 4 decimal places</span>
+</code></pre></div>
+
+<h3>Defining the Buy-and-Hold Return Function</h3>
+<p>Next, we will validate our findings by grouping companies based on their positive_ratio_diff for each year. We will separate them into high-change and low-change groups, then calculate the average buy-and-hold return for each group to see if there is a correlation between sentiment changes and stock performance.</p>
+<div class="highlight"><pre><span></span><code><span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">senti</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">):</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;positive_ratio_diff&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Separate into high-change and low-change groups</span>
+    <span class="n">mid_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">high_group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">mid_index</span><span class="p">]</span>
+    <span class="n">low_group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">mid_index</span><span class="p">:]</span>
+
+    <span class="c1"># Calculate average return for high-change group</span>
+    <span class="n">high_returns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">high_group</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="n">calculate_returns</span><span class="p">(</span><span class="n">close_dfs</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">]],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">],</span> <span class="n">start_date</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">hold_period_days</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">high_returns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">return_value</span><span class="p">)</span>
+
+    <span class="c1"># Calculate average return for low-change group</span>
+    <span class="n">low_returns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">low_group</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="n">calculate_returns</span><span class="p">(</span><span class="n">close_dfs</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">]],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">],</span> <span class="n">start_date</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">hold_period_days</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">low_returns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">return_value</span><span class="p">)</span>
+
+    <span class="c1"># Record the results</span>
+    <span class="n">returns</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+        <span class="s1">&#39;high_avg_return&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">high_returns</span><span class="p">),</span>
+        <span class="s1">&#39;low_avg_return&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">low_returns</span><span class="p">)</span>
+    <span class="p">})</span>
+
+<span class="c1"># Convert results to DataFrame for analysis</span>
+<span class="n">returns_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">returns_df</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Conclusion</h3>
+<p>Through these analyses, we can observe whether sentiment changes, particularly in the positive ratios, correlate with stock performance across different companies and years. The figure below demonstrates the average weekly buy-and-hold return of high-change group and low-change group after the release of the 10-k report. In 4 out of 5 years, the group with more positive sentiment changes has a higher return, which supports our hypothesis that the stock price is likely to increase after the company issues a more positive 10-k report than the report issued last year.</p>
+<p><img alt="Picture of result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/Fintext_02_image-return.jpg"></p>
+<p>This method provides valuable insights for investors looking to make informed decisions based on market sentiment trends. By understanding the relationship between sentiment and stock returns, investors can better strategize their investments.</p>
+<h2>Part 6: Future Improvement</h2>
+<p>Finally, we will discuss potential improvements for achieving better results in sentiment analysis. After presenting our data analysis in class, we received valuable feedback from our professor that can enhance the accuracy. Here are a few key points for future improvements:</p>
+<ol>
+<li>
+<p>Model Fine-Tuning: Leveraging the outputs from the FinBERT model to fine-tune it with our specific dataset of 10-K reports can significantly enhance its accuracy. This approach allows the model to better understand the nuances of financial language and improve sentiment predictions tailored to our context.</p>
+</li>
+<li>
+<p>Expanding the Dataset: Incorporating a larger and more diverse dataset for training, including additional financial documents and relevant news articles, can improve the model's robustness. A richer dataset will help the model generalize better and capture various sentiment expressions in financial contexts.</p>
+</li>
+<li>
+<p>Integration with Other Data Sources: Combining sentiment scores with other financial metrics—such as stock price movements, trading volumes, and market trends—can provide a more comprehensive analysis. This integration will enable us to better understand the relationship between sentiment and market behavior, offering deeper insights for investors and stakeholders.</p>
+</li>
+</ol>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-03-09T13:00:00+08:00">Sun 09 March 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-fintext-ref">Group Fintext
+                    <span class="superscript">2</span>
+</a></li>
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#second-blog-ref">Second Blog
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
