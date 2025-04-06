@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
 
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -18,7 +18,7 @@
 <meta name="keywords" content="Group Function Words, Reflective Report, " />
 
 <meta property="og:title" content="Sentiment Analysis of Dogecoin Based on Reddit (by Group &#34;Function Words&#34;) "/>
-<meta property="og:url" content="/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html" />
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html" />
 <meta property="og:description" content="By Group &#34;Function Words&#34; Codes and Blogs By Liu Qing Yuan, Wang Shu Yu, Xiong Zhen Zhe, and Zhou Zi Qi. This is a First Blog post. If you are looking for more progress, please move to our Second Blog [1]. [1] We are still working on it! Abstract In …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
 <meta property="og:article:author" content="MFIN7036 Students 2025" />
@@ -28,6 +28,7 @@
 
         <title>Sentiment Analysis of Dogecoin Based on Reddit (by Group &#34;Function Words&#34;)  · MFIN7036 Student Blog 2025
 </title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
 
 
 
@@ -42,18 +43,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       "/"
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
                                     >Home</a>
                                 </li>
-                                <li ><a href="/categories.html">Categories</a></li>
-                                <li ><a href="/tags.html">Tags</a></li>
-                                <li ><a href="/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html">
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/sentiment-analysis-of-dogecoin-based-on-reddit-by-group-function-words.html">
                 Sentiment Analysis of Dogecoin Based on Reddit (by Group "Function Words")
             </a>
         </h1>
@@ -315,7 +316,7 @@
 </li>
 <li>Observing a Weak Relationship Between Sentiment and Price: Once we executed the sentiment analysis using TextBlob, we merged the sentiment scores with the historical price data of Dogecoin. </li>
 </ol>
-<p><img alt="overtimetrend" src="/images/group-Function-Words_01_overtimetrend.png"></p>
+<p><img alt="overtimetrend" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-Function-Words_01_overtimetrend.png"></p>
 <p>However, we found that the sentiment scores were not strongly correlated with Dogecoin's price movements. The simple polarity-based sentiment analysis did not seem to pick up on how the discussion topics in the subreddit influenced the trends in the market. This result brought us to the conclusion that our current sentiment analysis approach is too simplistic.</p>
 <h2>Looking for a Better Model: DeepSeek for Emotional Understanding</h2>
 <p>Because rudimentary sentiment analysis has its limitations, we sought to explore more advanced tools. DeepSeek is one of them: it's a free API offering rich emotional analysis that we can use to analyze comments and rate their emotional tone of text into feelings like happiness, sadness, anger, and so on. For example, we can simply start a request of" rating this comment about how surprised they are from 0-10". We believed this would help us capture the full spectrum of sentiment on Reddit postings and ascertain more precisely how emotion might affect the price of Dogecoin. So, we're thinking of analyzing daily comments from a range of different emotional angles, with a score from 0 to 10 to indicate how strong each emotion is in DeepSeek. With that data, we might be able to apply a regression model to see if there is any relationship between those emotional environments and how Dogecoin's price moves.</p>
@@ -342,10 +343,10 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2025-02-23T18:37:00+08:00">Sun 23 February 2025</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#reflective-report-ref">Reflective Report</a>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="/tags.html#group-function-words-ref">Group Function Words
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-function-words-ref">Group Function Words
                     <span class="superscript">1</span>
 </a></li>
             </ul>
@@ -451,7 +452,7 @@
     </div>
 </footer>            <script src="//code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script src="/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
         <script>
             function validateForm(query)
             {

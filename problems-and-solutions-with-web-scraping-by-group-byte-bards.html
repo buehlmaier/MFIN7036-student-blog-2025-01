@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
 
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -18,7 +18,7 @@
 <meta name="keywords" content="Group Byte Bards, Reflective Report, " />
 
 <meta property="og:title" content="Problems and Solutions with Web Scraping (by Group &#34;Byte Bards&#34;) "/>
-<meta property="og:url" content="/problems-and-solutions-with-web-scraping-by-group-byte-bards.html" />
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/problems-and-solutions-with-web-scraping-by-group-byte-bards.html" />
 <meta property="og:description" content="Introduction First of all, I want to briefly introduce the topic we aim to explore, so that future readers can understand our objectives. Our title is &#34;From Headlines to Trades: Can News Clusters Predict Markets?&#34; Our task is to grab Intel company related news topics and descriptions from the web …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
 <meta property="og:article:author" content="MFIN7036 Students 2025" />
@@ -28,6 +28,7 @@
 
         <title>Problems and Solutions with Web Scraping (by Group &#34;Byte Bards&#34;)  · MFIN7036 Student Blog 2025
 </title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
 
 
 
@@ -42,18 +43,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       "/"
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
                                     >Home</a>
                                 </li>
-                                <li ><a href="/categories.html">Categories</a></li>
-                                <li ><a href="/tags.html">Tags</a></li>
-                                <li ><a href="/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="/problems-and-solutions-with-web-scraping-by-group-byte-bards.html">
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/problems-and-solutions-with-web-scraping-by-group-byte-bards.html">
                 Problems and Solutions with Web Scraping (by Group "Byte Bards")
             </a>
         </h1>
@@ -91,7 +92,7 @@ Below we'll describe in detail the versions of code we tested, the results, and 
 <p>We then attempted to capture the missing text by expanding the amount of content we crawled, but this effort ultimately failed. Upon re-examining the structure of Yahoo Finance's webpage, we discovered that the so-called "description" was not extracted from the actual article but was instead a short snippet displayed below the title. If this snippet ended with "...", we could only capture "...", with no way to retrieve the full text.</p>
 <p>After manually reviewing a large sample of data, we found that this snippet was merely a truncated portion of the article's first sentence and held little value for analysis. Given this limitation, we decided to abandon the idea of using article descriptions as our data source and instead shifted our focus to a more meaningful target: analyzing article titles.</p>
 <p>The so-call description is a line of small print under the title and only means the front part of the first line in article which is meaningless:</p>
-<p><img alt="Picture showing Powell" src="/images/Byte Bards_01_YahooFinance.png"></p>
+<p><img alt="Picture showing Powell" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/Byte Bards_01_YahooFinance.png"></p>
 <p>We use belowed code to grab the news' title on Yahoo Finance with key word “Intel":</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_date</span><span class="p">(</span><span class="n">date_str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert relative dates like &#39;2 days ago&#39; or &#39;1 day ago&#39; to &#39;YYYY-MM-DD&#39; format.&quot;&quot;&quot;</span>
@@ -195,7 +196,7 @@ Below we'll describe in detail the versions of code we tested, the results, and 
 </code></pre></div>
 
 <p>The main issue with this result is that incomplete date information poses a significant challenge for clustering analysis. While some news articles include dates, others do not, making it impossible to determine the publication date for each article and, consequently, to match them with stock prices. Currently, approximately 40% of the news articles lack date information.</p>
-<p><img alt="Picture showing Powell" src="/images/Byte Bards_01_GoogleNewsResults.png">
+<p><img alt="Picture showing Powell" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/Byte Bards_01_GoogleNewsResults.png">
 You can see that in the "date" column, 40% of them is "Unknown date".</p>
 <p>Another potential issue is that we are currently unaware of Google News' scraping limits, which may restrict our ability to extract the desired volume of data.</p>
 <h2>Grabbing from Yahoo Finance</h2>
@@ -224,11 +225,11 @@ You can see that in the "date" column, 40% of them is "Unknown date".</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2025-02-22T15:40:00+08:00">Sat 22 February 2025</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#reflective-report-ref">Reflective Report</a>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#reflective-report-ref">Reflective Report</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="/tags.html#group-byte-bards-ref">Group Byte Bards
-                    <span class="superscript">1</span>
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-byte-bards-ref">Group Byte Bards
+                    <span class="superscript">2</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
@@ -333,7 +334,7 @@ You can see that in the "date" column, 40% of them is "Unknown date".</p>
     </div>
 </footer>            <script src="//code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script src="/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
         <script>
             function validateForm(query)
             {
