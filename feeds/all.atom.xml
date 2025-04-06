@@ -1108,7 +1108,463 @@ The final sentiment label is assigned by mapping the highest probability class (
 
 &lt;p&gt;However, after more than 12-hours waiting, the result did not become better. HDP model told us that the best topic number should be 150, and it is too much to show the topic clearly. The result of HDP model is shown in the picture below.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Picture 4: The result of HDP model" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/group-GenZ-AI_02_image-hdp.png"&gt;&lt;/p&gt;
-&lt;p&gt;What caused the failure of perplexity and HDP model? According to our conjecture, the main reason is that there are too many different topics in the transcripts. With data which was collected without identifying their sectors, it might be difficult to show all the topic within 30 words. In addition, since data was not balanced, it is also possible that some industries have too large a proportion of tokens. After thinking carefully about the possible question, we will try to separate data with their sectors,which can also achieve our goal in another way.&lt;/p&gt;</content><category term="Progress Report"></category><category term="Group GenZ AI"></category></entry><entry><title>Data Collection, Data Visualization, Regression, and Machine Learning in Annual Reports (by Group "Language Magician")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-data-visualization-regression-and-machine-learning-in-annual-reports-by-group-language-magician.html" rel="alternate"></link><published>2025-03-10T00:00:00+08:00</published><updated>2025-03-10T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-10:/MFIN7036-student-blog-2025-01/data-collection-data-visualization-regression-and-machine-learning-in-annual-reports-by-group-language-magician.html</id><summary type="html">&lt;p&gt;By Group "Language Magician"&lt;/p&gt;
+&lt;p&gt;What caused the failure of perplexity and HDP model? According to our conjecture, the main reason is that there are too many different topics in the transcripts. With data which was collected without identifying their sectors, it might be difficult to show all the topic within 30 words. In addition, since data was not balanced, it is also possible that some industries have too large a proportion of tokens. After thinking carefully about the possible question, we will try to separate data with their sectors,which can also achieve our goal in another way.&lt;/p&gt;</content><category term="Progress Report"></category><category term="Group GenZ AI"></category></entry><entry><title>Clustering with Sentiment Analysis and Market Analysis (by Group "SFinx")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/clustering-with-sentiment-analysis-and-market-analysis-by-group-sfinx.html" rel="alternate"></link><published>2025-03-10T00:00:00+08:00</published><updated>2025-03-10T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-10:/MFIN7036-student-blog-2025-01/clustering-with-sentiment-analysis-and-market-analysis-by-group-sfinx.html</id><summary type="html">&lt;h2&gt;Text Processing&lt;/h2&gt;
+&lt;p&gt;After scraping news data from Reuters, we perform text processing to clean and refine the content, preparing it for subsequent vectorization and clustering. Since the data collection phase already involved preprocessing and integration into a &lt;code&gt;JSON file&lt;/code&gt; format (as mentioned in the first blog), this step primarily focuses …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Text Processing&lt;/h2&gt;
+&lt;p&gt;After scraping news data from Reuters, we perform text processing to clean and refine the content, preparing it for subsequent vectorization and clustering. Since the data collection phase already involved preprocessing and integration into a &lt;code&gt;JSON file&lt;/code&gt; format (as mentioned in the first blog), this step primarily focuses on processing the article body to enhance its suitability for vectorization. &lt;/p&gt;
+&lt;h4&gt;Key steps include:&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Text Cleaning&lt;/strong&gt;: Remove HTML tags, special characters, numbers, and normalize whitespace.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Tokenization &amp;amp; Filtering&lt;/strong&gt;: Use regex-based tokenization to retain words with ≥2 letters, remove standard English stopwords(198) and custom stopwords (e.g., country names, dates, prepositions with 100+), and filter out long words (&amp;gt;10 letters).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Lemmatization&lt;/strong&gt;: Perform context-aware lemmatization (e.g., &lt;code&gt;running&lt;/code&gt; → &lt;code&gt;run&lt;/code&gt;) using POS tagging to map words to their base forms accurately.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data Integration&lt;/strong&gt;: Process titles and bodies from JSON files, skip non-English or empty articles, and deduplicate based on titles.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Format Conversion&lt;/strong&gt;: Convert tokenized results into comma-separated strings and save as structured CSV.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Note: Since the code is too lengthy, please refer to our &lt;a href="https://github.com/hanhy/MFIN7036/tree/regina_dev/group_project/Text%20Preprocessing"&gt;GitHub repository&lt;/a&gt; (Text_Preprocessing_V2) for the relevant implementation.&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Challenges &amp;amp; Solutions&lt;/h3&gt;
+&lt;p&gt;To further refine text quality, three targeted filtering steps were implemented to eliminate noise identified through iterative testing:&lt;/p&gt;
+&lt;h4&gt;1. Residual Stop Words&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Issue&lt;/strong&gt;: Default stopword lists (NLTK) missed domain-specific terms (e.g., &lt;code&gt;china&lt;/code&gt;, &lt;code&gt;jan&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;: Expanded custom stopwords to include countries, dates, redundant terms (e.g., &lt;code&gt;new&lt;/code&gt;, &lt;code&gt;say&lt;/code&gt;), and prepositions—over 200 terms added.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;stop_words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stopwords&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;english&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;custom_prepositions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;above&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;across&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;after&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;custom_stop_words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;china&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;usa&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;say&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;jan&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;stop_words&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;custom_prepositions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;stop_words&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;custom_stop_words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tokens&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;stop_words&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;2. Single-Letter Word Elimination&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Issue&lt;/strong&gt;: Despite initial tokenization rules (retaining ≥2-letter words), residual single-letter tokens like &lt;code&gt;u&lt;/code&gt; appeared after lemmatization.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;: Added a final filter to enforce a minimum word length of 2 characters.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;lemmatized_tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lemmatized_tokens&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;3. Post-Lemmatization Specific Word Removal&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Iteration Process:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;V1&lt;/strong&gt;: Removed common noisy words (e.g., &lt;code&gt;licensing&lt;/code&gt;, &lt;code&gt;right&lt;/code&gt;) early in preprocessing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;V2&lt;/strong&gt;: Found residual terms like &lt;code&gt;principle&lt;/code&gt; and &lt;code&gt;new&lt;/code&gt; persisting after lemmatization. Revised the code to apply removal after lemmatization for completeness.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Remove specific words (performed after lemmatization)&lt;/span&gt;
+&lt;span class="n"&gt;words_to_remove&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;licensing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;thomson&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;trust&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;tabsuggested&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                   &lt;span class="s1"&gt;&amp;#39;principle&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;open&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;new&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;standard&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;say&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;co&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ltd&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;lemmatized_tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lemmatized_tokens&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;words_to_remove&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Key Design Choices&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Multi-Stage Filtering&lt;/strong&gt;: Progressive refinement via cleaning → stopword removal → length filtering → post-lemmatization pruning.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;POS-Guided Lemmatization&lt;/strong&gt;: Leveraged part-of-speech tagging for context-aware lemmatization, outperforming single-POS assumptions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lightweight Structuring&lt;/strong&gt;: Output CSV retains only essential fields (title, date, body) to streamline downstream vectorization. Part of the CSV results is shown below:
+&lt;img alt="image one" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionone.png"&gt; &lt;/p&gt;
+&lt;h2&gt;Clustering&lt;/h2&gt;
+&lt;p&gt;After text preprocessing, we employ TF-IDF vectorization to transform text into numerical representations, capturing key features for analysis. In the clustering phase, we utilize K-Means to identify distinct themes within financial news. This section outlines the code configuration and parameter tuning, ensuring efficient and insightful classification of financial news data.&lt;/p&gt;
+&lt;h3&gt;Step 1: Word2Vec Model Training&lt;/h3&gt;
+&lt;p&gt;To capture semantic relationships between words, we trained a Word2Vec model on the preprocessed text corpus. Key hyperparameters were systematically tuned to balance model performance and computational efficiency:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;vector_size(70–90)&lt;/strong&gt;: Controls the dimensionality of word embeddings. Higher values capture finer semantic nuances but increase complexity.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;window(8–10)&lt;/strong&gt;: Defines the context window size for training. Larger windows capture broader document-level themes.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;min_count(2–3)&lt;/strong&gt;: Filters out rare words to reduce noise while retaining domain-specific terms.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;N(10–20)&lt;/strong&gt;: To find the best number of important words that we should select from each document.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;The goal of this part is to find the best parameters combination to find the meaningful words.&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The best parameters combination to train the Word2Vec Model&lt;/span&gt;
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Word2Vec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentences&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;content_tokens&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;vector_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;min_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;workers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Note: Since the code is too lengthy, please refer to our &lt;a href="https://github.com/hanhy/MFIN7036/blob/makm_dev/group_project/Vectorization%2BClustering/find_parameter.ipynb"&gt;GitHub repository&lt;/a&gt; (find_parameter) for the relevant implementation.&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Step 2: Clustering by K-means&lt;/h3&gt;
+&lt;h4&gt;Extracting Important Words with TF-IDF&lt;/h4&gt;
+&lt;p&gt;After training the Word2Vec model, we used &lt;strong&gt;TF-IDF&lt;/strong&gt; (Term Frequency-Inverse Document Frequency) to rank word importance within each document. We select the 20 most frequent words per article (based on inverse TF-IDF scores).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Compute TF-IDF weights for all words in the dataset&lt;/span&gt;
+&lt;span class="n"&gt;corpus&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tolist&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;span class="n"&gt;vectorizer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TfidfVectorizer&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;tfidf_matrix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vectorizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;corpus&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;word2tfidf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vectorizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_feature_names_out&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;vectorizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;idf_&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Identify high-frequency words per article&lt;/span&gt;
+&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;# Number of top words per article, N also be found by the loop function&lt;/span&gt;
+&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;important_words&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;content_tokens&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;  &lt;span class="c1"&gt;# Remove duplicates&lt;/span&gt;
+        &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;word2tfidf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;  &lt;span class="c1"&gt;# Rank by TF-IDF score&lt;/span&gt;
+        &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;  &lt;span class="c1"&gt;# Lower TF-IDF means higher frequency in this case&lt;/span&gt;
+    &lt;span class="p"&gt;)[:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Converting Text into Feature Vectors&lt;/h4&gt;
+&lt;p&gt;Each document is represented as a weighted average of its word embeddings. This transforms unstructured text into &lt;strong&gt;numerical vectors&lt;/strong&gt; suitable for clustering.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Define a function to convert text to a weighted vector, use the word2vec model and the TF-IDF weights&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;text_to_vector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word2tfidf&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;vectors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wv&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;vectors&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word2tfidf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  &lt;span class="c1"&gt;# Default weight 1.0 if not in TF-IDF&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;vectors&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vector_size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;vectors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vectors&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# Normalize weights&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vectors&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Convert important words to vectors&lt;/span&gt;
+&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;vector&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;important_words&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;text_to_vector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;word2tfidf&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;K-Means Clustering&lt;/h4&gt;
+&lt;p&gt;We partitioned the documents into clusters using K-Means with &lt;code&gt;num_clusters=2&lt;/code&gt;. Key steps included: 1. Scaling feature vectors to ensure equal contribution from all dimensions. 2. Running multiple initializations to avoid suboptimal local minima.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Use the k-means algorithm to cluster the articles, split the data into two groups.&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;vector&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tolist&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;num_clusters&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;  &lt;span class="c1"&gt;# Number of clusters&lt;/span&gt;
+&lt;span class="n"&gt;kmeans&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;KMeans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_clusters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;num_clusters&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kmeans&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Evaluating Clustering Performance&lt;/h4&gt;
+&lt;p&gt;We use two metrics: 1. Silhouette Score: Measures how well clusters are separated. 2. Calinski-Harabasz Score: Evaluates the compactness of clusters. The best hyperparameters are chosen based on these scores.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Evaluate clustering effect by calculating silhouette score and Calinski-Harabasz index&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;vector&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tolist&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;  &lt;span class="c1"&gt;# Assuming &amp;#39;vector&amp;#39; is from the Word2Vec/KMeans pipeline&lt;/span&gt;
+    &lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;
+    &lt;span class="n"&gt;silhouette&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;silhouette_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;ch_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calinski_harabasz_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Silhouette Score: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;silhouette&lt;/span&gt;&lt;span class="si"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;.3f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Calinski-Harabasz Index: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;ch_score&lt;/span&gt;&lt;span class="si"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;.3f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Unable to calculate clustering metrics: Either no &amp;#39;cluster_label&amp;#39; column or fewer than 2 clusters.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;WordCloud of Each Cluster&lt;/strong&gt;: Generate the WordCloud for the high-frequency words in each cluster, based on data from January 2021 to August 2021, to visualize the details of each cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image two" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptiontwo.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image three" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionthree.png"&gt; &lt;/p&gt;
+&lt;h2&gt;Sentiment Analysis&lt;/h2&gt;
+&lt;p&gt;In this analysis, we used two sentiment analysis tools—VADER (general-purpose) and FinBERT (finance-specific)—to evaluate their effectiveness in extracting actionable insights from financial news clusters. Using a dataset of Reuters articles grouped into thematic clusters via K-Means, we measured sentiment polarity across clusters and dates. &lt;/p&gt;
+&lt;h3&gt;Method 1: VADER for general sentiment analysis&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;VADER&lt;/strong&gt; (Valence Aware Dictionary and sEntiment Reasoner) is a &lt;strong&gt;lexicon and rule-based&lt;/strong&gt; sentiment analysis tool. It is specifically designed to analyze the sentiment of text in social media and other informal contexts. It works by looking at the words and phrases in the text, and then assigning sentiment scores based on a pre-defined dictionary of sentiment-laden words and a set of rules for combining those scores. Key advantages of VADER include its suitability for general text analysis and its speed and efficiency in processing large volumes of data.&lt;/p&gt;
+&lt;p&gt;Key Implementation Steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Date-Cluster Grouping: Group articles by publication date and predefined thematic clusters (e.g., "Monetary Policy" vs. "Market Risks").&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;TF-IDF Weighted Keywords: Extract top 20 keywords per article using inverse document frequency (IDF) to prioritize rare yet impactful  terms. Calculate normalized TF-IDF weights for each keyword to reflect its contextual relevance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Contextual Text Synthesis: Convert keyword lists into synthetic text snippets (e.g., &lt;code&gt;["inflation", "rate hike"]&lt;/code&gt; → &lt;code&gt;"inflation rate hike"&lt;/code&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sentiment Scoring: Apply VADER’s rule-based polarity detection to each synthetic snippet.
+Compute weighted compound scores using:
+&lt;div class="math"&gt;$$
+\text{Weighted Score} = \sum (\text{Word Sentiment} \times \text{TF-IDF Weight})
+$$&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Temporal Aggregation: Calculate daily average sentiment scores per cluster, weighted by article frequency. Handle edge cases (e.g., empty articles) with zero-filling to maintain temporal continuity.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These code briefly introduces a framework of VADER and its application in sentiment analysis:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Method 1: Use VADER to analyze sentiment of important words in each cluster&lt;/span&gt;
+&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;grouped&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Initialize VADER sentiment analyzer&lt;/span&gt;
+&lt;span class="n"&gt;analyzer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SentimentIntensityAnalyzer&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;# Store daily sentiment results for each cluster&lt;/span&gt;
+&lt;span class="n"&gt;sentiment_results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;group&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;grouped&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;cluster&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num_clusters&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;cluster_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;cluster&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;sentiment_scores&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;important_words&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;cluster_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;important_words&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;important_words&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;important_words&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;stop_words&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isalpha&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;  
+
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;  
+
+            &lt;span class="c1"&gt;# calculate word weights based on TF-IDF scores&lt;/span&gt;
+            &lt;span class="n"&gt;word_weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;word2tfidf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+            &lt;span class="c1"&gt;# Normalize word weights to sum to 1&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;word_weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ones_like&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;word_weights&lt;/span&gt; &lt;span class="o"&gt;/=&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;sentiment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;analyzer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;polarity_scores&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;compound_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                &lt;span class="n"&gt;positive_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pos&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                &lt;span class="n"&gt;negative_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;neg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                &lt;span class="n"&gt;neutral_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;neu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+                &lt;span class="c1"&gt;# Calculate weighted sentiment scores&lt;/span&gt;
+                &lt;span class="n"&gt;weighted_sentiment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;compound_score&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+                    &lt;span class="s1"&gt;&amp;#39;positive&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;positive_score&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+                    &lt;span class="s1"&gt;&amp;#39;negative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;negative_score&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+                    &lt;span class="s1"&gt;&amp;#39;neutral&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;neutral_score&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+
+                &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weighted_sentiment&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Error processing text for date &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, cluster &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;cluster&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;..., Error: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;
+
+
+        &lt;span class="c1"&gt;# Calculate average sentiment scores&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;avg_sentiment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;positive&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;positive&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;negative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;negative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;neutral&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;neutral&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;word_weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;sentiment_results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;cluster&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cluster&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;sentiment_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;avg_sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;positive_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;avg_sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;positive&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;negative_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;avg_sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;negative&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;neutral_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;avg_sentiment&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;neutral&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;num_samples&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_scores&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;})&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;sentiment_results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;cluster&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cluster&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;sentiment_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;positive_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;negative_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;neutral_score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;num_samples&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+            &lt;span class="p"&gt;})&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Create DataFrame from sentiment results&lt;/span&gt;
+&lt;span class="n"&gt;vade_sentiment_df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sentiment_results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Print results&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;Sentiment Analysis Results:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;vade_sentiment_df&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Method 2: FinBERT for financial sentiment analysis&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;FinBERT&lt;/strong&gt; is a sentiment analysis model based on the &lt;strong&gt;BERT&lt;/strong&gt; (Bidirectional Encoder Representations from Transformers) architecture, specifically fine-tuned for &lt;strong&gt;financial text&lt;/strong&gt;. It is used to analyze the sentiment of financial news, reports, earnings calls, and other financial-related text. It can understand the context and semantics of financial language, and classify the text into positive, negative, or neutral sentiment categories. Its key advantages include high accuracy in the financial domain, strong contextual understanding, and robust generalization ability across various financial texts.&lt;/p&gt;
+&lt;p&gt;Using HuggingFace’s &lt;code&gt;AutoTokenizer&lt;/code&gt; and &lt;code&gt;AutoModelForSequenceClassification&lt;/code&gt;, we load the pre-trained weights of the &lt;code&gt;yiyanghkust/finbert-tone&lt;/code&gt; model, which is explicitly fine-tuned to recognize financial jargon (e.g., "quantitative easing," "bear market") and contextual nuances in economic narratives. &lt;/p&gt;
+&lt;p&gt;The following are the code for Model Initialization:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Method 2: Use FinBERT for sentiment analysis&lt;/span&gt;
+&lt;span class="c1"&gt;# Load FinBERT model and tokenizer&lt;/span&gt;
+&lt;span class="n"&gt;model_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;yiyanghkust/finbert-tone&amp;quot;&lt;/span&gt;  &lt;span class="c1"&gt;# FinBERT model fine-tuned for financial sentiment&lt;/span&gt;
+&lt;span class="n"&gt;tokenizer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AutoTokenizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_pretrained&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AutoModelForSequenceClassification&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_pretrained&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Result&lt;/h4&gt;
+&lt;p&gt;Each date - cluster pair is associated with an average sentiment score. A comparison of the results obtained from VADER and FinBERT reveals that Cluster 0 has a higher proportion of positive scores than Cluster 1. Moreover, the results from FinBERT appear to be more accurate or of better quality than those from VADER.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Results from VADER&lt;/strong&gt; (Based on Data from January 2021 to August 2021)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image four" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionfour.png"&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Result from FinBert&lt;/strong&gt; (Based on Data from January 2021 to August 2021)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image five" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionfive.png"&gt; &lt;/p&gt;
+&lt;h2&gt;Processing of Market Data&lt;/h2&gt;
+&lt;h3&gt;Fetching Financial Data&lt;/h3&gt;
+&lt;p&gt;To fulfil the objectives of our project regarding trading strategies, we have selected some indices and commonly used sector ETFs as examples:   &lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Ticker&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;^GSPC&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;S&amp;amp;P 500&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;^IXIC&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NASDAQ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;SPY&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;S&amp;amp;P 500 ETF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;QQQ&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NASDAQ ETF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;XLK&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Tech Sector ETF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;XLF&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Financials ETF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;XLE&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Energy ETF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;^VIX&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Market Volatility&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;Obtain historical data (Open/High/Low/Close/Adj Close/Volume) from &lt;strong&gt;Yahoo Finance&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;tickers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;^GSPC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="c1"&gt;# S&amp;amp;P 500&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;^IXIC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="c1"&gt;# NASDAQ&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;SPY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# SPY (S&amp;amp;P 500 ETF)&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;QQQ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# QQQ (NASDAQ ETF)&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;XLK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# Tech Sector ETF&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;XLF&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# Financials ETF&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;XLE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# Energy ETF&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;^VIX&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="c1"&gt;# Market Volatility (VIX)&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;Symbol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;S&amp;amp;P500&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;NASDAQ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;SPY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;QQQ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Tech_ETF&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Financials_ETF&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Energy_ETF&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;VIX&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Define date range (e.g., past 5 years)&lt;/span&gt;
+&lt;span class="n"&gt;start_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2019-01-01&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;end_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2023-12-31&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Fetch data&lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;download&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;tickers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tickers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;start_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;end_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="c1"&gt;# Optional: Adjust granularity (default is daily)&lt;/span&gt;
+    &lt;span class="n"&gt;interval&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;#39;1d&amp;#39;, &amp;#39;1wk&amp;#39;, &amp;#39;1mo&amp;#39;&lt;/span&gt;
+    &lt;span class="c1"&gt;# Fetch adjusted close prices to account for splits/dividends&lt;/span&gt;
+    &lt;span class="n"&gt;auto_adjust&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Extract &lt;strong&gt;"Adj Close"&lt;/strong&gt; for all tickers.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;adj_close&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Adj Close&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;adj_close&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Symbol&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Calculate &lt;strong&gt;daily percentage returns&lt;/strong&gt; and &lt;strong&gt;cumulative returns&lt;/strong&gt;(assuming reinvestment).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;daily_returns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;adj_close&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pct_change&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;  &lt;span class="c1"&gt;# Returns in percentage&lt;/span&gt;
+&lt;span class="n"&gt;daily_returns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;daily_returns&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dropna&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;# Remove first row (NaN)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Calculate cumulative returns (assuming reinvestment)&lt;/span&gt;
+&lt;span class="n"&gt;cumulative_returns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;daily_returns&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cumprod&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Generating csv file&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;daily_returns&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;daily_returns.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;adj_close&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;adjusted_close_prices.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Visualization&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Plot Cumulative Returns&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image six" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionsix.png"&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Plot Correlation Heatmap&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image seven" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptionseven.png"&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Descriptive Statistics of Daily Returns&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image eight" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_02_image-descriptioneight.png"&gt; &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Progress Report 2"></category><category term='Group "SFinx"'></category></entry><entry><title>Data Collection, Data Visualization, Regression, and Machine Learning in Annual Reports (by Group "Language Magician")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/data-collection-data-visualization-regression-and-machine-learning-in-annual-reports-by-group-language-magician.html" rel="alternate"></link><published>2025-03-10T00:00:00+08:00</published><updated>2025-03-10T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-03-10:/MFIN7036-student-blog-2025-01/data-collection-data-visualization-regression-and-machine-learning-in-annual-reports-by-group-language-magician.html</id><summary type="html">&lt;p&gt;By Group "Language Magician"&lt;/p&gt;
 &lt;h2&gt;1. Introduction&lt;/h2&gt;
 &lt;p&gt;Our project aims to study the relationship between the companies' stock performance and the hedging words frequencies as the textual precision information in their annual reports. Thus, this blog introduces our explorations on the NLP processing methods and improvements we made to derive the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By Group "Language Magician"&lt;/p&gt;
 &lt;h2&gt;1. Introduction&lt;/h2&gt;
@@ -4903,7 +5359,284 @@ In these functions, we first make a GET request to the incoming URL to retrieve 
 &lt;p&gt;This approach demonstrates how structural analysis of target websites can overcome scraping limitations encountered elsewhere. The Motley Fool's consistent formatting made it ideal for large-scale NLP data collection, ultimately providing &lt;strong&gt;9,981&lt;/strong&gt; clean transcripts for our analysis.&lt;/p&gt;
 &lt;h2&gt;Option 4: Augmenting Fresh Data with Historical Records&lt;/h2&gt;
 &lt;p&gt;Our web scraping efforts on The Motley Fool successfully captured nearly &lt;strong&gt;10,000 up-to-date earnings call transcripts&lt;/strong&gt;, but this dataset skewed heavily toward post-2020 content. To enable longitudinal analysis of corporate communications, we needed historical context beyond this recent window.&lt;/p&gt;
-&lt;p&gt;We identified a complementary Kaggle dataset &lt;a href="https://www.kaggle.com/datasets/tpotterer/motley-fool-scraped-earnings-call-transcripts/data"&gt;&lt;strong&gt;Scraped Motley Fool Earnings Call Transcripts&lt;/strong&gt;&lt;/a&gt; containing 18,755 transcripts from 2017 Q3 to 2023 Q3. By merging these two sources and deduplicating entries using company tickers and call dates, we can created a unified corpus spanning six continuous years (2017-2023). This combined dataset preserves the latest market insights from our scraping work while incorporating critical pre-pandemic and early-pandemic era discussions, ultimately providing a robust foundation for NLP analysis of corporate narratives.&lt;/p&gt;</content><category term="Progress Report"></category><category term="Group GenZ AI"></category></entry><entry><title>The Impact of the US Election on Stock Prices</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/the-impact-of-the-us-election-on-stock-prices.html" rel="alternate"></link><published>2025-02-23T00:00:00+08:00</published><updated>2025-02-23T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-02-23:/MFIN7036-student-blog-2025-01/the-impact-of-the-us-election-on-stock-prices.html</id><summary type="html">&lt;p&gt;By Group "NullPointer"&lt;/p&gt;
+&lt;p&gt;We identified a complementary Kaggle dataset &lt;a href="https://www.kaggle.com/datasets/tpotterer/motley-fool-scraped-earnings-call-transcripts/data"&gt;&lt;strong&gt;Scraped Motley Fool Earnings Call Transcripts&lt;/strong&gt;&lt;/a&gt; containing 18,755 transcripts from 2017 Q3 to 2023 Q3. By merging these two sources and deduplicating entries using company tickers and call dates, we can created a unified corpus spanning six continuous years (2017-2023). This combined dataset preserves the latest market insights from our scraping work while incorporating critical pre-pandemic and early-pandemic era discussions, ultimately providing a robust foundation for NLP analysis of corporate narratives.&lt;/p&gt;</content><category term="Progress Report"></category><category term="Group GenZ AI"></category></entry><entry><title>Financial News Collection &amp; Follow-up preparation (by Group "SFinx")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html" rel="alternate"></link><published>2025-02-23T00:00:00+08:00</published><updated>2025-02-23T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-02-23:/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html</id><summary type="html">&lt;p&gt;The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism to bypass anti-scraping measures, as well as how we process and analyze the market data. Furthermore, we will provide an overview of the methods we plan to use in the next phase of the project. &lt;/p&gt;
+&lt;h1&gt;Reuters News&lt;/h1&gt;
+&lt;p&gt;Considering the large amount of data, we have decided to crawl news only from the Reuters website. After further research, we found that the data of Reuters Archive was only updated until 2023. Therefore, we finally chose the period from January 2019 to December 2023 as the range of data crawling.&lt;/p&gt;
+&lt;h2&gt;Trying to scrap news from Reuters archive&lt;/h2&gt;
+&lt;p&gt;We started with web scraping news data. There are various data sources such as Bloomberg, Reuters and Wall Street Journal. Considering the relevance, data quality and free availability, we finally decided to use Reuters.&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;To capture the news articles from Reuters archive, we tried using &lt;strong&gt;two existing GitHub repositories&lt;/strong&gt; but ran into issues with outdated links and code.&lt;br&gt;&lt;/p&gt;
+&lt;h4&gt;Github repo 1&lt;/h4&gt;
+&lt;p&gt;After running the GitHub &lt;a href="https://github.com/Alex-Momotov/news_scraper"&gt;news_scraper&lt;/a&gt;, it indicated that it was unable to find the desired archive page.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;python3&lt;/span&gt; &lt;span class="n"&gt;scraping_reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;02&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;03&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;05&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;06&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;07&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;08&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We found that the original archive URL (&lt;a href="https://www.reuters.com/resources/archive/us/20240101.html"&gt;https://www.reuters.com/resources/archive/us/20240101.html&lt;/a&gt;) was deprecated and no longer accessible.&lt;br&gt;
+&lt;img alt="image one" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionone.png"&gt;  &lt;/p&gt;
+&lt;p&gt;Switching to the current archive pattern, we discovered the archive entry point on the Reuters homepage and noted that the most latest archived news dates back to 2023.&lt;br&gt;
+&lt;img alt="image two" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptiontwo.jpg"&gt; &lt;/p&gt;
+&lt;p&gt;In addition, we discovered that there are many duplicate news articles on the archive page, which would be addressed later.&lt;br&gt;
+&lt;img alt="image three" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionthree.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;To our surprise, accessing the archive news directly through the website works as expected, and there is a discrepancy between the URL used in our code and what actually works. This means that while the archive folder remains accessible, modifications to our code are necessary.&lt;br&gt;
+&lt;img alt="image four" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfour.jpg"&gt;  &lt;/p&gt;
+&lt;h4&gt;Github repo 2&lt;/h4&gt;
+&lt;p&gt;We identified another GitHub repo, &lt;a href="https://github.com/LuChang-CS/news-crawler"&gt;news-clawer&lt;/a&gt;, for this purpose and followed its setup instructions from the README file to test it with Reuters content, but encountered difficulties installing dependencies:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;notice&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;release&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;available&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;24.3.1&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;25.0.1&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;notice&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;To&lt;/span&gt; &lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pip3&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;upgrade&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt;
+&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Failed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt; &lt;span class="n"&gt;installable&lt;/span&gt; &lt;span class="n"&gt;wheels&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;some&lt;/span&gt; &lt;span class="n"&gt;pyproject&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;toml&lt;/span&gt; &lt;span class="n"&gt;ba&lt;/span&gt;
+&lt;span class="n"&gt;sed&lt;/span&gt; &lt;span class="n"&gt;projects&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pillow&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The code seems to use an older version, but we are unsure if updating will work seamlessly. So, we've left it unchanged for now and plan to install it when executing the Python script later. Besides, when reviewing the configuration file, we noticed a link that doesn't match the pattern on the homepage. Nevertheless, we need to modify it to align with the US market.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The base url to retrieve BBC News link&lt;/span&gt;
+&lt;span class="n"&gt;base_api_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;uk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;resources&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;uk&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="n"&gt;month&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, we decided to &lt;strong&gt;construct the request pattern ourselves&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;Designing a Custom Scraper&lt;/h2&gt;
+&lt;p&gt;After discovering that previous three methods were ineffective for scraping Reuters news, we decided to explore a more customized approach to build a scraper that would work effectively with Reuters' website structure.&lt;/p&gt;
+&lt;h3&gt;Pattern learning&lt;/h3&gt;
+&lt;p&gt;After numerous  attempts, we found out a way for bulk extracting news links from dynamically loaded pages by inspecting the information under the Network tool. We analyzed the pattern of Reuters' archive URLs, which follow a certain format:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;YYYY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;MM&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;DD&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;PageNo&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This structure consists of three key components:
+1. &lt;strong&gt;YYYY-MM&lt;/strong&gt;: The year and month of the news archive (e.g., 2022-01 for January 2022). This is the first part of the URL, indicating the time frame of the articles we want to scrape.
+2. &lt;strong&gt;DD&lt;/strong&gt;: The specific day of the month (e.g., 01 for the first day). This segment represents the day for which we want to gather articles.
+3. &lt;strong&gt;PageNo&lt;/strong&gt;: The page number, indicating pagination of the articles (e.g., /1/, /2/, etc.). This part allows us to navigate through multiple pages of articles for a specific date.&lt;/p&gt;
+&lt;p&gt;After analyzing the URL pattern for Reuters’ news archives, we tried to construct links for each day and page number and made sure to check the reponses to verify whether they are valid or not. If we encounter a link that does not return relevant content, we simply skip that link and move on. &lt;/p&gt;
+&lt;p&gt;We tested one of the links and then inspected the network requests made when browsing the page. Take the link on January 1, 2022 as an example, we examined the first article on the first page. Using the Network tab in the browser's developer tools, we searched for the keyword "Lamar", which is related to an article's content in order to locate the specific network request tied to that article. Based on our observations, we locate one file named &lt;code&gt;1/&lt;/code&gt;, and we inspected its details, focusing on the Response tab to see the content returned by the server. 
+&lt;img alt="image five" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfive.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;In this case, it looks like HTML content with a reference to "Lamar"’s statement. We deduced that this request was responsible for retrieving the list of articles for that particular day. Then, we right-clicked on the request in the Network tab and selected "Copy as cURL." This option allowed us to copy the entire request (including headers, parameters, and method) in the cURL format, where we could reproduce the same network request outside the browser, using a terminal or command line.
+&lt;img alt="image six" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionsix.jpg"&gt;  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Why Use cURL Commands Instead of Python’s &lt;code&gt;requests&lt;/code&gt;?&lt;/h4&gt;
+&lt;p&gt;Given the website's anti-scraping policies, we recognized that using Python's built-in requests library to send HTTP requests could trigger detection mechanisms. These measures would identify our requests as coming from a scraper, eventually triggering &lt;strong&gt;robot checks&lt;/strong&gt; or &lt;strong&gt;blocking further access&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To avoid this, we decided to use &lt;strong&gt;cURL commands&lt;/strong&gt; to simulate more legitimate browsing behavior. By copying the network request associated with fetching the article list and converting it into a cURL command, we are able to bypass basic scraping detection mechanisms.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Here’s a illustration of how we make these requests in the code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fetch_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;curl_command&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;curl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;accept-language: zh-CN,zh;q=0.9,en;q=0.8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-dest: document&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-mode: navigate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-site: none&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-user: ?1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;upgrade-insecure-requests: 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36&amp;#39;&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;curl_command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capture_output&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;returncode&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Handling Redirection&lt;/h3&gt;
+&lt;p&gt;Having established this pattern, we can proceed to the code to scrape the links. After constructing the initial request for the archive page and running the code, we will retrieve an HTML file that contains a list of articles associated with that specific page. &lt;/p&gt;
+&lt;p&gt;When we tried to access these article, we encounter a redirect, which means we have to locate the redirection link and then directly request the redirection link. Therefore, we open the Network tab in the browser's developer tools again. During the loading process, we noticed two requests in the console, which means we need to handle these two requests:
+1. The first request: This retrieves the original article link, but the response contains an HTTP status code &lt;code&gt;301 Moved Permanently&lt;/code&gt;, along with a &lt;strong&gt;Location&lt;/strong&gt; header that indicates the new redirection URL.
+2. The second request: We follow the redirection link and fetch the actual article content.
+To retrieve the content of each article, we send a request to the redirection link and parse the resulting HTML.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image seven" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionseven.jpg"&gt; &lt;/p&gt;
+&lt;p&gt;&lt;img alt="image eight" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptioneight.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;Here is the code for handling the redirection:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;location: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;redirected_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;redirected_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fetch_article&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;redirected_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;returncode&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Fetching Article Content&lt;/h3&gt;
+&lt;p&gt;To retrieve the content of each article, we send a request to this redirect link and parse the generated HTML, and parse the news article page, extracting the article's title, date, time, content, and tags. Meanwhile, the parsed article data is saved to a JSON file in a folder named after the article's publication date.&lt;/p&gt;
+&lt;p&gt;Here’s the function to parse the article page:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The Function to parse the article page&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_article_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;soup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;html.parser&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;date_info&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;class_&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date-line__date___kNbY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;time_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;date_info&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_info&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;class_&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;article-body__content__17Yit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+
+    &lt;span class="n"&gt;tags&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;aria-label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;})]&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;date&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;time_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;updated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;tags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;tags&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# The content of one of the articles&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Nasdaq hits record high on energy, tech boost | Reuters&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;date&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;August 24, 2021&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1:40 PM UTC&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;updated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Updated  ago&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Aug 24 (Reuters) - Wall Street&amp;#39;s main indexes opened higher on Tuesday as a full U.S. approval of a COVID-19 shot helped boost shares of energy and travel-related companies, while gains in technology stocks lifted the Nasdaq to a fresh high.The Dow Jones Industrial Average(.DJI), opens new tabrose 47.0 points, or 0.13%, at the open to 35382.72. The S&amp;amp;P 500(.SPX), opens new tabrose 4.9 points, or 0.11%, to 4484.4​, while the Nasdaq Composite(.IXIC), opens new tabrose 35.5 points, or 0.24%, to 14978.142 at the opening bell.Sign uphere.Reporting by Sruthi Shankar in Bengaluru; Editing by Vinay DwivediOur Standards:The Thomson Reuters Trust Principles., opens new tabSuggested Topics:BusinessShareXFacebookLinkedinEmailLinkPurchase Licensing Rights&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;tags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;Business&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In addition, to prevent being blocked by Reuters, we implement a rate-limiting mechanism using &lt;code&gt;time.sleep&lt;/code&gt;. This ensures that we pause for 3 seconds between each article request to mimic natural browsing behavior.&lt;/p&gt;
+&lt;p&gt;The above is how we developed a custom scraper. For the detailed code, please visit &lt;a href="https://github.com/hanhy/MFIN7036/blob/main/group_project/data/reuters/news_crawler.ipynb"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Market Data Collection and Preprocess&lt;/h1&gt;
+&lt;p&gt;The Dividend Discount Model is chosen to price indexes. Firstly, mature, dividend-paying firms dominate indices, making dividends relatively predictable compared to earnings or revenue. Secondly, when using multilple, there is no comprable peers for indexes and no one absolute controls indexes or their affiliates, making the Free-Cash-Flow Model also not feasible. Therefore, ginancial data such as price and dividend yield are extracted from Yahoo Finance and Ycharts, repectively for the price modeling.&lt;/p&gt;
+&lt;h4&gt;Price Data (2019.01–2023.12)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source&lt;/strong&gt;: Yahoo Finance (manual export)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Method&lt;/strong&gt;: Downloaded daily adjusted closing prices for the S&amp;amp;P 500 (^GSPC) from January 1, 2014, to December 31, 2024.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Dividend Yield Data (2019.01–2023.12)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source&lt;/strong&gt;: YCharts (manual export)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Method&lt;/strong&gt;: Collected quarterly dividend yields and converted yields to decimals for calculations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Dividend Calculation &amp;amp; Assumptions&lt;/h2&gt;
+&lt;p&gt;This step is to illustrate how to utilize GGM model to predict the security price, using S&amp;amp;P500 index as an example.&lt;/p&gt;
+&lt;h4&gt;Model Function&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;D₀&lt;/strong&gt; = &lt;span class="math"&gt;\(P_0 \times \text{Dividend Yield}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dividend Value&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{D_0 \times (1 + g)}{r - g}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deviation&lt;/strong&gt; = &lt;span class="math"&gt;\((\text{Predicted Price} - \text{Actual Price}) - 1\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Define Assumption&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;D₀&lt;/strong&gt;: Current dividend payment, source from Ycharts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;P₀&lt;/strong&gt;: Current index price, source from Yahoo Finance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Growth Rate (g)&lt;/strong&gt;: 4.0% (historical real GDP growth).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;r&lt;/strong&gt;: 5.5% (historical Discount rate combined with US 10-year treasury bond yield and equity risk premium).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Predicted Price&lt;/strong&gt;: Price of index at the next period.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Compute Predicted Price&lt;/h4&gt;
+&lt;p&gt;Taking November 2024 as an example, the main idea of how to compute the predicted price is as follows:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;D₀&lt;/strong&gt; = &lt;span class="math"&gt;\(P_0 \times \text{Dividend Yield}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;76.61&lt;/strong&gt; = &lt;span class="math"&gt;\(6032.38 \times 1.27\)&lt;/span&gt; (Dividend Yield of Nov. 2024)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Predicted Price&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{D_0 \times (1 + g)}{r - g}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;5311.63&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{76.61 \times (1 + 0.04)}{0.055 - 0.04}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Deviation&lt;/strong&gt; = &lt;span class="math"&gt;\((\text{Predicted Price} - \text{Actual Price}) - 1\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;-9.69%&lt;/strong&gt; = &lt;span class="math"&gt;\((5311.63 - 5881.63) - 1\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Note: In order to compile the formulas correctly, you may need to install the necessary plugin by running the following command in the terminal:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;python -m pip install pelican-render-math.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Future Discussion&lt;/h1&gt;
+&lt;h2&gt;Ideas About Trading Strategy&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Sentiment-Driven Trading Strategy&lt;/strong&gt;: This strategy leverages financial news data to gauge market sentiment and make informed trading decisions. It involves analyzing the sentiment of news articles to identify shifts in market mood, which can signal potential upward or downward trends in stock prices.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Sentiment Analysis&lt;/em&gt;: Analyze news articles to derive sentiment scores. These scores can be clustered with price data to create a comprehensive view of market sentiment.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Trading Logic&lt;/em&gt;: Compare daily average sentiment with a rolling average (e.g., 7-day). If the current day's sentiment is positive and higher than the rolling average, enter a long position; if negative and below, enter a short position.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Volatility Clustering Strategy&lt;/strong&gt;: Volatility clustering refers to periods of high volatility often following each other. This phenomenon can be linked back to traders' reactions towards news events. A strategy could involve anticipating increased volatility after significant news releases.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;News Monitoring&lt;/em&gt;: Track major financial news releases.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Positioning&lt;/em&gt;: Enter positions during periods expected to have high volatility following significant announcements.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Volume-Sentiment Divergence&lt;/strong&gt;: This strategy refers to trade based on the divergence between news sentiment and trading volume.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Sentiment vs. Volume&lt;/em&gt;: Identify instances where sentiment is bullish but volume is low (or vice versa). (e.g., Low volume with bullish sentiment → no trade (lack of conviction); High volume with bullish sentiment → enter long.)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Trade Execution&lt;/em&gt;: Enter trades based on the alignment of sentiment and volume. Exit the trade if volume declines or sentiment shifts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Sector Rotation Strategy&lt;/strong&gt;: This strategy uses news clustering and market correlation to identify which sectors are poised to outperform based on macroeconomic or geopolitical news.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Market Relationships&lt;/em&gt;: Cluster news articles by sector (e.g., energy, healthcare, technology). Determine the overall sentiment for each sector. Identify inter-sector relationships (e.g., when energy prices rise, airlines tend to underperform). Use correlation matrices to understand how sectors impact each other.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Execution&lt;/em&gt;: Rotate capital into sectors with positive sentiment and strong momentum. Hedge by shorting underperforming sectors with negative sentiment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Progress Report 1"></category><category term='Group "SFinx"'></category></entry><entry><title>The Impact of the US Election on Stock Prices</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/the-impact-of-the-us-election-on-stock-prices.html" rel="alternate"></link><published>2025-02-23T00:00:00+08:00</published><updated>2025-02-23T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-02-23:/MFIN7036-student-blog-2025-01/the-impact-of-the-us-election-on-stock-prices.html</id><summary type="html">&lt;p&gt;By Group "NullPointer"&lt;/p&gt;
 &lt;p&gt;Title: The Impact of the US Election on Stock Prices  &lt;br&gt;
 Date: 2025-02-22 10:00&lt;br&gt;
 Author: NullPointer&lt;br&gt;

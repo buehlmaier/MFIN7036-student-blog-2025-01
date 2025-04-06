@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2025" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Group "SFinx", Progress Report 1, " />
+
+<meta property="og:title" content="Financial News Collection &amp; Follow-up preparation (by Group &#34;SFinx&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html" />
+<meta property="og:description" content="The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2025" />
+<meta property="og:article:author" content="MFIN7036 Students 2025" />
+<meta property="og:article:published_time" content="2025-02-23T00:00:00+08:00" />
+<meta name="twitter:title" content="Financial News Collection &amp; Follow-up preparation (by Group &#34;SFinx&#34;) ">
+<meta name="twitter:description" content="The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism …">
+
+        <title>Financial News Collection &amp; Follow-up preparation (by Group &#34;SFinx&#34;)  · MFIN7036 Student Blog 2025
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2025 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/"><span class=site-name>MFIN7036 Student Blog 2025</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2025-01
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html">
+                Financial News Collection & Follow-up preparation (by Group "SFinx")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism to bypass anti-scraping measures, as well as how we process and analyze the market data. Furthermore, we will provide an overview of the methods we plan to use in the next phase of the project. </p>
+<h1>Reuters News</h1>
+<p>Considering the large amount of data, we have decided to crawl news only from the Reuters website. After further research, we found that the data of Reuters Archive was only updated until 2023. Therefore, we finally chose the period from January 2019 to December 2023 as the range of data crawling.</p>
+<h2>Trying to scrap news from Reuters archive</h2>
+<p>We started with web scraping news data. There are various data sources such as Bloomberg, Reuters and Wall Street Journal. Considering the relevance, data quality and free availability, we finally decided to use Reuters.<br></p>
+<p>To capture the news articles from Reuters archive, we tried using <strong>two existing GitHub repositories</strong> but ran into issues with outdated links and code.<br></p>
+<h4>Github repo 1</h4>
+<p>After running the GitHub <a href="https://github.com/Alex-Momotov/news_scraper">news_scraper</a>, it indicated that it was unable to find the desired archive page.</p>
+<div class="highlight"><pre><span></span><code><span class="n">python3</span> <span class="n">scraping_reuters</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">02</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">04</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">05</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">06</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">07</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">08</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+<span class="n">Day</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09</span> <span class="n">was</span> <span class="n">skipped</span> <span class="o">-</span> <span class="n">Archive</span> <span class="n">Page</span> <span class="n">Not</span> <span class="n">Found</span>
+</code></pre></div>
+
+<p>We found that the original archive URL (<a href="https://www.reuters.com/resources/archive/us/20240101.html">https://www.reuters.com/resources/archive/us/20240101.html</a>) was deprecated and no longer accessible.<br>
+<img alt="image one" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionone.png">  </p>
+<p>Switching to the current archive pattern, we discovered the archive entry point on the Reuters homepage and noted that the most latest archived news dates back to 2023.<br>
+<img alt="image two" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptiontwo.jpg"> </p>
+<p>In addition, we discovered that there are many duplicate news articles on the archive page, which would be addressed later.<br>
+<img alt="image three" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionthree.jpg">  </p>
+<p>To our surprise, accessing the archive news directly through the website works as expected, and there is a discrepancy between the URL used in our code and what actually works. This means that while the archive folder remains accessible, modifications to our code are necessary.<br>
+<img alt="image four" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfour.jpg">  </p>
+<h4>Github repo 2</h4>
+<p>We identified another GitHub repo, <a href="https://github.com/LuChang-CS/news-crawler">news-clawer</a>, for this purpose and followed its setup instructions from the README file to test it with Reuters content, but encountered difficulties installing dependencies:</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">notice</span><span class="p">]</span> <span class="n">A</span> <span class="n">new</span> <span class="n">release</span> <span class="n">of</span> <span class="n">pip</span> <span class="ow">is</span> <span class="n">available</span><span class="p">:</span> <span class="mf">24.3.1</span> <span class="o">-&gt;</span> <span class="mf">25.0.1</span>
+<span class="p">[</span><span class="n">notice</span><span class="p">]</span> <span class="n">To</span> <span class="n">update</span><span class="p">,</span> <span class="n">run</span><span class="p">:</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span>
+<span class="n">ERROR</span><span class="p">:</span> <span class="n">ERROR</span><span class="p">:</span> <span class="n">Failed</span> <span class="n">to</span> <span class="n">build</span> <span class="n">installable</span> <span class="n">wheels</span> <span class="k">for</span> <span class="n">some</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span> <span class="n">ba</span>
+<span class="n">sed</span> <span class="n">projects</span> <span class="p">(</span><span class="n">Pillow</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The code seems to use an older version, but we are unsure if updating will work seamlessly. So, we've left it unchanged for now and plan to install it when executing the Python script later. Besides, when reviewing the configuration file, we noticed a link that doesn't match the pattern on the homepage. Nevertheless, we need to modify it to align with the US market.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The base url to retrieve BBC News link</span>
+<span class="n">base_api_url</span><span class="o">=</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">uk</span><span class="o">.</span><span class="n">reuters</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">resources</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">uk</span><span class="o">/</span><span class="p">{</span><span class="n">year</span><span class="p">}{</span><span class="n">month</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">}</span>
+<span class="p">{</span><span class="n">day</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">}</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<p>Finally, we decided to <strong>construct the request pattern ourselves</strong>.</p>
+<h2>Designing a Custom Scraper</h2>
+<p>After discovering that previous three methods were ineffective for scraping Reuters news, we decided to explore a more customized approach to build a scraper that would work effectively with Reuters' website structure.</p>
+<h3>Pattern learning</h3>
+<p>After numerous  attempts, we found out a way for bulk extracting news links from dynamically loaded pages by inspecting the information under the Network tool. We analyzed the pattern of Reuters' archive URLs, which follow a certain format:</p>
+<div class="highlight"><pre><span></span><code><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">reuters</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="p">{</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="p">}</span><span class="o">/</span><span class="p">{</span><span class="n">DD</span><span class="p">}</span><span class="o">/</span><span class="p">{</span><span class="n">PageNo</span><span class="p">}</span>
+</code></pre></div>
+
+<p>This structure consists of three key components:
+1. <strong>YYYY-MM</strong>: The year and month of the news archive (e.g., 2022-01 for January 2022). This is the first part of the URL, indicating the time frame of the articles we want to scrape.
+2. <strong>DD</strong>: The specific day of the month (e.g., 01 for the first day). This segment represents the day for which we want to gather articles.
+3. <strong>PageNo</strong>: The page number, indicating pagination of the articles (e.g., /1/, /2/, etc.). This part allows us to navigate through multiple pages of articles for a specific date.</p>
+<p>After analyzing the URL pattern for Reuters’ news archives, we tried to construct links for each day and page number and made sure to check the reponses to verify whether they are valid or not. If we encounter a link that does not return relevant content, we simply skip that link and move on. </p>
+<p>We tested one of the links and then inspected the network requests made when browsing the page. Take the link on January 1, 2022 as an example, we examined the first article on the first page. Using the Network tab in the browser's developer tools, we searched for the keyword "Lamar", which is related to an article's content in order to locate the specific network request tied to that article. Based on our observations, we locate one file named <code>1/</code>, and we inspected its details, focusing on the Response tab to see the content returned by the server. 
+<img alt="image five" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfive.jpg">  </p>
+<p>In this case, it looks like HTML content with a reference to "Lamar"’s statement. We deduced that this request was responsible for retrieving the list of articles for that particular day. Then, we right-clicked on the request in the Network tab and selected "Copy as cURL." This option allowed us to copy the entire request (including headers, parameters, and method) in the cURL format, where we could reproduce the same network request outside the browser, using a terminal or command line.
+<img alt="image six" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionsix.jpg">  </p>
+<blockquote>
+<h4>Why Use cURL Commands Instead of Python’s <code>requests</code>?</h4>
+<p>Given the website's anti-scraping policies, we recognized that using Python's built-in requests library to send HTTP requests could trigger detection mechanisms. These measures would identify our requests as coming from a scraper, eventually triggering <strong>robot checks</strong> or <strong>blocking further access</strong>.</p>
+<p>To avoid this, we decided to use <strong>cURL commands</strong> to simulate more legitimate browsing behavior. By copying the network request associated with fetching the article list and converting it into a cURL command, we are able to bypass basic scraping detection mechanisms.</p>
+</blockquote>
+<p>Here’s a illustration of how we make these requests in the code:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fetch_page</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">curl_command</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;accept-language: zh-CN,zh;q=0.9,en;q=0.8&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;sec-fetch-dest: document&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;sec-fetch-mode: navigate&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;sec-fetch-site: none&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;sec-fetch-user: ?1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;upgrade-insecure-requests: 1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;-H&#39;</span><span class="p">,</span> <span class="s1">&#39;user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36&#39;</span>
+    <span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">curl_command</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+</code></pre></div>
+
+<h3>Handling Redirection</h3>
+<p>Having established this pattern, we can proceed to the code to scrape the links. After constructing the initial request for the archive page and running the code, we will retrieve an HTML file that contains a list of articles associated with that specific page. </p>
+<p>When we tried to access these article, we encounter a redirect, which means we have to locate the redirection link and then directly request the redirection link. Therefore, we open the Network tab in the browser's developer tools again. During the loading process, we noticed two requests in the console, which means we need to handle these two requests:
+1. The first request: This retrieves the original article link, but the response contains an HTTP status code <code>301 Moved Permanently</code>, along with a <strong>Location</strong> header that indicates the new redirection URL.
+2. The second request: We follow the redirection link and fetch the actual article content.
+To retrieve the content of each article, we send a request to the redirection link and parse the resulting HTML.</p>
+<p><img alt="image seven" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionseven.jpg"> </p>
+<p><img alt="image eight" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptioneight.jpg">  </p>
+<p>Here is the code for handling the redirection:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">headers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;location: &quot;</span><span class="p">):</span>
+            <span class="n">redirected_url</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">redirected_url</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fetch_article</span><span class="p">(</span><span class="n">redirected_url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">body</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+</code></pre></div>
+
+<h3>Fetching Article Content</h3>
+<p>To retrieve the content of each article, we send a request to this redirect link and parse the generated HTML, and parse the news article page, extracting the article's title, date, time, content, and tags. Meanwhile, the parsed article data is saved to a JSON file in a folder named after the article's publication date.</p>
+<p>Here’s the function to parse the article page:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The Function to parse the article page</span>
+<span class="k">def</span> <span class="nf">parse_article_page</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">date_info</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;date-line__date___kNbY&#39;</span><span class="p">)</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">time_</span><span class="p">,</span> <span class="n">updated</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">date_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">date_info</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;article-body__content__17Yit&#39;</span><span class="p">)])</span>
+
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">tag</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;aria-label&#39;</span><span class="p">:</span> <span class="s1">&#39;Tags&#39;</span><span class="p">})]</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time_</span><span class="p">,</span>
+        <span class="s2">&quot;updated&quot;</span><span class="p">:</span> <span class="n">updated</span><span class="p">,</span>
+        <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span>
+        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span>
+    <span class="p">}</span>
+
+<span class="c1"># The content of one of the articles</span>
+<span class="p">{</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Nasdaq hits record high on energy, tech boost | Reuters&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;August 24, 2021&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;1:40 PM UTC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated&quot;</span><span class="p">:</span> <span class="s2">&quot;Updated  ago&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="s2">&quot;Aug 24 (Reuters) - Wall Street&#39;s main indexes opened higher on Tuesday as a full U.S. approval of a COVID-19 shot helped boost shares of energy and travel-related companies, while gains in technology stocks lifted the Nasdaq to a fresh high.The Dow Jones Industrial Average(.DJI), opens new tabrose 47.0 points, or 0.13%, at the open to 35382.72. The S&amp;P 500(.SPX), opens new tabrose 4.9 points, or 0.11%, to 4484.4​, while the Nasdaq Composite(.IXIC), opens new tabrose 35.5 points, or 0.24%, to 14978.142 at the opening bell.Sign uphere.Reporting by Sruthi Shankar in Bengaluru; Editing by Vinay DwivediOur Standards:The Thomson Reuters Trust Principles., opens new tabSuggested Topics:BusinessShareXFacebookLinkedinEmailLinkPurchase Licensing Rights&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Business&quot;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In addition, to prevent being blocked by Reuters, we implement a rate-limiting mechanism using <code>time.sleep</code>. This ensures that we pause for 3 seconds between each article request to mimic natural browsing behavior.</p>
+<p>The above is how we developed a custom scraper. For the detailed code, please visit <a href="https://github.com/hanhy/MFIN7036/blob/main/group_project/data/reuters/news_crawler.ipynb">GitHub</a>.</p>
+<h1>Market Data Collection and Preprocess</h1>
+<p>The Dividend Discount Model is chosen to price indexes. Firstly, mature, dividend-paying firms dominate indices, making dividends relatively predictable compared to earnings or revenue. Secondly, when using multilple, there is no comprable peers for indexes and no one absolute controls indexes or their affiliates, making the Free-Cash-Flow Model also not feasible. Therefore, ginancial data such as price and dividend yield are extracted from Yahoo Finance and Ycharts, repectively for the price modeling.</p>
+<h4>Price Data (2019.01–2023.12)</h4>
+<ul>
+<li><strong>Source</strong>: Yahoo Finance (manual export)</li>
+<li><strong>Method</strong>: Downloaded daily adjusted closing prices for the S&amp;P 500 (^GSPC) from January 1, 2014, to December 31, 2024.</li>
+</ul>
+<h4>Dividend Yield Data (2019.01–2023.12)</h4>
+<ul>
+<li><strong>Source</strong>: YCharts (manual export)</li>
+<li><strong>Method</strong>: Collected quarterly dividend yields and converted yields to decimals for calculations.</li>
+</ul>
+<h2>Dividend Calculation &amp; Assumptions</h2>
+<p>This step is to illustrate how to utilize GGM model to predict the security price, using S&amp;P500 index as an example.</p>
+<h4>Model Function</h4>
+<ul>
+<li><strong>D₀</strong> = <span class="math">\(P_0 \times \text{Dividend Yield}\)</span></li>
+<li><strong>Dividend Value</strong> = <span class="math">\(\frac{D_0 \times (1 + g)}{r - g}\)</span></li>
+<li><strong>Deviation</strong> = <span class="math">\((\text{Predicted Price} - \text{Actual Price}) - 1\)</span></li>
+</ul>
+<h4>Define Assumption</h4>
+<ul>
+<li><strong>D₀</strong>: Current dividend payment, source from Ycharts.</li>
+<li><strong>P₀</strong>: Current index price, source from Yahoo Finance.</li>
+<li><strong>Growth Rate (g)</strong>: 4.0% (historical real GDP growth).</li>
+<li><strong>r</strong>: 5.5% (historical Discount rate combined with US 10-year treasury bond yield and equity risk premium).</li>
+<li><strong>Predicted Price</strong>: Price of index at the next period.</li>
+</ul>
+<h4>Compute Predicted Price</h4>
+<p>Taking November 2024 as an example, the main idea of how to compute the predicted price is as follows:  </p>
+<ul>
+<li>
+<p><strong>D₀</strong> = <span class="math">\(P_0 \times \text{Dividend Yield}\)</span></p>
+</li>
+<li>
+<p><strong>76.61</strong> = <span class="math">\(6032.38 \times 1.27\)</span> (Dividend Yield of Nov. 2024)</p>
+</li>
+<li>
+<p><strong>Predicted Price</strong> = <span class="math">\(\frac{D_0 \times (1 + g)}{r - g}\)</span></p>
+</li>
+<li>
+<p><strong>5311.63</strong> = <span class="math">\(\frac{76.61 \times (1 + 0.04)}{0.055 - 0.04}\)</span></p>
+</li>
+<li>
+<p><strong>Deviation</strong> = <span class="math">\((\text{Predicted Price} - \text{Actual Price}) - 1\)</span></p>
+</li>
+<li>
+<p><strong>-9.69%</strong> = <span class="math">\((5311.63 - 5881.63) - 1\)</span></p>
+</li>
+</ul>
+<p><em>Note: In order to compile the formulas correctly, you may need to install the necessary plugin by running the following command in the terminal:</em></p>
+<div class="highlight"><pre><span></span><code>python -m pip install pelican-render-math.
+</code></pre></div>
+
+<h1>Future Discussion</h1>
+<h2>Ideas About Trading Strategy</h2>
+<p><strong>Sentiment-Driven Trading Strategy</strong>: This strategy leverages financial news data to gauge market sentiment and make informed trading decisions. It involves analyzing the sentiment of news articles to identify shifts in market mood, which can signal potential upward or downward trends in stock prices.</p>
+<ul>
+<li><em>Sentiment Analysis</em>: Analyze news articles to derive sentiment scores. These scores can be clustered with price data to create a comprehensive view of market sentiment.</li>
+<li><em>Trading Logic</em>: Compare daily average sentiment with a rolling average (e.g., 7-day). If the current day's sentiment is positive and higher than the rolling average, enter a long position; if negative and below, enter a short position.</li>
+</ul>
+<p><strong>Volatility Clustering Strategy</strong>: Volatility clustering refers to periods of high volatility often following each other. This phenomenon can be linked back to traders' reactions towards news events. A strategy could involve anticipating increased volatility after significant news releases.</p>
+<ul>
+<li><em>News Monitoring</em>: Track major financial news releases.</li>
+<li><em>Positioning</em>: Enter positions during periods expected to have high volatility following significant announcements.</li>
+</ul>
+<p><strong>Volume-Sentiment Divergence</strong>: This strategy refers to trade based on the divergence between news sentiment and trading volume.</p>
+<ul>
+<li><em>Sentiment vs. Volume</em>: Identify instances where sentiment is bullish but volume is low (or vice versa). (e.g., Low volume with bullish sentiment → no trade (lack of conviction); High volume with bullish sentiment → enter long.)</li>
+<li><em>Trade Execution</em>: Enter trades based on the alignment of sentiment and volume. Exit the trade if volume declines or sentiment shifts.</li>
+</ul>
+<p><strong>Sector Rotation Strategy</strong>: This strategy uses news clustering and market correlation to identify which sectors are poised to outperform based on macroeconomic or geopolitical news.</p>
+<ul>
+<li><em>Market Relationships</em>: Cluster news articles by sector (e.g., energy, healthcare, technology). Determine the overall sentiment for each sector. Identify inter-sector relationships (e.g., when energy prices rise, airlines tend to underperform). Use correlation matrices to understand how sectors impact each other.</li>
+<li><em>Execution</em>: Rotate capital into sectors with positive sentiment and strong momentum. Hedge by shorting underperforming sectors with negative sentiment.</li>
+</ul>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2025-02-23T00:00:00+08:00">Sun 23 February 2025</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/categories.html#progress-report-1-ref">Progress Report 1</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/tags.html#group-sfinx-ref">Group "SFinx"
+                    <span class="superscript">2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2025-01" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>MFIN7036 Student Blog 2025 - Progress Report 1</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/" rel="alternate"></link><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/feeds/progress-report-1.atom.xml" rel="self"></link><id>https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/</id><updated>2025-02-23T00:00:00+08:00</updated><entry><title>Financial News Collection &amp; Follow-up preparation (by Group "SFinx")</title><link href="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html" rel="alternate"></link><published>2025-02-23T00:00:00+08:00</published><updated>2025-02-23T00:00:00+08:00</updated><author><name>MFIN7036 Students 2025</name></author><id>tag:buehlmaier.github.io,2025-02-23:/MFIN7036-student-blog-2025-01/financial-news-collection-follow-up-preparation-by-group-sfinx.html</id><summary type="html">&lt;p&gt;The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The objective of our project is to build quantitative trading strategies based on text clustering by analyzing the correlation between news clustering and market movements. In this blog post, we will focus on the process of scraping data from Reuters, specifically demonstrating how we use curl and a delay mechanism to bypass anti-scraping measures, as well as how we process and analyze the market data. Furthermore, we will provide an overview of the methods we plan to use in the next phase of the project. &lt;/p&gt;
+&lt;h1&gt;Reuters News&lt;/h1&gt;
+&lt;p&gt;Considering the large amount of data, we have decided to crawl news only from the Reuters website. After further research, we found that the data of Reuters Archive was only updated until 2023. Therefore, we finally chose the period from January 2019 to December 2023 as the range of data crawling.&lt;/p&gt;
+&lt;h2&gt;Trying to scrap news from Reuters archive&lt;/h2&gt;
+&lt;p&gt;We started with web scraping news data. There are various data sources such as Bloomberg, Reuters and Wall Street Journal. Considering the relevance, data quality and free availability, we finally decided to use Reuters.&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;To capture the news articles from Reuters archive, we tried using &lt;strong&gt;two existing GitHub repositories&lt;/strong&gt; but ran into issues with outdated links and code.&lt;br&gt;&lt;/p&gt;
+&lt;h4&gt;Github repo 1&lt;/h4&gt;
+&lt;p&gt;After running the GitHub &lt;a href="https://github.com/Alex-Momotov/news_scraper"&gt;news_scraper&lt;/a&gt;, it indicated that it was unable to find the desired archive page.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;python3&lt;/span&gt; &lt;span class="n"&gt;scraping_reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;02&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;03&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;05&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;06&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;07&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;08&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;span class="n"&gt;Day&lt;/span&gt; &lt;span class="mi"&gt;2025&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;skipped&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Archive&lt;/span&gt; &lt;span class="n"&gt;Page&lt;/span&gt; &lt;span class="n"&gt;Not&lt;/span&gt; &lt;span class="n"&gt;Found&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We found that the original archive URL (&lt;a href="https://www.reuters.com/resources/archive/us/20240101.html"&gt;https://www.reuters.com/resources/archive/us/20240101.html&lt;/a&gt;) was deprecated and no longer accessible.&lt;br&gt;
+&lt;img alt="image one" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionone.png"&gt;  &lt;/p&gt;
+&lt;p&gt;Switching to the current archive pattern, we discovered the archive entry point on the Reuters homepage and noted that the most latest archived news dates back to 2023.&lt;br&gt;
+&lt;img alt="image two" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptiontwo.jpg"&gt; &lt;/p&gt;
+&lt;p&gt;In addition, we discovered that there are many duplicate news articles on the archive page, which would be addressed later.&lt;br&gt;
+&lt;img alt="image three" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionthree.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;To our surprise, accessing the archive news directly through the website works as expected, and there is a discrepancy between the URL used in our code and what actually works. This means that while the archive folder remains accessible, modifications to our code are necessary.&lt;br&gt;
+&lt;img alt="image four" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfour.jpg"&gt;  &lt;/p&gt;
+&lt;h4&gt;Github repo 2&lt;/h4&gt;
+&lt;p&gt;We identified another GitHub repo, &lt;a href="https://github.com/LuChang-CS/news-crawler"&gt;news-clawer&lt;/a&gt;, for this purpose and followed its setup instructions from the README file to test it with Reuters content, but encountered difficulties installing dependencies:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;notice&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;release&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;available&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;24.3.1&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;25.0.1&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;notice&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;To&lt;/span&gt; &lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pip3&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;upgrade&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt;
+&lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ERROR&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Failed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt; &lt;span class="n"&gt;installable&lt;/span&gt; &lt;span class="n"&gt;wheels&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;some&lt;/span&gt; &lt;span class="n"&gt;pyproject&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;toml&lt;/span&gt; &lt;span class="n"&gt;ba&lt;/span&gt;
+&lt;span class="n"&gt;sed&lt;/span&gt; &lt;span class="n"&gt;projects&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pillow&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The code seems to use an older version, but we are unsure if updating will work seamlessly. So, we've left it unchanged for now and plan to install it when executing the Python script later. Besides, when reviewing the configuration file, we noticed a link that doesn't match the pattern on the homepage. Nevertheless, we need to modify it to align with the US market.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The base url to retrieve BBC News link&lt;/span&gt;
+&lt;span class="n"&gt;base_api_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;uk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;resources&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;uk&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="n"&gt;month&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, we decided to &lt;strong&gt;construct the request pattern ourselves&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;Designing a Custom Scraper&lt;/h2&gt;
+&lt;p&gt;After discovering that previous three methods were ineffective for scraping Reuters news, we decided to explore a more customized approach to build a scraper that would work effectively with Reuters' website structure.&lt;/p&gt;
+&lt;h3&gt;Pattern learning&lt;/h3&gt;
+&lt;p&gt;After numerous  attempts, we found out a way for bulk extracting news links from dynamically loaded pages by inspecting the information under the Network tool. We analyzed the pattern of Reuters' archive URLs, which follow a certain format:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reuters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;YYYY&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;MM&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;DD&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;PageNo&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This structure consists of three key components:
+1. &lt;strong&gt;YYYY-MM&lt;/strong&gt;: The year and month of the news archive (e.g., 2022-01 for January 2022). This is the first part of the URL, indicating the time frame of the articles we want to scrape.
+2. &lt;strong&gt;DD&lt;/strong&gt;: The specific day of the month (e.g., 01 for the first day). This segment represents the day for which we want to gather articles.
+3. &lt;strong&gt;PageNo&lt;/strong&gt;: The page number, indicating pagination of the articles (e.g., /1/, /2/, etc.). This part allows us to navigate through multiple pages of articles for a specific date.&lt;/p&gt;
+&lt;p&gt;After analyzing the URL pattern for Reuters’ news archives, we tried to construct links for each day and page number and made sure to check the reponses to verify whether they are valid or not. If we encounter a link that does not return relevant content, we simply skip that link and move on. &lt;/p&gt;
+&lt;p&gt;We tested one of the links and then inspected the network requests made when browsing the page. Take the link on January 1, 2022 as an example, we examined the first article on the first page. Using the Network tab in the browser's developer tools, we searched for the keyword "Lamar", which is related to an article's content in order to locate the specific network request tied to that article. Based on our observations, we locate one file named &lt;code&gt;1/&lt;/code&gt;, and we inspected its details, focusing on the Response tab to see the content returned by the server. 
+&lt;img alt="image five" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionfive.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;In this case, it looks like HTML content with a reference to "Lamar"’s statement. We deduced that this request was responsible for retrieving the list of articles for that particular day. Then, we right-clicked on the request in the Network tab and selected "Copy as cURL." This option allowed us to copy the entire request (including headers, parameters, and method) in the cURL format, where we could reproduce the same network request outside the browser, using a terminal or command line.
+&lt;img alt="image six" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionsix.jpg"&gt;  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Why Use cURL Commands Instead of Python’s &lt;code&gt;requests&lt;/code&gt;?&lt;/h4&gt;
+&lt;p&gt;Given the website's anti-scraping policies, we recognized that using Python's built-in requests library to send HTTP requests could trigger detection mechanisms. These measures would identify our requests as coming from a scraper, eventually triggering &lt;strong&gt;robot checks&lt;/strong&gt; or &lt;strong&gt;blocking further access&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To avoid this, we decided to use &lt;strong&gt;cURL commands&lt;/strong&gt; to simulate more legitimate browsing behavior. By copying the network request associated with fetching the article list and converting it into a cURL command, we are able to bypass basic scraping detection mechanisms.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Here’s a illustration of how we make these requests in the code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fetch_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;curl_command&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;curl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;accept-language: zh-CN,zh;q=0.9,en;q=0.8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-dest: document&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-mode: navigate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-site: none&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sec-fetch-user: ?1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;upgrade-insecure-requests: 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;-H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36&amp;#39;&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;curl_command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capture_output&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;returncode&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Handling Redirection&lt;/h3&gt;
+&lt;p&gt;Having established this pattern, we can proceed to the code to scrape the links. After constructing the initial request for the archive page and running the code, we will retrieve an HTML file that contains a list of articles associated with that specific page. &lt;/p&gt;
+&lt;p&gt;When we tried to access these article, we encounter a redirect, which means we have to locate the redirection link and then directly request the redirection link. Therefore, we open the Network tab in the browser's developer tools again. During the loading process, we noticed two requests in the console, which means we need to handle these two requests:
+1. The first request: This retrieves the original article link, but the response contains an HTTP status code &lt;code&gt;301 Moved Permanently&lt;/code&gt;, along with a &lt;strong&gt;Location&lt;/strong&gt; header that indicates the new redirection URL.
+2. The second request: We follow the redirection link and fetch the actual article content.
+To retrieve the content of each article, we send a request to the redirection link and parse the resulting HTML.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image seven" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptionseven.jpg"&gt; &lt;/p&gt;
+&lt;p&gt;&lt;img alt="image eight" src="https://buehlmaier.github.io/MFIN7036-student-blog-2025-01/images/SFinx_01_image-descriptioneight.jpg"&gt;  &lt;/p&gt;
+&lt;p&gt;Here is the code for handling the redirection:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;location: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;redirected_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;redirected_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fetch_article&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;redirected_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;returncode&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Fetching Article Content&lt;/h3&gt;
+&lt;p&gt;To retrieve the content of each article, we send a request to this redirect link and parse the generated HTML, and parse the news article page, extracting the article's title, date, time, content, and tags. Meanwhile, the parsed article data is saved to a JSON file in a folder named after the article's publication date.&lt;/p&gt;
+&lt;p&gt;Here’s the function to parse the article page:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The Function to parse the article page&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_article_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;soup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;html.parser&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;date_info&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;class_&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date-line__date___kNbY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;time_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;date_info&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_info&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;class_&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;article-body__content__17Yit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+
+    &lt;span class="n"&gt;tags&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;aria-label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;})]&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;date&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;time_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;updated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;tags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;tags&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# The content of one of the articles&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Nasdaq hits record high on energy, tech boost | Reuters&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;date&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;August 24, 2021&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1:40 PM UTC&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;updated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Updated  ago&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Aug 24 (Reuters) - Wall Street&amp;#39;s main indexes opened higher on Tuesday as a full U.S. approval of a COVID-19 shot helped boost shares of energy and travel-related companies, while gains in technology stocks lifted the Nasdaq to a fresh high.The Dow Jones Industrial Average(.DJI), opens new tabrose 47.0 points, or 0.13%, at the open to 35382.72. The S&amp;amp;P 500(.SPX), opens new tabrose 4.9 points, or 0.11%, to 4484.4​, while the Nasdaq Composite(.IXIC), opens new tabrose 35.5 points, or 0.24%, to 14978.142 at the opening bell.Sign uphere.Reporting by Sruthi Shankar in Bengaluru; Editing by Vinay DwivediOur Standards:The Thomson Reuters Trust Principles., opens new tabSuggested Topics:BusinessShareXFacebookLinkedinEmailLinkPurchase Licensing Rights&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;tags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;Business&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In addition, to prevent being blocked by Reuters, we implement a rate-limiting mechanism using &lt;code&gt;time.sleep&lt;/code&gt;. This ensures that we pause for 3 seconds between each article request to mimic natural browsing behavior.&lt;/p&gt;
+&lt;p&gt;The above is how we developed a custom scraper. For the detailed code, please visit &lt;a href="https://github.com/hanhy/MFIN7036/blob/main/group_project/data/reuters/news_crawler.ipynb"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Market Data Collection and Preprocess&lt;/h1&gt;
+&lt;p&gt;The Dividend Discount Model is chosen to price indexes. Firstly, mature, dividend-paying firms dominate indices, making dividends relatively predictable compared to earnings or revenue. Secondly, when using multilple, there is no comprable peers for indexes and no one absolute controls indexes or their affiliates, making the Free-Cash-Flow Model also not feasible. Therefore, ginancial data such as price and dividend yield are extracted from Yahoo Finance and Ycharts, repectively for the price modeling.&lt;/p&gt;
+&lt;h4&gt;Price Data (2019.01–2023.12)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source&lt;/strong&gt;: Yahoo Finance (manual export)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Method&lt;/strong&gt;: Downloaded daily adjusted closing prices for the S&amp;amp;P 500 (^GSPC) from January 1, 2014, to December 31, 2024.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Dividend Yield Data (2019.01–2023.12)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source&lt;/strong&gt;: YCharts (manual export)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Method&lt;/strong&gt;: Collected quarterly dividend yields and converted yields to decimals for calculations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Dividend Calculation &amp;amp; Assumptions&lt;/h2&gt;
+&lt;p&gt;This step is to illustrate how to utilize GGM model to predict the security price, using S&amp;amp;P500 index as an example.&lt;/p&gt;
+&lt;h4&gt;Model Function&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;D₀&lt;/strong&gt; = &lt;span class="math"&gt;\(P_0 \times \text{Dividend Yield}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dividend Value&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{D_0 \times (1 + g)}{r - g}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deviation&lt;/strong&gt; = &lt;span class="math"&gt;\((\text{Predicted Price} - \text{Actual Price}) - 1\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Define Assumption&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;D₀&lt;/strong&gt;: Current dividend payment, source from Ycharts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;P₀&lt;/strong&gt;: Current index price, source from Yahoo Finance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Growth Rate (g)&lt;/strong&gt;: 4.0% (historical real GDP growth).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;r&lt;/strong&gt;: 5.5% (historical Discount rate combined with US 10-year treasury bond yield and equity risk premium).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Predicted Price&lt;/strong&gt;: Price of index at the next period.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Compute Predicted Price&lt;/h4&gt;
+&lt;p&gt;Taking November 2024 as an example, the main idea of how to compute the predicted price is as follows:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;D₀&lt;/strong&gt; = &lt;span class="math"&gt;\(P_0 \times \text{Dividend Yield}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;76.61&lt;/strong&gt; = &lt;span class="math"&gt;\(6032.38 \times 1.27\)&lt;/span&gt; (Dividend Yield of Nov. 2024)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Predicted Price&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{D_0 \times (1 + g)}{r - g}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;5311.63&lt;/strong&gt; = &lt;span class="math"&gt;\(\frac{76.61 \times (1 + 0.04)}{0.055 - 0.04}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Deviation&lt;/strong&gt; = &lt;span class="math"&gt;\((\text{Predicted Price} - \text{Actual Price}) - 1\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;-9.69%&lt;/strong&gt; = &lt;span class="math"&gt;\((5311.63 - 5881.63) - 1\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Note: In order to compile the formulas correctly, you may need to install the necessary plugin by running the following command in the terminal:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;python -m pip install pelican-render-math.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Future Discussion&lt;/h1&gt;
+&lt;h2&gt;Ideas About Trading Strategy&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Sentiment-Driven Trading Strategy&lt;/strong&gt;: This strategy leverages financial news data to gauge market sentiment and make informed trading decisions. It involves analyzing the sentiment of news articles to identify shifts in market mood, which can signal potential upward or downward trends in stock prices.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Sentiment Analysis&lt;/em&gt;: Analyze news articles to derive sentiment scores. These scores can be clustered with price data to create a comprehensive view of market sentiment.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Trading Logic&lt;/em&gt;: Compare daily average sentiment with a rolling average (e.g., 7-day). If the current day's sentiment is positive and higher than the rolling average, enter a long position; if negative and below, enter a short position.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Volatility Clustering Strategy&lt;/strong&gt;: Volatility clustering refers to periods of high volatility often following each other. This phenomenon can be linked back to traders' reactions towards news events. A strategy could involve anticipating increased volatility after significant news releases.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;News Monitoring&lt;/em&gt;: Track major financial news releases.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Positioning&lt;/em&gt;: Enter positions during periods expected to have high volatility following significant announcements.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Volume-Sentiment Divergence&lt;/strong&gt;: This strategy refers to trade based on the divergence between news sentiment and trading volume.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Sentiment vs. Volume&lt;/em&gt;: Identify instances where sentiment is bullish but volume is low (or vice versa). (e.g., Low volume with bullish sentiment → no trade (lack of conviction); High volume with bullish sentiment → enter long.)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Trade Execution&lt;/em&gt;: Enter trades based on the alignment of sentiment and volume. Exit the trade if volume declines or sentiment shifts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Sector Rotation Strategy&lt;/strong&gt;: This strategy uses news clustering and market correlation to identify which sectors are poised to outperform based on macroeconomic or geopolitical news.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Market Relationships&lt;/em&gt;: Cluster news articles by sector (e.g., energy, healthcare, technology). Determine the overall sentiment for each sector. Identify inter-sector relationships (e.g., when energy prices rise, airlines tend to underperform). Use correlation matrices to understand how sectors impact each other.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Execution&lt;/em&gt;: Rotate capital into sectors with positive sentiment and strong momentum. Hedge by shorting underperforming sectors with negative sentiment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Progress Report 1"></category><category term='Group "SFinx"'></category></entry></feed>
