@@ -24,7 +24,20 @@ blog posts below only shows the most recent posts.
 
 Names of student groups:
 
-  * 
+  * Byte Bards
+  * Fin-Tastic Wizard
+  * FinText
+  * Function Words
+  * GenZ AI
+  * G14
+  * Human Superintelligence
+  * Language Magicians
+  * LingoBingo
+  * Non Jane street
+  * NullPointer
+  * Pioneers
+  * PuzzleBOT
+  * SFinx
 
 The source code of this blog is available on
 [GitHub](https://github.com/buehlmaier/MFIN7036-student-blog-2025-01).
